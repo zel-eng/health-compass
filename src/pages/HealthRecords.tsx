@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { patients } from "@/lib/mock-data";
-import { Input } from "@/components/ui/input";
+import { usePatients, useAllVitals } from "@/hooks/use-data";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
 export default function HealthRecords() {
   const [tab, setTab] = useState("vitals");
-  const allVitals = patients.flatMap(p => p.vitals.map(v => ({ ...v, patient: p.name, id: p.id })));
+  const { data: patients = [] } = usePatients();
+  const { data: allVitals = [] } = useAllVitals();
 
   return (
     <div className="space-y-6 max-w-5xl">
@@ -41,10 +41,10 @@ export default function HealthRecords() {
                 </tr>
               </thead>
               <tbody>
-                {allVitals.slice(0, 12).map((v, i) => (
-                  <tr key={i} className="border-b last:border-0 hover:bg-muted/30 transition-colors">
-                    <td className="p-3 font-medium text-foreground">{v.patient}</td>
-                    <td className="p-3 text-muted-foreground">{v.date}</td>
+                {allVitals.slice(0, 12).map((v: any, i: number) => (
+                  <tr key={v.id || i} className="border-b last:border-0 hover:bg-muted/30 transition-colors">
+                    <td className="p-3 font-medium text-foreground">{v.patients?.name ?? "—"}</td>
+                    <td className="p-3 text-muted-foreground">{v.recorded_date}</td>
                     <td className="p-3"><span className={v.systolic > 140 ? "text-destructive font-medium" : "text-foreground"}>{v.systolic}</span></td>
                     <td className="p-3 text-foreground">{v.diastolic}</td>
                     <td className="p-3"><span className={v.sugar > 200 ? "text-warning font-medium" : "text-foreground"}>{v.sugar}</span></td>
@@ -62,7 +62,7 @@ export default function HealthRecords() {
               <div key={p.id} className="rounded-xl border bg-card p-4">
                 <p className="text-sm font-semibold text-foreground">{p.name}</p>
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {p.medicines.map((m, i) => (
+                  {(p.medicines ?? []).map((m, i) => (
                     <span key={i} className="text-xs bg-muted rounded-lg px-2.5 py-1 text-foreground">{m}</span>
                   ))}
                 </div>
@@ -83,7 +83,7 @@ export default function HealthRecords() {
               <div key={p.id} className="rounded-xl border bg-card p-4">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-semibold text-foreground">{p.name}</p>
-                  <span className="text-xs text-muted-foreground">{p.lastVisit}</span>
+                  <span className="text-xs text-muted-foreground">{p.last_visit}</span>
                 </div>
                 <p className="text-sm text-muted-foreground mt-1.5">{p.notes}</p>
               </div>

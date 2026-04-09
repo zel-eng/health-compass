@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { alerts as initialAlerts } from "@/lib/mock-data";
+import { useAlerts, useResolveAlert } from "@/hooks/use-data";
 import { AlertCard } from "@/components/AlertCard";
 
 export default function Alerts() {
-  const [alerts, setAlerts] = useState(initialAlerts);
+  const { data: allAlerts = [] } = useAlerts();
+  const resolveAlert = useResolveAlert();
   const [tab, setTab] = useState("critical");
 
-  const resolveAlert = (id: string) => setAlerts(prev => prev.map(a => a.id === id ? { ...a, resolved: true } : a));
-
-  const active = alerts.filter(a => !a.resolved);
+  const active = allAlerts.filter(a => !a.resolved);
   const critical = active.filter(a => a.type === "critical");
   const warnings = active.filter(a => a.type === "warning");
   const reminders = active.filter(a => a.type === "info");
@@ -24,7 +23,7 @@ export default function Alerts() {
     </div>
   ) : (
     <div className="space-y-3">
-      {items.map(a => <AlertCard key={a.id} alert={a} onResolve={resolveAlert} />)}
+      {items.map(a => <AlertCard key={a.id} alert={a} onResolve={(id) => resolveAlert.mutate(id)} />)}
     </div>
   );
 

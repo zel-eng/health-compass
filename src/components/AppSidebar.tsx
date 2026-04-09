@@ -1,12 +1,12 @@
 import { LayoutDashboard, Users, FileText, Bell, Settings, BarChart3, UserCog, Heart } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
+import { useAlerts, usePatients } from "@/hooks/use-data";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
   SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarFooter, useSidebar,
 } from "@/components/ui/sidebar";
 import { Badge } from "@/components/ui/badge";
-import { stats } from "@/lib/mock-data";
 
 const mainItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
@@ -27,6 +27,10 @@ export function AppSidebar() {
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path || (path !== "/" && location.pathname.startsWith(path));
 
+  const { data: allAlerts = [] } = useAlerts();
+  const { data: patients = [] } = usePatients();
+  const activeAlertCount = allAlerts.filter(a => !a.resolved).length;
+
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">
       <SidebarContent className="pt-4">
@@ -46,9 +50,9 @@ export function AppSidebar() {
                     <NavLink to={item.url} end={item.url === "/"} activeClassName="bg-primary/8 text-primary font-medium">
                       <item.icon className="h-4 w-4" />
                       {!collapsed && <span>{item.title}</span>}
-                      {!collapsed && item.url === "/alerts" && stats.activeAlerts > 0 && (
+                      {!collapsed && item.url === "/alerts" && activeAlertCount > 0 && (
                         <Badge variant="destructive" className="ml-auto h-5 min-w-5 px-1.5 text-xs">
-                          {stats.activeAlerts}
+                          {activeAlertCount}
                         </Badge>
                       )}
                     </NavLink>
@@ -81,8 +85,8 @@ export function AppSidebar() {
       <SidebarFooter className="border-t border-sidebar-border p-4">
         {!collapsed && (
           <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span>{stats.totalPatients} patients</span>
-            <span className="text-destructive font-medium">{stats.activeAlerts} alerts</span>
+            <span>{patients.length} patients</span>
+            <span className="text-destructive font-medium">{activeAlertCount} alerts</span>
           </div>
         )}
       </SidebarFooter>

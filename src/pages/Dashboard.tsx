@@ -2,33 +2,36 @@ import { useState } from "react";
 import { Users, AlertTriangle, CalendarDays, Bell, Search, ArrowRight } from "lucide-react";
 import { StatCard } from "@/components/StatCard";
 import { AlertCard } from "@/components/AlertCard";
-import { patients, alerts as initialAlerts, stats } from "@/lib/mock-data";
+import { usePatients, useAlerts, useStats, useResolveAlert, usePatientVitals } from "@/hooks/use-data";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
 
-const riskBadge = {
+const riskBadge: Record<string, string> = {
   high: "bg-destructive/10 text-destructive border-destructive/20",
   medium: "bg-warning/10 text-warning border-warning/20",
   low: "bg-success/10 text-success border-success/20",
 };
 
 export default function Dashboard() {
-  const [alerts, setAlerts] = useState(initialAlerts);
+  const { data: patients = [] } = usePatients();
+  const { data: allAlerts = [] } = useAlerts();
+  const { data: stats } = useStats();
+  const resolveAlert = useResolveAlert();
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
-  const activeAlerts = alerts.filter(a => !a.resolved);
-  const topAlerts = activeAlerts.slice(0, 3);
 
-  const resolveAlert = (id: string) => setAlerts(prev => prev.map(a => a.id === id ? { ...a, resolved: true } : a));
+  const activeAlerts = allAlerts.filter(a => !a.resolved);
+  const topAlerts = activeAlerts.slice(0, 3);
 
   const filtered = patients.filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
   const recentPatients = filtered.slice(0, 5);
 
-  // Aggregate chart data
-  const chartData = patients[0].vitals;
+  // Use first high-risk patient's vitals for trend charts
+  const firstHighRisk = patients.find(p => p.risk_level === "high");
+  const { data: chartData = [] } = usePatientVitals(firstHighRisk?.id);
 
   return (
     <div className="space-y-8 max-w-7xl">
@@ -37,12 +40,11 @@ export default function Dashboard() {
         <p className="text-muted-foreground text-sm mt-1">Good morning, Dr. Smith</p>
       </div>
 
-      {/* Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title="Total Patients" value={stats.totalPatients.toLocaleString()} icon={Users} trend="+12 this month" />
-        <StatCard title="High Risk" value={stats.highRisk} icon={AlertTriangle} variant="danger" trend="3 new this week" />
-        <StatCard title="Today's Appointments" value={stats.todayAppointments} icon={CalendarDays} variant="info" />
-        <StatCard title="Active Alerts" value={activeAlerts.length} icon={Bell} variant="warning" />
+        <StatCard title="Total Patients" value={stats?.totalPatients ?? "—"} icon={Users} trend="+12 this month" />
+        <StatCard title="High Risk" value={stats?.highRisk ?? "—"} icon={AlertTriangle} variant="danger" trend="3 new this week" />
+        <StatCard title="Today's Appointments" value={stats?.todayAppointments ?? "—"} icon={CalendarDays} variant="info" />
+        <StatCard title="Active Alerts" value={stats?.activeAlerts ?? "—"} icon={Bell} variant="warning" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -68,15 +70,15 @@ export default function Dashboard() {
                   <p className="text-sm font-medium text-foreground truncate">{p.name}</p>
                   <p className="text-xs text-muted-foreground">{p.condition}</p>
                 </div>
-                <Badge variant="outline" className={`text-[10px] shrink-0 ${riskBadge[p.riskLevel]}`}>
-                  {p.riskLevel}
+                <Badge variant="outline" className={`text-[10px] shrink-0 ${riskBadge[p.risk_level] || ""}`}>
+                  {p.risk_level}
                 </Badge>
               </button>
             ))}
           </div>
         </div>
 
-        {/* Alerts & AI Insights */}
+        {/* Alerts */}
         <div className="lg:col-span-1 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-semibold text-foreground">Alerts & Insights</h2>
@@ -97,7 +99,7 @@ export default function Dashboard() {
           ) : (
             <div className="space-y-2">
               {topAlerts.map(a => (
-                <AlertCard key={a.id} alert={a} onResolve={resolveAlert} compact />
+                <AlertCard key={a.id} alert={a} onResolve={(id) => resolveAlert.mutate(id)} compact />
               ))}
             </div>
           )}
@@ -111,7 +113,7 @@ export default function Dashboard() {
             <ResponsiveContainer width="100%" height={100}>
               <LineChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(214 20% 92%)" />
-                <XAxis dataKey="date" tick={{ fontSize: 10 }} stroke="hsl(215 14% 50%)" />
+                <XAxis dataKey="recorded_date" tick={{ fontSize: 10 }} stroke="hsl(215 14% 50%)" />
                 <YAxis tick={{ fontSize: 10 }} stroke="hsl(215 14% 50%)" domain={[110, 170]} />
                 <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8 }} />
                 <Line type="monotone" dataKey="systolic" stroke="hsl(0 72% 55%)" strokeWidth={2} dot={{ r: 3 }} />
@@ -123,7 +125,7 @@ export default function Dashboard() {
             <ResponsiveContainer width="100%" height={100}>
               <LineChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(214 20% 92%)" />
-                <XAxis dataKey="date" tick={{ fontSize: 10 }} stroke="hsl(215 14% 50%)" />
+                <XAxis dataKey="recorded_date" tick={{ fontSize: 10 }} stroke="hsl(215 14% 50%)" />
                 <YAxis tick={{ fontSize: 10 }} stroke="hsl(215 14% 50%)" domain={[80, 260]} />
                 <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8 }} />
                 <Line type="monotone" dataKey="sugar" stroke="hsl(30 95% 55%)" strokeWidth={2} dot={{ r: 3 }} />
@@ -135,7 +137,7 @@ export default function Dashboard() {
             <ResponsiveContainer width="100%" height={100}>
               <BarChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(214 20% 92%)" />
-                <XAxis dataKey="date" tick={{ fontSize: 10 }} stroke="hsl(215 14% 50%)" />
+                <XAxis dataKey="recorded_date" tick={{ fontSize: 10 }} stroke="hsl(215 14% 50%)" />
                 <YAxis tick={{ fontSize: 10 }} stroke="hsl(215 14% 50%)" domain={[0, 100]} />
                 <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8 }} />
                 <Bar dataKey="adherence" fill="hsl(213 94% 54%)" radius={[4, 4, 0, 0]} />

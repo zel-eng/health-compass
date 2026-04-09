@@ -1,24 +1,33 @@
 import { AlertTriangle, AlertCircle, Info, Check } from "lucide-react";
-import { Alert } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
-const typeConfig = {
+interface AlertData {
+  id: string;
+  patient_id: string;
+  patient_name: string;
+  type: string;
+  title: string;
+  message: string;
+  time: string;
+  resolved: boolean;
+}
+
+const typeConfig: Record<string, { icon: typeof AlertTriangle; className: string; dot: string }> = {
   critical: { icon: AlertTriangle, className: "status-critical", dot: "bg-destructive" },
   warning: { icon: AlertCircle, className: "status-warning", dot: "bg-warning" },
   info: { icon: Info, className: "status-info", dot: "bg-info" },
 };
 
 interface AlertCardProps {
-  alert: Alert;
+  alert: AlertData;
   onResolve?: (id: string) => void;
   compact?: boolean;
 }
 
 export function AlertCard({ alert, onResolve, compact }: AlertCardProps) {
   const navigate = useNavigate();
-  const config = typeConfig[alert.type];
-  const Icon = config.icon;
+  const config = typeConfig[alert.type] || typeConfig.info;
 
   return (
     <div className={`flex items-start gap-3 rounded-lg border p-3.5 animate-fade-in ${config.className}`}>
@@ -33,7 +42,7 @@ export function AlertCard({ alert, onResolve, compact }: AlertCardProps) {
         </div>
         {!compact && (
           <div className="flex items-center gap-2 mt-2.5">
-            <Button size="sm" variant="ghost" className="h-7 text-xs px-2.5" onClick={() => navigate(`/patients/${alert.patientId}`)}>
+            <Button size="sm" variant="ghost" className="h-7 text-xs px-2.5" onClick={() => navigate(`/patients/${alert.patient_id}`)}>
               View Patient
             </Button>
             {onResolve && (
