@@ -14,7 +14,148 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      alerts: {
+        Row: {
+          created_at: string
+          id: string
+          message: string
+          patient_id: string
+          patient_name: string
+          resolved: boolean
+          time: string
+          title: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message: string
+          patient_id: string
+          patient_name: string
+          resolved?: boolean
+          time?: string
+          title: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string
+          patient_id?: string
+          patient_name?: string
+          resolved?: boolean
+          time?: string
+          title?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alerts_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      patients: {
+        Row: {
+          age: number
+          bp: string | null
+          condition: string
+          created_at: string
+          gender: string
+          id: string
+          last_visit: string | null
+          medicines: string[] | null
+          name: string
+          notes: string | null
+          patient_code: string
+          phone: string | null
+          risk_level: string
+          sugar: number | null
+          updated_at: string
+        }
+        Insert: {
+          age: number
+          bp?: string | null
+          condition?: string
+          created_at?: string
+          gender: string
+          id?: string
+          last_visit?: string | null
+          medicines?: string[] | null
+          name: string
+          notes?: string | null
+          patient_code: string
+          phone?: string | null
+          risk_level?: string
+          sugar?: number | null
+          updated_at?: string
+        }
+        Update: {
+          age?: number
+          bp?: string | null
+          condition?: string
+          created_at?: string
+          gender?: string
+          id?: string
+          last_visit?: string | null
+          medicines?: string[] | null
+          name?: string
+          notes?: string | null
+          patient_code?: string
+          phone?: string | null
+          risk_level?: string
+          sugar?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      vitals: {
+        Row: {
+          adherence: number
+          created_at: string
+          diastolic: number
+          id: string
+          patient_id: string
+          recorded_date: string
+          sugar: number
+          systolic: number
+        }
+        Insert: {
+          adherence?: number
+          created_at?: string
+          diastolic: number
+          id?: string
+          patient_id: string
+          recorded_date: string
+          sugar?: number
+          systolic: number
+        }
+        Update: {
+          adherence?: number
+          created_at?: string
+          diastolic?: number
+          id?: string
+          patient_id?: string
+          recorded_date?: string
+          sugar?: number
+          systolic?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vitals_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
