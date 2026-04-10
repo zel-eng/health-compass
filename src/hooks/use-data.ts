@@ -77,7 +77,7 @@ export function useAllVitals() {
   return useQuery({
     queryKey: ["vitals"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("vitals").select("*, patients(name)").order("recorded_date");
+      const { data, error } = await supabase.from("vitals").select("*, patients(name)").order("recorded_date", { ascending: false });
       if (error) throw error;
       return data;
     },
@@ -120,7 +120,6 @@ export function useStats() {
       return {
         totalPatients: patientsRes.count ?? 0,
         highRisk: highRiskRes.count ?? 0,
-        todayAppointments: 24, // placeholder
         activeAlerts: alertsRes.count ?? 0,
       };
     },
