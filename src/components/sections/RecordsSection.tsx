@@ -12,13 +12,16 @@ export function RecordsSection() {
     <section className="px-5 py-4">
       <h2 className="text-lg font-bold text-foreground scroll-fade-in">Health Records</h2>
 
+      {/* Tab buttons with smooth transitions */}
       <div className="flex gap-2 mt-3 scroll-slide-left">
         {tabs.map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all press-zoom ${
-              tab === t ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+            className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all press-zoom duration-300 ${
+              tab === t 
+                ? "bg-gradient-primary text-primary-foreground shadow-floating" 
+                : "bg-muted/50 text-muted-foreground hover:bg-muted/70 backdrop-blur-sm"
             }`}
           >
             {t}
@@ -26,32 +29,36 @@ export function RecordsSection() {
         ))}
       </div>
 
+      {/* Records list with animations */}
       <div className="mt-4 space-y-2.5">
         {tab === "Vitals" && (
           <>
             {allVitals.slice(0, 8).map((v: any, i: number) => (
               <div
                 key={v.id || i}
-                className="rounded-2xl border bg-card p-3.5 scroll-fade-in press-zoom"
-                style={{ transitionDelay: `${i * 50}ms` }}
+                className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-3.5 scroll-fade-in press-zoom hover-lift transition-all shadow-soft"
+                style={{ animationDelay: `${i * 50}ms` }}
               >
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mb-2">
                   <p className="text-sm font-semibold text-foreground">{v.patients?.name ?? "—"}</p>
-                  <span className="text-[10px] text-muted-foreground">{v.recorded_date}</span>
+                  <span className="text-[10px] text-muted-foreground/70 bg-muted/30 px-2.5 py-1 rounded-full">{v.recorded_date}</span>
                 </div>
-                <div className="flex gap-4 mt-2">
-                  <span className="text-xs">
-                    BP: <span className={v.systolic > 140 ? "text-destructive font-semibold" : "text-foreground font-medium"}>
+                <div className="flex gap-3 text-xs flex-wrap">
+                  <span className="inline-flex items-center gap-1">
+                    <span className="text-muted-foreground">BP:</span>
+                    <span className={`font-semibold ${v.systolic > 140 ? "text-destructive" : "text-foreground"}`}>
                       {v.systolic}/{v.diastolic}
                     </span>
                   </span>
-                  <span className="text-xs">
-                    Sugar: <span className={v.sugar > 200 ? "text-warning font-semibold" : "text-foreground font-medium"}>
+                  <span className="inline-flex items-center gap-1">
+                    <span className="text-muted-foreground">Sugar:</span>
+                    <span className={`font-semibold ${v.sugar > 200 ? "text-warning" : "text-foreground"}`}>
                       {v.sugar}
                     </span>
                   </span>
-                  <span className="text-xs">
-                    Adherence: <span className={v.adherence < 70 ? "text-destructive font-semibold" : "text-foreground font-medium"}>
+                  <span className="inline-flex items-center gap-1">
+                    <span className="text-muted-foreground">Adherence:</span>
+                    <span className={`font-semibold ${v.adherence < 70 ? "text-destructive" : "text-foreground"}`}>
                       {v.adherence}%
                     </span>
                   </span>
@@ -64,13 +71,18 @@ export function RecordsSection() {
         {tab === "Medicines" && patients.map((p, i) => (
           <div
             key={p.id}
-            className="rounded-2xl border bg-card p-3.5 scroll-fade-in press-zoom"
-            style={{ transitionDelay: `${i * 50}ms` }}
+            className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-3.5 scroll-fade-in press-zoom hover-lift transition-all shadow-soft"
+            style={{ animationDelay: `${i * 50}ms` }}
           >
-            <p className="text-sm font-semibold text-foreground">{p.name}</p>
-            <div className="flex flex-wrap gap-1.5 mt-2">
+            <p className="text-sm font-semibold text-foreground mb-2">{p.name}</p>
+            <div className="flex flex-wrap gap-1.5">
               {(p.medicines ?? []).map((m, j) => (
-                <span key={j} className="text-[11px] bg-primary/8 text-primary rounded-lg px-2.5 py-1 font-medium">{m}</span>
+                <span 
+                  key={j} 
+                  className="text-[11px] bg-primary/10 text-primary rounded-full px-3 py-1 font-medium border border-primary/20 backdrop-blur-sm"
+                >
+                  {m}
+                </span>
               ))}
             </div>
           </div>
@@ -79,14 +91,14 @@ export function RecordsSection() {
         {tab === "Notes" && patients.map((p, i) => (
           <div
             key={p.id}
-            className="rounded-2xl border bg-card p-3.5 scroll-fade-in press-zoom"
-            style={{ transitionDelay: `${i * 50}ms` }}
+            className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-3.5 scroll-fade-in press-zoom hover-lift transition-all shadow-soft"
+            style={{ animationDelay: `${i * 50}ms` }}
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-2">
               <p className="text-sm font-semibold text-foreground">{p.name}</p>
-              <span className="text-[10px] text-muted-foreground">{p.last_visit}</span>
+              <span className="text-[10px] text-muted-foreground/70 bg-muted/30 px-2.5 py-1 rounded-full">{p.last_visit}</span>
             </div>
-            <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">{p.notes || "No notes"}</p>
+            <p className="text-xs text-muted-foreground leading-relaxed">{p.notes || "No notes"}</p>
           </div>
         ))}
       </div>

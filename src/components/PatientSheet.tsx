@@ -45,29 +45,31 @@ export function PatientSheet({ patientId, onClose }: PatientSheetProps) {
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col">
-      <div className="absolute inset-0 bg-foreground/40 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative mt-10 flex-1 bg-background rounded-t-3xl overflow-hidden animate-in slide-in-from-bottom duration-300 flex flex-col">
-        {/* Header */}
-        <div className="sticky top-0 z-10 glass rounded-t-3xl">
+    <div className="fixed inset-0 z-50 flex flex-col animate-fade-in">
+      <div className="absolute inset-0 backdrop-blur-lg bg-foreground/45 transition-opacity duration-300" onClick={onClose} />
+      <div className="relative mt-8 flex-1 bg-gradient-soft rounded-t-3xl overflow-hidden animate-slide-in-bottom flex flex-col shadow-elevated border-t border-white/20">
+        {/* Header with glassmorphism */}
+        <div className="sticky top-0 z-10 frosted-glass border-b border-white/20 backdrop-blur-md">
           <div className="flex items-center justify-between p-4">
-            <div className="w-10 h-1 rounded-full bg-muted-foreground/20 mx-auto absolute left-1/2 -translate-x-1/2 top-2" />
-            <span className="text-xs text-muted-foreground">Patient Details</span>
-            <button onClick={onClose} className="h-8 w-8 rounded-full bg-muted flex items-center justify-center press-zoom">
+            <div className="w-10 h-1 rounded-full bg-muted-foreground/40 mx-auto absolute left-1/2 -translate-x-1/2 top-3 transition-colors" />
+            <span className="text-xs font-medium text-muted-foreground">Patient Details</span>
+            <button onClick={onClose} className="h-8 w-8 rounded-full bg-muted/50 flex items-center justify-center press-zoom hover-lift transition-all backdrop-blur-sm border border-white/20">
               <X className="h-4 w-4" />
             </button>
           </div>
-          {/* Tabs */}
-          <div className="flex gap-1 px-4 pb-3 overflow-x-auto no-scrollbar">
+          {/* Tabs with smooth transitions */}
+          <div className="flex gap-1.5 px-4 pb-3 overflow-x-auto no-scrollbar">
             {tabs.map(t => (
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
-                className={`flex items-center gap-1.5 shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                  tab === t.id ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                className={`flex items-center gap-1.5 shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all press-zoom duration-300 ${
+                  tab === t.id 
+                    ? "bg-gradient-primary text-primary-foreground shadow-floating" 
+                    : "bg-muted/50 text-muted-foreground hover:bg-muted/70 backdrop-blur-sm"
                 }`}
               >
-                <t.icon className="h-3 w-3" />
+                <t.icon className="h-3.5 w-3.5" />
                 {t.label}
               </button>
             ))}
@@ -78,25 +80,25 @@ export function PatientSheet({ patientId, onClose }: PatientSheetProps) {
         <div className="flex-1 overflow-y-auto no-scrollbar pb-24">
           {isLoading ? (
             <div className="p-6 space-y-4">
-              {[1, 2, 3].map(i => <div key={i} className="h-20 rounded-2xl bg-muted animate-pulse" />)}
+              {[1, 2, 3].map(i => <div key={i} className="h-20 rounded-2xl skeleton" />)}
             </div>
           ) : patient ? (
-            <div className="px-5 space-y-4 pt-2">
-              {/* Patient Header - always visible */}
-              <div className="flex items-center gap-3.5">
-                <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center text-lg font-bold text-primary shrink-0">
+            <div className="px-5 space-y-4 pt-3">
+              {/* Patient Header - always visible with animations */}
+              <div className="flex items-center gap-3.5 animate-fade-in">
+                <div className="h-16 w-16 rounded-2xl bg-gradient-primary flex items-center justify-center text-xl font-bold text-white shrink-0 shadow-glow border border-white/20">
                   {patient.name.split(" ").map(n => n[0]).join("")}
                 </div>
-                <div>
-                  <div className="flex items-center gap-2">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <h2 className="text-lg font-bold text-foreground">{patient.name}</h2>
-                    <Badge variant="outline" className={`text-[10px] ${riskColor[patient.risk_level]}`}>
-                      {patient.risk_level}
+                    <Badge variant="outline" className={`text-[10px] font-medium ${riskColor[patient.risk_level]}`}>
+                      {patient.risk_level.toUpperCase()}
                     </Badge>
                   </div>
-                  <p className="text-xs text-muted-foreground">{patient.age}y • {patient.gender} • {patient.condition}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{patient.age}y • {patient.gender} • {patient.condition}</p>
                   {patient.phone && (
-                    <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
                       <Phone className="h-3 w-3" /> {patient.phone}
                     </div>
                   )}
@@ -121,56 +123,62 @@ export function PatientSheet({ patientId, onClose }: PatientSheetProps) {
 function OverviewTab({ patient, vitals, patientAlerts }: any) {
   return (
     <>
-      {/* Vitals Cards */}
+      {/* Vitals Cards with modern styling */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-2xl bg-card border p-3.5">
-          <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-medium">Blood Pressure</p>
-          <p className="text-xl font-bold text-foreground mt-1">{patient.bp || "—"}</p>
+        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 hover-lift transition-all shadow-soft">
+          <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium">BP</p>
+          <p className="text-3xl font-bold text-foreground mt-2">{patient.bp || "—"}</p>
         </div>
-        <div className="rounded-2xl bg-card border p-3.5">
-          <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-medium">Blood Sugar</p>
-          <p className="text-xl font-bold text-foreground mt-1">{patient.sugar ?? "—"} <span className="text-xs font-normal">mg/dL</span></p>
+        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 hover-lift transition-all shadow-soft">
+          <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium">Sugar</p>
+          <p className="text-3xl font-bold text-foreground mt-2">{patient.sugar ?? "—"} <span className="text-sm font-normal">mg/dL</span></p>
         </div>
       </div>
 
-      {/* Medicines */}
+      {/* Medicines with modern card styling */}
       {(patient.medicines ?? []).length > 0 && (
-        <div className="rounded-2xl border bg-card p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Pill className="h-4 w-4 text-primary" />
+        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 hover-lift transition-all shadow-soft">
+          <div className="flex items-center gap-2.5 mb-3">
+            <div className="h-8 w-8 rounded-lg bg-primary/20 flex items-center justify-center">
+              <Pill className="h-4 w-4 text-primary" />
+            </div>
             <h3 className="text-sm font-semibold text-foreground">Dawa</h3>
           </div>
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             {(patient.medicines ?? []).map((m: string, i: number) => (
-              <div key={i} className="text-sm bg-muted rounded-xl px-3 py-2 text-foreground">{m}</div>
+              <div key={i} className="text-sm bg-white/30 rounded-xl px-3.5 py-2.5 text-foreground backdrop-blur-sm border border-white/20 font-medium">{m}</div>
             ))}
           </div>
         </div>
       )}
 
-      {/* Alerts */}
+      {/* Alerts with animation */}
       {patientAlerts.length > 0 && (
-        <div className="rounded-2xl border bg-card p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <AlertTriangle className="h-4 w-4 text-warning" />
+        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 hover-lift transition-all shadow-soft">
+          <div className="flex items-center gap-2.5 mb-3">
+            <div className="h-8 w-8 rounded-lg bg-warning/20 flex items-center justify-center">
+              <AlertTriangle className="h-4 w-4 text-warning" />
+            </div>
             <h3 className="text-sm font-semibold text-foreground">Arifa</h3>
           </div>
           <div className="space-y-2">
-            {patientAlerts.map((a: any) => (
-              <div key={a.id} className="text-xs bg-destructive/5 border border-destructive/10 rounded-xl p-2.5">
-                <p className="font-semibold">{a.title}</p>
-                <p className="text-muted-foreground mt-0.5">{a.message}</p>
+            {patientAlerts.map((a: any, i: number) => (
+              <div key={a.id} className="text-xs bg-destructive/10 border border-destructive/20 rounded-xl p-3 scroll-fade-in" style={{ animationDelay: `${i * 50}ms` }}>
+                <p className="font-semibold text-destructive">{a.title}</p>
+                <p className="text-muted-foreground mt-1">{a.message}</p>
               </div>
             ))}
           </div>
         </div>
       )}
 
-      {/* Vitals Chart */}
+      {/* Vitals Chart with modern styling */}
       {vitals.length > 0 && (
-        <div className="rounded-2xl border bg-card p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <TrendingUp className="h-4 w-4 text-primary" />
+        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 hover-lift transition-all shadow-soft">
+          <div className="flex items-center gap-2.5 mb-3">
+            <div className="h-8 w-8 rounded-lg bg-primary/20 flex items-center justify-center">
+              <TrendingUp className="h-4 w-4 text-primary" />
+            </div>
             <h3 className="text-sm font-semibold text-foreground">Mwenendo wa Afya</h3>
           </div>
           <ResponsiveContainer width="100%" height={180}>
@@ -187,17 +195,17 @@ function OverviewTab({ patient, vitals, patientAlerts }: any) {
               </defs>
               <XAxis dataKey="recorded_date" tick={{ fontSize: 9 }} stroke="hsl(215 14% 80%)" />
               <YAxis tick={{ fontSize: 9 }} stroke="hsl(215 14% 80%)" />
-              <Tooltip contentStyle={{ fontSize: 11, borderRadius: 12, border: "none", boxShadow: "0 4px 20px rgba(0,0,0,0.08)" }} />
-              <Area type="monotone" dataKey="systolic" stroke="hsl(0 72% 55%)" fill="url(#bpGrad)" strokeWidth={2} name="Systolic" />
-              <Area type="monotone" dataKey="sugar" stroke="hsl(30 95% 55%)" fill="url(#sugarGrad)" strokeWidth={2} name="Sugar" />
+              <Tooltip contentStyle={{ fontSize: 11, borderRadius: 12, border: "none", boxShadow: "0 8px 32px rgba(0,0,0,0.15)", background: "rgba(255, 255, 255, 0.95)", backdropFilter: "blur(10px)" }} />
+              <Area type="monotone" dataKey="systolic" stroke="hsl(0 72% 55%)" fill="url(#bpGrad)" strokeWidth={2.5} name="Systolic" />
+              <Area type="monotone" dataKey="sugar" stroke="hsl(30 95% 55%)" fill="url(#sugarGrad)" strokeWidth={2.5} name="Sugar" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
       )}
 
-      {/* Notes */}
+      {/* Notes with modern styling */}
       {patient.notes && (
-        <div className="rounded-2xl border bg-card p-4">
+        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 hover-lift transition-all shadow-soft">
           <h3 className="text-sm font-semibold text-foreground mb-2">Maelezo</h3>
           <p className="text-xs text-muted-foreground leading-relaxed">{patient.notes}</p>
         </div>
@@ -238,30 +246,35 @@ function HistoryTab({ patientId, history }: { patientId: string; history: any[] 
       </div>
 
       {showForm && (
-        <div className="rounded-2xl border bg-card p-4 space-y-3">
-          <Input placeholder="Hali/Ugonjwa" value={condition} onChange={e => setCondition(e.target.value)} className="h-9 rounded-xl text-sm" />
-          <Input type="date" value={diagDate} onChange={e => setDiagDate(e.target.value)} className="h-9 rounded-xl text-sm" />
-          <Input placeholder="Maelezo..." value={notes} onChange={e => setNotes(e.target.value)} className="h-9 rounded-xl text-sm" />
+        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 space-y-3 animate-scale-in shadow-soft">
+          <Input placeholder="Hali/Ugonjwa" value={condition} onChange={e => setCondition(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
+          <Input type="date" value={diagDate} onChange={e => setDiagDate(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
+          <Input placeholder="Maelezo..." value={notes} onChange={e => setNotes(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
           <div className="flex gap-2">
-            <Button size="sm" className="rounded-xl text-xs flex-1" onClick={handleAdd} disabled={addHistory.isPending}>Hifadhi</Button>
+            <Button size="sm" className="rounded-xl text-xs flex-1 shadow-soft" onClick={handleAdd} disabled={addHistory.isPending}>Hifadhi</Button>
             <Button size="sm" variant="ghost" className="rounded-xl text-xs" onClick={() => setShowForm(false)}>Ghairi</Button>
           </div>
         </div>
       )}
 
       {history.length === 0 ? (
-        <p className="text-sm text-muted-foreground text-center py-8">Hakuna historia ya matibabu</p>
+        <div className="text-sm text-muted-foreground text-center py-12 animate-fade-in">
+          <div className="h-12 w-12 rounded-full bg-muted/50 mx-auto mb-3 flex items-center justify-center">
+            <History className="h-5 w-5 text-muted-foreground/50" />
+          </div>
+          Hakuna historia ya matibabu
+        </div>
       ) : (
-        <div className="space-y-2">
-          {history.map(h => (
-            <div key={h.id} className="rounded-2xl border bg-card p-3.5">
-              <div className="flex items-center justify-between">
+        <div className="space-y-2.5">
+          {history.map((h, i) => (
+            <div key={h.id} className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-3.5 hover-lift transition-all shadow-soft scroll-fade-in" style={{ animationDelay: `${i * 50}ms` }}>
+              <div className="flex items-center justify-between gap-2">
                 <p className="text-sm font-semibold text-foreground">{h.condition}</p>
-                <Badge variant="outline" className={`text-[10px] ${h.status === "active" ? "bg-warning/10 text-warning" : "bg-success/10 text-success"}`}>
+                <Badge variant="outline" className={`text-[10px] font-medium ${h.status === "active" ? "bg-warning/10 text-warning" : "bg-success/10 text-success"}`}>
                   {h.status}
                 </Badge>
               </div>
-              {h.diagnosis_date && <p className="text-[10px] text-muted-foreground mt-1">Imetambuliwa: {h.diagnosis_date}</p>}
+              {h.diagnosis_date && <p className="text-[10px] text-muted-foreground mt-2">Imetambuliwa: {h.diagnosis_date}</p>}
               {h.notes && <p className="text-xs text-muted-foreground mt-1">{h.notes}</p>}
             </div>
           ))}
@@ -299,41 +312,45 @@ function AllergiesTab({ patientId, allergies }: { patientId: string; allergies: 
       </div>
 
       {showForm && (
-        <div className="rounded-2xl border bg-card p-4 space-y-3">
-          <Input placeholder="Kitu kinachosababisha mzio" value={allergen} onChange={e => setAllergen(e.target.value)} className="h-9 rounded-xl text-sm" />
+        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 space-y-3 animate-scale-in shadow-soft">
+          <Input placeholder="Kitu kinachosababisha mzio" value={allergen} onChange={e => setAllergen(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
           <div className="flex gap-2">
             {["mild", "moderate", "severe"].map(s => (
               <button key={s} onClick={() => setSeverity(s)}
-                className={`flex-1 px-2 py-1.5 rounded-xl text-xs font-medium transition-all ${severity === s ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}
+                className={`flex-1 px-2 py-2 rounded-xl text-xs font-medium transition-all press-zoom ${severity === s ? "bg-gradient-primary text-primary-foreground shadow-floating" : "bg-muted/50 text-muted-foreground hover:bg-muted/70 backdrop-blur-sm"}`}
               >{s}</button>
             ))}
           </div>
-          <Input placeholder="Athari (reaction)" value={reaction} onChange={e => setReaction(e.target.value)} className="h-9 rounded-xl text-sm" />
+          <Input placeholder="Athari (reaction)" value={reaction} onChange={e => setReaction(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
           <div className="flex gap-2">
-            <Button size="sm" className="rounded-xl text-xs flex-1" onClick={handleAdd} disabled={addAllergy.isPending}>Hifadhi</Button>
+            <Button size="sm" className="rounded-xl text-xs flex-1 shadow-soft" onClick={handleAdd} disabled={addAllergy.isPending}>Hifadhi</Button>
             <Button size="sm" variant="ghost" className="rounded-xl text-xs" onClick={() => setShowForm(false)}>Ghairi</Button>
           </div>
         </div>
       )}
-
       {allergies.length === 0 ? (
-        <p className="text-sm text-muted-foreground text-center py-8">Hakuna mzio uliorekodishwa</p>
+        <div className="text-sm text-muted-foreground text-center py-12 animate-fade-in">
+          <div className="h-12 w-12 rounded-full bg-muted/50 mx-auto mb-3 flex items-center justify-center">
+            <ShieldAlert className="h-5 w-5 text-muted-foreground/50" />
+          </div>
+          Hakuna mzio uliorekodishwa
+        </div>
       ) : (
-        <div className="space-y-2">
-          {allergies.map(a => (
-            <div key={a.id} className="rounded-2xl border bg-card p-3.5 flex items-center justify-between">
-              <div>
-                <div className="flex items-center gap-2">
+        <div className="space-y-2.5">
+          {allergies.map((a, i) => (
+            <div key={a.id} className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-3.5 flex items-center justify-between hover-lift transition-all shadow-soft scroll-fade-in" style={{ animationDelay: `${i * 50}ms` }}>
+              <div className="flex-1">
+                <div className="flex items-center gap-2.5 flex-wrap">
                   <p className="text-sm font-semibold text-foreground">{a.allergen}</p>
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${severityColor[a.severity] || ""}`}>{a.severity}</span>
+                  <span className={`text-[10px] px-2.5 py-1 rounded-full font-medium ${severityColor[a.severity] || ""}`}>{a.severity}</span>
                 </div>
-                {a.reaction && <p className="text-xs text-muted-foreground mt-0.5">{a.reaction}</p>}
+                {a.reaction && <p className="text-xs text-muted-foreground mt-1.5">{a.reaction}</p>}
               </div>
               <button
                 onClick={() => deleteAllergy.mutate({ id: a.id, patientId })}
-                className="h-7 w-7 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-destructive transition-colors"
+                className="h-8 w-8 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all ml-2 shrink-0"
               >
-                <X className="h-3 w-3" />
+                <X className="h-3.5 w-3.5" />
               </button>
             </div>
           ))}
@@ -383,34 +400,39 @@ function AppointmentsTab({ patientId, appointments }: { patientId: string; appoi
       </div>
 
       {showForm && (
-        <div className="rounded-2xl border bg-card p-4 space-y-3">
-          <Input placeholder="Jina la daktari" value={doctorName} onChange={e => setDoctorName(e.target.value)} className="h-9 rounded-xl text-sm" />
+        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 space-y-3 animate-scale-in shadow-soft">
+          <Input placeholder="Jina la daktari" value={doctorName} onChange={e => setDoctorName(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
           <div className="grid grid-cols-2 gap-2">
-            <Input type="date" value={date} onChange={e => setDate(e.target.value)} className="h-9 rounded-xl text-sm" />
-            <Input type="time" value={time} onChange={e => setTime(e.target.value)} className="h-9 rounded-xl text-sm" />
+            <Input type="date" value={date} onChange={e => setDate(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
+            <Input type="time" value={time} onChange={e => setTime(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
           </div>
-          <Input placeholder="Sababu ya miadi" value={reason} onChange={e => setReason(e.target.value)} className="h-9 rounded-xl text-sm" />
+          <Input placeholder="Sababu ya miadi" value={reason} onChange={e => setReason(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
           <div className="flex gap-2">
-            <Button size="sm" className="rounded-xl text-xs flex-1" onClick={handleCreate} disabled={createAppt.isPending}>Hifadhi</Button>
+            <Button size="sm" className="rounded-xl text-xs flex-1 shadow-soft" onClick={handleCreate} disabled={createAppt.isPending}>Hifadhi</Button>
             <Button size="sm" variant="ghost" className="rounded-xl text-xs" onClick={() => setShowForm(false)}>Ghairi</Button>
           </div>
         </div>
       )}
 
       {appointments.length === 0 ? (
-        <p className="text-sm text-muted-foreground text-center py-8">Hakuna miadi iliyopangwa</p>
+        <div className="text-sm text-muted-foreground text-center py-12 animate-fade-in">
+          <div className="h-12 w-12 rounded-full bg-muted/50 mx-auto mb-3 flex items-center justify-center">
+            <Calendar className="h-5 w-5 text-muted-foreground/50" />
+          </div>
+          Hakuna miadi iliyopangwa
+        </div>
       ) : (
-        <div className="space-y-2">
-          {appointments.map(a => (
-            <div key={a.id} className="rounded-2xl border bg-card p-3.5">
-              <div className="flex items-center justify-between">
-                <div>
+        <div className="space-y-2.5">
+          {appointments.map((a, i) => (
+            <div key={a.id} className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-3.5 hover-lift transition-all shadow-soft scroll-fade-in" style={{ animationDelay: `${i * 50}ms` }}>
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex-1">
                   <p className="text-sm font-semibold text-foreground">{a.doctor_name || "Daktari"}</p>
-                  <p className="text-xs text-muted-foreground">{a.appointment_date} • {a.appointment_time}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{a.appointment_date} • {a.appointment_time}</p>
                 </div>
-                <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${statusColor[a.status] || ""}`}>{a.status}</span>
+                <span className={`text-[10px] px-2.5 py-1 rounded-full font-medium shrink-0 ${statusColor[a.status] || ""}`}>{a.status}</span>
               </div>
-              {a.reason && <p className="text-xs text-muted-foreground mt-1.5">{a.reason}</p>}
+              {a.reason && <p className="text-xs text-muted-foreground mt-2">{a.reason}</p>}
             </div>
           ))}
         </div>

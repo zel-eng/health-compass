@@ -55,34 +55,34 @@ export default function Index() {
   return (
     <div className="h-screen flex flex-col bg-background">
       {/* Main scrollable dashboard - always rendered */}
-      <div ref={mainRef} className="flex-1 overflow-y-auto no-scrollbar pb-safe">
+      <div ref={mainRef} className="flex-1 overflow-y-auto no-scrollbar pb-24 safe-area-bottom">
         <HeroSection />
         <PatientsSection onSelectPatient={handleSelectPatient} />
         <AlertsSection onViewPatient={handleSelectPatient} limit={3} />
         <TrendsSection />
       </div>
 
-      {/* Overlay sections - slide up from bottom */}
+      {/* Overlay sections - slide up from bottom with modern effects */}
       {overlay && (
-        <div className="fixed inset-0 z-40 flex flex-col">
-          {/* Backdrop */}
+        <div className="fixed inset-0 z-40 flex flex-col animate-fade-in">
+          {/* Backdrop with glassmorphism */}
           <div
-            className="absolute inset-0 bg-foreground/30 backdrop-blur-sm transition-opacity duration-300"
+            className="absolute inset-0 backdrop-blur-lg bg-foreground/40 transition-opacity duration-300 animate-fade-in"
             onClick={() => setOverlay(null)}
           />
 
-          {/* Overlay panel */}
-          <div className="relative mt-16 flex-1 bg-background rounded-t-3xl overflow-hidden animate-in slide-in-from-bottom duration-300 flex flex-col shadow-2xl">
-            {/* Header */}
-            <div className="sticky top-0 z-10 glass border-b border-border/30">
-              <div className="w-10 h-1 rounded-full bg-muted-foreground/20 mx-auto mt-2" />
-              <div className="flex items-center justify-between px-5 py-3">
+          {/* Overlay panel with modern styling */}
+          <div className="relative mt-12 flex-1 bg-gradient-soft rounded-t-3xl overflow-hidden animate-slide-in-bottom flex flex-col shadow-elevated border-t border-white/20">
+            {/* Header with glassmorphism */}
+            <div className="sticky top-0 z-10 frosted-glass border-b border-white/20 backdrop-blur-md">
+              <div className="w-10 h-1 rounded-full bg-muted-foreground/30 mx-auto mt-3 transition-colors" />
+              <div className="flex items-center justify-between px-5 py-4">
                 <h2 className="text-lg font-bold text-foreground">
                   {overlayTitles[overlay] || ""}
                 </h2>
                 <button
                   onClick={() => setOverlay(null)}
-                  className="h-8 w-8 rounded-full bg-muted flex items-center justify-center press-zoom"
+                  className="h-8 w-8 rounded-full bg-muted/50 flex items-center justify-center press-zoom hover-lift transition-all backdrop-blur-sm border border-white/20"
                 >
                   <X className="h-4 w-4 text-muted-foreground" />
                 </button>

@@ -5,7 +5,7 @@ export function SettingsSection() {
     <section className="px-5 py-4">
       <h2 className="text-lg font-bold text-foreground scroll-fade-in">Settings</h2>
 
-      <div className="space-y-2.5 mt-4">
+      <div className="space-y-3 mt-4">
         {[
           { icon: Bell, label: "Notifications", desc: "Manage alert preferences" },
           { icon: Moon, label: "Appearance", desc: "Theme & display options" },
@@ -14,15 +14,15 @@ export function SettingsSection() {
         ].map((item, i) => (
           <button
             key={item.label}
-            className="w-full flex items-center gap-3.5 rounded-2xl border bg-card p-4 text-left press-zoom scroll-fade-in hover:bg-accent/50 transition-colors"
-            style={{ transitionDelay: `${i * 60}ms` }}
+            className="w-full flex items-center gap-3.5 rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 text-left press-zoom scroll-fade-in hover-lift hover:bg-white/40 transition-all shadow-soft"
+            style={{ animationDelay: `${i * 60}ms` }}
           >
-            <div className="h-9 w-9 rounded-xl bg-muted flex items-center justify-center shrink-0">
-              <item.icon className="h-4 w-4 text-muted-foreground" />
+            <div className="h-10 w-10 rounded-xl bg-gradient-primary/20 flex items-center justify-center shrink-0 border border-primary/20 backdrop-blur-sm">
+              <item.icon className="h-5 w-5 text-primary" />
             </div>
-            <div>
+            <div className="flex-1">
               <p className="text-sm font-semibold text-foreground">{item.label}</p>
-              <p className="text-[11px] text-muted-foreground">{item.desc}</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">{item.desc}</p>
             </div>
           </button>
         ))}
