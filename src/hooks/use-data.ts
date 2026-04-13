@@ -38,6 +38,35 @@ export type DbAlert = {
   resolved: boolean;
 };
 
+export type DbMedicalHistory = {
+  id: string;
+  patient_id: string;
+  condition: string;
+  diagnosis_date: string | null;
+  status: string;
+  notes: string | null;
+};
+
+export type DbAllergy = {
+  id: string;
+  patient_id: string;
+  allergen: string;
+  severity: string;
+  reaction: string | null;
+};
+
+export type DbAppointment = {
+  id: string;
+  patient_id: string;
+  doctor_name: string;
+  appointment_date: string;
+  appointment_time: string;
+  status: string;
+  reason: string | null;
+  notes: string | null;
+  created_at: string;
+};
+
 export function usePatients() {
   return useQuery({
     queryKey: ["patients"],
@@ -122,6 +151,123 @@ export function useStats() {
         highRisk: highRiskRes.count ?? 0,
         activeAlerts: alertsRes.count ?? 0,
       };
+    },
+  });
+}
+
+export function useMedicalHistory(patientId: string | undefined) {
+  return useQuery({
+    queryKey: ["medical_history", patientId],
+    enabled: !!patientId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("medical_history")
+        .select("*")
+        .eq("patient_id", patientId!)
+        .order("diagnosis_date", { ascending: false });
+      if (error) throw error;
+      return data as DbMedicalHistory[];
+    },
+  });
+}
+
+export function useAddMedicalHistory() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (record: { patient_id: string; condition: string; diagnosis_date?: string; status?: string; notes?: string }) => {
+      const { error } = await supabase.from("medical_history").insert(record);
+      if (error) throw error;
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["medical_history", vars.patient_id] });
+    },
+  });
+}
+
+export function useAllergies(patientId: string | undefined) {
+  return useQuery({
+    queryKey: ["allergies", patientId],
+    enabled: !!patientId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("allergies")
+        .select("*")
+        .eq("patient_id", patientId!)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data as DbAllergy[];
+    },
+  });
+}
+
+export function useAddAllergy() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (allergy: { patient_id: string; allergen: string; severity: string; reaction?: string }) => {
+      const { error } = await supabase.from("allergies").insert(allergy);
+      if (error) throw error;
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["allergies", vars.patient_id] });
+    },
+  });
+}
+
+export function useDeleteAllergy() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, patientId }: { id: string; patientId: string }) => {
+      const { error } = await supabase.from("allergies").delete().eq("id", id);
+      if (error) throw error;
+      return patientId;
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["allergies", vars.patientId] });
+    },
+  });
+}
+
+export function useAppointments(patientId?: string) {
+  return useQuery({
+    queryKey: ["appointments", patientId],
+    queryFn: async () => {
+      let q = supabase.from("appointments").select("*").order("appointment_date", { ascending: true });
+      if (patientId) q = q.eq("patient_id", patientId);
+      const { data, error } = await q;
+      if (error) throw error;
+      return data as DbAppointment[];
+    },
+  });
+}
+
+export function useCreateAppointment() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (appt: {
+      patient_id: string;
+      doctor_name: string;
+      appointment_date: string;
+      appointment_time: string;
+      reason?: string;
+    }) => {
+      const { error } = await supabase.from("appointments").insert(appt);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["appointments"] });
+    },
+  });
+}
+
+export function useUpdateAppointment() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, ...updates }: { id: string; status?: string; notes?: string }) => {
+      const { error } = await supabase.from("appointments").update(updates).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["appointments"] });
     },
   });
 }
