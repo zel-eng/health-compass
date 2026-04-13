@@ -1,12 +1,20 @@
+import type { ComponentType } from "react";
 import { LayoutDashboard, Users, FileText, Bell, Settings } from "lucide-react";
 import { useAlerts } from "@/hooks/use-data";
+
+interface BottomNavItem {
+  id: string;
+  icon: ComponentType<{ className?: string }>;
+  label: string;
+}
 
 interface BottomNavProps {
   active: string;
   onNavigate: (section: string) => void;
+  items?: BottomNavItem[];
 }
 
-const items = [
+const defaultItems: BottomNavItem[] = [
   { id: "dashboard", icon: LayoutDashboard, label: "Home" },
   { id: "patients", icon: Users, label: "Patients" },
   { id: "records", icon: FileText, label: "Records" },
@@ -14,14 +22,15 @@ const items = [
   { id: "settings", icon: Settings, label: "Settings" },
 ];
 
-export function BottomNav({ active, onNavigate }: BottomNavProps) {
+export function BottomNav({ active, onNavigate, items }: BottomNavProps) {
+  const navItems = items ?? defaultItems;
   const { data: alerts = [] } = useAlerts();
   const alertCount = alerts.filter((a) => !a.resolved).length;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 frosted-glass border-t border-white/30 backdrop-blur-3xl safe-area-bottom shadow-elevated rounded-t-3xl">
       <div className="flex items-center justify-around h-16 max-w-lg mx-auto px-2 pt-1">
-        {items.map((item) => {
+        {navItems.map((item) => {
           const isActive = active === item.id;
           return (
             <button

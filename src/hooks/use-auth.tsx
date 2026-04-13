@@ -1,8 +1,9 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User, Session } from "@supabase/supabase-js";
+import type { Database } from "@/integrations/supabase/types";
 
-type AppRole = "patient" | "doctor" | "admin";
+export type AppRole = "patient" | "doctor" | "admin";
 
 interface AuthContext {
   user: User | null;
@@ -57,7 +58,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       supabase.from("user_roles").select("role").eq("user_id", userId),
       supabase.from("profiles").select("full_name, avatar_url, phone").eq("user_id", userId).single(),
     ]);
-    setRoles((rolesRes.data ?? []).map((r: any) => r.role as AppRole));
+    type UserRoleRow = Database["public"]["Tables"]["user_roles"]["Row"];
+    setRoles((rolesRes.data ?? []).map((r: UserRoleRow) => r.role));
     setProfile(profileRes.data as AuthContext["profile"]);
     setLoading(false);
   }

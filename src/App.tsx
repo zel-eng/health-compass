@@ -9,6 +9,8 @@ import Landing from "@/pages/Landing";
 import Index from "@/pages/Index";
 import DoctorDashboard from "@/pages/DoctorDashboard";
 import AdminDashboard from "@/pages/AdminDashboard";
+import PatientDashboard from "@/pages/PatientDashboard";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -37,17 +39,47 @@ function AppRoutes() {
   // Role-based routing
   const isAdmin = roles.includes("admin");
   const isDoctor = roles.includes("doctor");
+  const isPatient = roles.includes("patient");
 
   return (
     <Routes>
-      {isAdmin && <Route path="/admin" element={<AdminDashboard />} />}
-      {isDoctor && <Route path="/doctor" element={<DoctorDashboard />} />}
+      {isAdmin && (
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+      )}
+      {(isDoctor || isAdmin) && (
+        <Route
+          path="/doctor"
+          element={
+            <ProtectedRoute allowedRoles={["doctor", "admin"]}>
+              <DoctorDashboard />
+            </ProtectedRoute>
+          }
+        />
+      )}
+      {isPatient && (
+        <Route
+          path="/patient"
+          element={
+            <ProtectedRoute allowedRoles={["patient"]}>
+              <PatientDashboard />
+            </ProtectedRoute>
+          }
+        />
+      )}
       <Route path="/*" element={<Index />} />
       <Route
         path="/"
         element={
           isAdmin ? <Navigate to="/admin" replace /> :
           isDoctor ? <Navigate to="/doctor" replace /> :
+          isPatient ? <Navigate to="/patient" replace /> :
           <Index />
         }
       />
