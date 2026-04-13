@@ -61,6 +61,129 @@ export type Database = {
           },
         ]
       }
+      allergies: {
+        Row: {
+          allergen: string
+          created_at: string
+          id: string
+          patient_id: string
+          reaction: string | null
+          severity: string
+        }
+        Insert: {
+          allergen: string
+          created_at?: string
+          id?: string
+          patient_id: string
+          reaction?: string | null
+          severity?: string
+        }
+        Update: {
+          allergen?: string
+          created_at?: string
+          id?: string
+          patient_id?: string
+          reaction?: string | null
+          severity?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "allergies_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      appointments: {
+        Row: {
+          appointment_date: string
+          appointment_time: string
+          created_at: string
+          doctor_name: string
+          id: string
+          notes: string | null
+          patient_id: string
+          reason: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          appointment_date: string
+          appointment_time?: string
+          created_at?: string
+          doctor_name?: string
+          id?: string
+          notes?: string | null
+          patient_id: string
+          reason?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          appointment_date?: string
+          appointment_time?: string
+          created_at?: string
+          doctor_name?: string
+          id?: string
+          notes?: string | null
+          patient_id?: string
+          reason?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointments_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medical_history: {
+        Row: {
+          condition: string
+          created_at: string
+          diagnosis_date: string | null
+          id: string
+          notes: string | null
+          patient_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          condition: string
+          created_at?: string
+          diagnosis_date?: string | null
+          id?: string
+          notes?: string | null
+          patient_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          condition?: string
+          created_at?: string
+          diagnosis_date?: string | null
+          id?: string
+          notes?: string | null
+          patient_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medical_history_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       patients: {
         Row: {
           age: number
