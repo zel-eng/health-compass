@@ -1,11 +1,12 @@
-# Task: Fix Patient Dashboard Redirect After Login
+# Git Push and Clone Task
 
 ## Steps:
-1. [x] Update ProtectedRoute.tsx to handle patients without roles yet (default allow /patient for non-doctor users).
-2. [x] Improve App.tsx routing fallback for smoother patient experience.
-3. [ ] Test login flow: bun run dev, create/login patient account.
-4. [ ] Verify PatientDashboard shows HealthForm initially.
-5. [ ] [Complete] Attempt completion.
+- [ ] 1. Confirm git status (modified files)
+- [ ] 2. git add .
+- [ ] 3. git commit -m "feat: update health calculator/chart cards, index.css, and patient dashboard styling"
+- [ ] 4. git push origin main
+- [ ] 5. git clone https://github.com/zel-eng/health-compass ../health-compass-clone
+- [ ] 6. Verify clone and setup (optional: cd ../health-compass-clone && bun install)
 
-Current progress: Routing fixes complete. Test the login flow.
+Progress will be updated after each step.
 
