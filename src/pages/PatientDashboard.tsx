@@ -229,33 +229,62 @@ export default function PatientDashboard() {
             />
           )}
 
-          {/* Summary Cards with blue border styling - visible on mobile, floating effect */}
+          {/* Summary Cards with premium styling and animations */}
           <div className="grid grid-cols-3 gap-3 scroll-fade-in">
             {summaryCards.map((s, idx) => (
-              <div key={s.label} className="scroll-scale-in bg-card/80 frosted-glass rounded-2xl border border-primary/25 md:border-primary/20 backdrop-blur-md p-3 text-center transition-all duration-500 ease-out shadow-soft md:shadow-sm md:hover:-translate-y-1 md:hover:scale-[1.02] md:hover:border-primary/40 md:hover:shadow-soft press-zoom" style={{ animationDelay: `${idx * 100}ms` }}>
-                <s.icon className={`h-5 w-5 mx-auto ${s.color}`} />
-                <p className="text-xl font-bold mt-1">{s.value}</p>
-                <p className="text-[10px] text-muted-foreground">{s.label}</p>
+              <div key={s.label} className="scroll-scale-in group relative bg-gradient-to-br from-card/90 via-card/85 to-card/80 frosted-glass rounded-2xl border border-primary/25 md:border-primary/20 backdrop-blur-md p-3 text-center transition-all duration-500 ease-out shadow-soft md:shadow-sm md:hover:-translate-y-1.5 md:hover:scale-[1.05] md:hover:border-primary/40 md:hover:shadow-elevated press-zoom overflow-hidden" style={{ animationDelay: `${idx * 100}ms` }}>
+                {/* Gradient overlay on hover */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/20 via-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-md" />
+                {/* Shine effect */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-700">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                </div>
+                <div className="relative z-10">
+                  <s.icon className={`h-5 w-5 mx-auto ${s.color} group-hover:scale-110 transition-transform duration-500`} />
+                  <p className="text-xl font-bold mt-1 text-foreground group-hover:text-primary transition-colors duration-500">{s.value}</p>
+                  <p className="text-[10px] text-muted-foreground group-hover:text-muted-foreground/80 transition-colors duration-500">{s.label}</p>
+                </div>
               </div>
             ))}
           </div>
 
-          {/* Action Buttons with blue border styling - visible on mobile, floating effect */}
+          {/* Action Buttons with premium gradients and effects */}
           <div className="grid gap-4 sm:grid-cols-2">
-            <button type="button" onClick={() => handlePanelToggle("add-data")}
-              className="scroll-fade-in rounded-3xl frosted-glass border border-primary/25 md:border-primary/20 bg-gradient-to-br from-card/60 to-card/30 backdrop-blur-md p-4 text-left transition-all duration-500 ease-out shadow-soft md:shadow-sm md:hover:-translate-y-1 md:hover:scale-[1.02] md:hover:border-primary/40 md:hover:from-card/80 md:hover:to-card/50 press-zoom">
-              <p className="text-sm font-semibold text-foreground">Ongeza Data ya Afya</p>
-              <p className="mt-1 text-xs text-muted-foreground">Ingiza vipimo vipya vya afya.</p>
+            <button type="button" onClick={() => handlePanelToggle("add-data")} className="group scroll-fade-in relative rounded-3xl frosted-glass border border-primary/25 md:border-primary/20 bg-gradient-to-br from-card/80 via-card/70 to-card/60 backdrop-blur-md p-4 text-left transition-all duration-500 ease-out shadow-soft md:shadow-sm md:hover:-translate-y-1.5 md:hover:scale-[1.03] md:hover:border-primary/40 md:hover:shadow-elevated press-zoom overflow-hidden">
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/15 via-primary/5 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              {/* Shine effect */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-700">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              </div>
+              <div className="relative z-10">
+                <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors duration-500">Ongeza Data ya Afya</p>
+                <p className="mt-1 text-xs text-muted-foreground group-hover:text-muted-foreground/80 transition-colors duration-500">Ingiza vipimo vipya vya afya.</p>
+              </div>
             </button>
-            <button type="button" onClick={() => handlePanelToggle("insights")}
-              className="scroll-fade-in rounded-3xl frosted-glass border border-primary/25 md:border-primary/20 bg-gradient-to-br from-card/60 to-card/30 backdrop-blur-md p-4 text-left transition-all duration-500 ease-out shadow-soft md:shadow-sm md:hover:-translate-y-1 md:hover:scale-[1.02] md:hover:border-primary/40 md:hover:from-card/80 md:hover:to-card/50 press-zoom" style={{ animationDelay: "100ms" }}>
-              <p className="text-sm font-semibold text-foreground">Mwenendo wa Afya</p>
-              <p className="mt-1 text-xs text-muted-foreground">Angalia charts na trends.</p>
+            <button type="button" onClick={() => handlePanelToggle("insights")} className="group scroll-fade-in relative rounded-3xl frosted-glass border border-primary/25 md:border-primary/20 bg-gradient-to-br from-card/80 via-card/70 to-card/60 backdrop-blur-md p-4 text-left transition-all duration-500 ease-out shadow-soft md:shadow-sm md:hover:-translate-y-1.5 md:hover:scale-[1.03] md:hover:border-primary/40 md:hover:shadow-elevated press-zoom overflow-hidden" style={{ animationDelay: "100ms" }}>
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/15 via-primary/5 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              {/* Shine effect */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-700">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              </div>
+              <div className="relative z-10">
+                <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors duration-500">Mwenendo wa Afya</p>
+                <p className="mt-1 text-xs text-muted-foreground group-hover:text-muted-foreground/80 transition-colors duration-500">Angalia charts na trends.</p>
+              </div>
             </button>
-            <button type="button" onClick={() => handlePanelToggle("calculators")}
-              className="scroll-fade-in rounded-3xl frosted-glass border border-primary/25 md:border-primary/20 bg-gradient-to-br from-card/60 to-card/30 backdrop-blur-md p-4 text-left transition-all duration-500 ease-out shadow-soft md:shadow-sm md:hover:-translate-y-1 md:hover:scale-[1.02] md:hover:border-primary/40 md:hover:from-card/80 md:hover:to-card/50 press-zoom" style={{ animationDelay: "200ms" }}>
-              <p className="text-sm font-semibold text-foreground">Vipimo</p>
-              <p className="mt-1 text-xs text-muted-foreground">BMI, BP status na zaidi.</p>
+            <button type="button" onClick={() => handlePanelToggle("calculators")} className="group scroll-fade-in relative rounded-3xl frosted-glass border border-primary/25 md:border-primary/20 bg-gradient-to-br from-card/80 via-card/70 to-card/60 backdrop-blur-md p-4 text-left transition-all duration-500 ease-out shadow-soft md:shadow-sm md:hover:-translate-y-1.5 md:hover:scale-[1.03] md:hover:border-primary/40 md:hover:shadow-elevated press-zoom overflow-hidden" style={{ animationDelay: "200ms" }}>
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/15 via-primary/5 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              {/* Shine effect */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-700">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              </div>
+              <div className="relative z-10">
+                <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors duration-500">Vipimo</p>
+                <p className="mt-1 text-xs text-muted-foreground group-hover:text-muted-foreground/80 transition-colors duration-500">BMI, BP status na zaidi.</p>
+              </div>
             </button>
           </div>
         </div>
@@ -297,7 +326,7 @@ export default function PatientDashboard() {
               )}
 
               {activeFeature === "insights" && (
-                <div className="space-y-5 py-4">
+                <div className="space-y-5 py-4 animate-fade-in">
                   {insightData.length === 0 ? (
                     <div className="text-center py-12 text-muted-foreground text-sm">
                       <BarChart className="h-10 w-10 mx-auto mb-3 opacity-30" />
@@ -334,7 +363,7 @@ export default function PatientDashboard() {
               )}
 
               {activeFeature === "calculators" && (
-                <div className="space-y-5 py-4">
+                <div className="space-y-5 py-4 animate-fade-in">
                   <div className="grid gap-5 lg:grid-cols-3">
                     <CalculatorCard title="BMI" value={`${bmiValue}`} status={bmiCategory}
                       description="Kulingana na urefu na uzito wako." tone={bmiCategory === "Normal" ? "success" : "warning"}>

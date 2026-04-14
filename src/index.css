@@ -571,4 +571,105 @@
       text-shadow: 0 2px 4px hsla(0, 0%, 0%, 0.4);
     }
   }
+
+  /* ============ PREMIUM HEALTH CARD ANIMATIONS ============ */
+  @keyframes parallax-depth {
+    0% {
+      transform: translateZ(-1px);
+    }
+    100% {
+      transform: translateZ(0);
+    }
+  }
+
+  .animate-parallax-depth {
+    animation: parallax-depth 0.8s ease-out forwards;
+  }
+
+  @keyframes premium-zoom {
+    0% {
+      opacity: 0;
+      transform: scale(0.85);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-premium-zoom {
+    animation: premium-zoom 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  @keyframes gradient-flow {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .animate-gradient-flow {
+    background-size: 200% 200%;
+    animation: gradient-flow 8s ease infinite;
+  }
+
+  @keyframes shine-effect {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  .animate-shine {
+    animation: shine-effect 3s infinite;
+  }
+
+  @keyframes hover-float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-3px);
+    }
+  }
+
+  .animate-hover-float:hover {
+    animation: hover-float 2s ease-in-out infinite;
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  .animate-glow-pulse {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scale-up-enter {
+    0% {
+      opacity: 0;
+      transform: scale(0.9) translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  .animate-scale-up-enter {
+    animation: scale-up-enter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
 }
+
