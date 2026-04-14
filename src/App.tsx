@@ -39,7 +39,7 @@ function AppRoutes() {
   const isDoctor = roles.includes("doctor");
   const isPatient = roles.includes("patient");
 
-  const defaultPath = isAdmin || isDoctor ? "/" : isPatient ? "/patient" : "/";
+  const defaultPath = isAdmin || isDoctor ? "/" : isPatient ? "/patient" : !user ? "/login" : "/patient";
 
   return (
     <Routes>
@@ -63,7 +63,7 @@ function AppRoutes() {
         }
       />
 
-      {/* Catch-all route */}
+      {/* Catch-all route - improved patient default */}
       <Route path="*" element={<Navigate to={defaultPath} replace />} />
     </Routes>
   );

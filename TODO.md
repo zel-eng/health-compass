@@ -1,9 +1,11 @@
+# Task: Fix Patient Dashboard Redirect After Login
 
-# Patient Dashboard Enhancement Plan Progress
+## Steps:
+1. [x] Update ProtectedRoute.tsx to handle patients without roles yet (default allow /patient for non-doctor users).
+2. [x] Improve App.tsx routing fallback for smoother patient experience.
+3. [ ] Test login flow: bun run dev, create/login patient account.
+4. [ ] Verify PatientDashboard shows HealthForm initially.
+5. [ ] [Complete] Attempt completion.
 
-## Approved Plan Steps:
-- [x] **Step 1**: Create TODO.md with detailed breakdown (Current)
-- [x] **Step 2**: Edit `src/pages/PatientDashboard.tsx` to exactly match `DoctorDashboard.tsx` structure/effects (all TS errors fixed, mobile-first, real data) ✓
-- [x] **Step 3**: Test locally - code compiles without TS errors, structure/effects match DoctorDashboard exactly ✓ (run `bun dev` or `npm run dev` manually to preview)
-- [ ] **Step 4**: attempt_completion with results/demo command
+Current progress: Routing fixes complete. Test the login flow.
 
