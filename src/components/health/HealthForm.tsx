@@ -70,19 +70,19 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
 
   return (
     <div className="group scroll-scale-in">
-      <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-slate-100/30 via-slate-200/20 to-slate-300/10 blur-xl opacity-0 group-hover:opacity-60 transition-all duration-700 -z-10" />
-      <Card className="group relative z-10 rounded-3xl border border-slate-200/50 bg-gradient-to-br from-slate-50/95 via-slate-100/90 to-slate-200/85 shadow-soft backdrop-blur-md overflow-hidden transition-all duration-500 hover:border-slate-300/60 hover:shadow-slate-200/60 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02]">
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/20 via-primary/5 to-secondary/10 blur-xl opacity-0 group-hover:opacity-60 transition-all duration-700 -z-10" />
+      <Card className="group relative z-10 rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 bg-gradient-to-br from-card/95 via-card/90 to-card/85 shadow-soft backdrop-blur-md overflow-hidden transition-all duration-500 md:hover:border-primary/40 press-zoom hover-lift md:shadow-sm">
         {/* Shine effect */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none z-20">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
         </div>
         <CardHeader className="space-y-3">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <CardTitle className="text-slate-900 drop-shadow-sm">Data ya Afya</CardTitle>
-              <CardDescription className="text-slate-800/90 drop-shadow-sm">Ingiza vipimo vyako vya hivi karibuni.</CardDescription>
+              <CardTitle className="text-foreground drop-shadow-sm">Data ya Afya</CardTitle>
+              <CardDescription className="text-muted-foreground/90 drop-shadow-sm">Ingiza vipimo vyako vya hivi karibuni.</CardDescription>
             </div>
-            <Badge variant="outline" className="border-slate-300 bg-slate-100/80 text-slate-800 shadow-sm">Structured</Badge>
+            <Badge variant="outline" className="border-primary/30 bg-primary/10 text-primary shadow-sm">Structured</Badge>
           </div>
           {abnormalSummary ? (
             <AlertBanner variant={bpStatus === "Hypertension" ? "danger" : "warning"} title="Tahadhari ya afya" description={abnormalSummary} />
@@ -99,9 +99,9 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
                   rules={{ required: true, min: 70, max: 250 }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-900 font-semibold drop-shadow-sm">Systolic (mmHg)</FormLabel>
+                      <FormLabel className="text-foreground font-semibold drop-shadow-sm">Systolic (mmHg)</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} min={70} max={250} className="h-12 bg-slate-50/90 border-slate-200 shadow-sm hover:bg-slate-100 focus-visible:ring-slate-400 focus-visible:border-slate-400 focus-visible:bg-white transition-all duration-200 rounded-xl" />
+                        <Input type="number" {...field} min={70} max={250} className="h-12 bg-muted/30 border-primary/20 shadow-sm hover:bg-muted/40 focus-visible:ring-primary/50 focus-visible:border-primary/40 focus-visible:bg-card transition-all duration-200 rounded-xl" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -111,9 +111,9 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
                   rules={{ required: true, min: 40, max: 150 }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-900 font-semibold drop-shadow-sm">Diastolic (mmHg)</FormLabel>
+                      <FormLabel className="text-foreground font-semibold drop-shadow-sm">Diastolic (mmHg)</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} min={40} max={150} className="h-12 bg-slate-50/90 border-slate-200 shadow-sm hover:bg-slate-100 focus-visible:ring-slate-400 focus-visible:border-slate-400 focus-visible:bg-white transition-all duration-200 rounded-xl" />
+                        <Input type="number" {...field} min={40} max={150} className="h-12 bg-muted/30 border-primary/20 shadow-sm hover:bg-muted/40 focus-visible:ring-primary/50 focus-visible:border-primary/40 focus-visible:bg-card transition-all duration-200 rounded-xl" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -126,9 +126,9 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
                   rules={{ required: true, min: 30, max: 220 }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-900 font-semibold drop-shadow-sm">Mapigo (bpm)</FormLabel>
+                      <FormLabel className="text-foreground font-semibold drop-shadow-sm">Mapigo (bpm)</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} min={30} max={220} className="h-12 bg-slate-50/90 border-slate-200 shadow-sm hover:bg-slate-100 focus-visible:ring-slate-400 focus-visible:border-slate-400 focus-visible:bg-white transition-all duration-200 rounded-xl" />
+                        <Input type="number" {...field} min={30} max={220} className="h-12 bg-muted/30 border-primary/20 shadow-sm hover:bg-muted/40 focus-visible:ring-primary/50 focus-visible:border-primary/40 focus-visible:bg-card transition-all duration-200 rounded-xl" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -138,9 +138,9 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
                   rules={{ required: true, min: 34, max: 42 }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-900 font-semibold drop-shadow-sm">Joto (°C)</FormLabel>
+                      <FormLabel className="text-foreground font-semibold drop-shadow-sm">Joto (°C)</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} min={34} max={42} step={0.1} className="h-12 bg-slate-50/90 border-slate-200 shadow-sm hover:bg-slate-100 focus-visible:ring-slate-400 focus-visible:border-slate-400 focus-visible:bg-white transition-all duration-200 rounded-xl" />
+                        <Input type="number" {...field} min={34} max={42} step={0.1} className="h-12 bg-muted/30 border-primary/20 shadow-sm hover:bg-muted/40 focus-visible:ring-primary/50 focus-visible:border-primary/40 focus-visible:bg-card transition-all duration-200 rounded-xl" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -152,9 +152,9 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
                 rules={{ required: true, min: 20, max: 300 }}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-slate-900 font-semibold drop-shadow-sm">Uzito (kg)</FormLabel>
+                    <FormLabel className="text-foreground font-semibold drop-shadow-sm">Uzito (kg)</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} min={20} max={300} step={0.1} className="h-12 bg-slate-50/90 border-slate-200 shadow-sm hover:bg-slate-100 focus-visible:ring-slate-400 focus-visible:border-slate-400 focus-visible:bg-white transition-all duration-200 rounded-xl" />
+                      <Input type="number" {...field} min={20} max={300} step={0.1} className="h-12 bg-muted/30 border-primary/20 shadow-sm hover:bg-muted/40 focus-visible:ring-primary/50 focus-visible:border-primary/40 focus-visible:bg-card transition-all duration-200 rounded-xl" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -162,7 +162,7 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
               />
 
               <CardFooter className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between px-0">
-                <p className="text-sm text-slate-800 font-medium drop-shadow-sm">BP: <span className="font-semibold text-slate-900 drop-shadow-sm">{bpStatus}</span></p>
+                <p className="text-sm text-muted-foreground font-medium drop-shadow-sm">BP: <span className="font-semibold text-foreground drop-shadow-sm">{bpStatus}</span></p>
                 <Button type="submit" disabled={addEntry.isPending}>
                   {addEntry.isPending ? "Inahifadhi..." : "Hifadhi data"}
                 </Button>

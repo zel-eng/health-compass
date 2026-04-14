@@ -34,7 +34,7 @@ export function CalculatorCard({ title, value, status, description, tone = "defa
       {/* Gradient overlay background */}
       <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${gradientClass} blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
       
-      <Card className="relative rounded-3xl border border-primary/25 md:border-primary/20 bg-gradient-to-br from-card/95 via-card/90 to-card/85 shadow-soft md:shadow-sm backdrop-blur-md overflow-hidden transition-all duration-500 ease-out group-hover:border-primary/40 group-hover:shadow-elevated group-hover:-translate-y-1 group-hover:scale-[1.02]">
+      <Card className="relative rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 bg-gradient-to-br from-card/95 via-card/90 to-card/85 shadow-soft md:shadow-sm backdrop-blur-md overflow-hidden transition-all duration-500 ease-out group-hover:border-primary/40 group-hover:shadow-elevated group-hover:-translate-y-1 group-hover:scale-[1.02] press-zoom hover-lift">
         {/* Animated gradient shine effect on hover */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-700">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
