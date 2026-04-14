@@ -9,7 +9,7 @@ import { CalculatorCard } from "@/components/health/CalculatorCard";
 import { ChartCard } from "@/components/health/ChartCard";
 import { HealthForm } from "@/components/health/HealthForm";
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { HeartPulse, Users, Bell, LogOut, LayoutDashboard, Calculator, BarChart, Activity } from "lucide-react";
+import { HeartPulse, Users, Bell, LogOut, LayoutDashboard, Calculator, BarChart, Activity, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, BarChart as RechartsBarChart, Bar } from "recharts";
 import {
@@ -101,11 +101,65 @@ export default function PatientDashboard() {
 
   if (!patient) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-background p-6 text-center">
-        <HeartPulse className="h-12 w-12 text-muted-foreground mb-4" />
-        <h2 className="text-lg font-bold">Hakuna rekodi ya mgonjwa</h2>
-        <p className="text-sm text-muted-foreground mt-2">Tafadhali wasiliana na msimamizi wa mfumo.</p>
-        <Button variant="outline" className="mt-4" onClick={signOut}>Toka</Button>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-background p-6 text-center pb-32">
+        <div className="max-w-md space-y-6">
+          <div className="flex justify-center">
+            <div className="relative">
+              <div className="absolute inset-0 bg-primary/20 blur-2xl" />
+              <HeartPulse className="h-16 w-16 text-primary relative" />
+            </div>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-foreground mb-2">Karibu kwenye MedFlow!</h2>
+            <p className="text-sm text-muted-foreground">Hii ni dashboard yako ya afya. Anza kwa kuongeza vipimo vyako vya afya.</p>
+          </div>
+          
+          <div className="bg-card border border-border/50 rounded-2xl p-4 text-left space-y-3">
+            <div className="flex items-start gap-3">
+              <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span className="text-xs font-bold text-primary">1</span>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Ongeza vipimo</p>
+                <p className="text-xs text-muted-foreground">Blood pressure, heart rate, na uzani</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span className="text-xs font-bold text-primary">2</span>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Tazama trends</p>
+                <p className="text-xs text-muted-foreground">Kuzama hali yako ya afya kwa muda</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span className="text-xs font-bold text-primary">3</span>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Pata insights</p>
+                <p className="text-xs text-muted-foreground">Ujumbe kuhusu hali yako ya afya</p>
+              </div>
+            </div>
+          </div>
+          
+          <Button 
+            className="w-full h-11 rounded-xl" 
+            onClick={() => setActiveFeature("add-data")}
+          >
+            Anza Kuongeza Vipimo
+            <ArrowRight className="h-4 w-4 ml-2" />
+          </Button>
+          
+          <Button 
+            variant="outline" 
+            className="w-full h-11 rounded-xl" 
+            onClick={signOut}
+          >
+            Toka
+          </Button>
+        </div>
       </div>
     );
   }
