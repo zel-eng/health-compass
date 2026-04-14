@@ -7,7 +7,6 @@ import { AuthProvider, useAuth } from "@/hooks/use-auth";
 import Auth from "@/pages/Auth";
 import Landing from "@/pages/Landing";
 import Index from "@/pages/Index";
-import AdminDashboard from "@/pages/AdminDashboard";
 import PatientDashboard from "@/pages/PatientDashboard";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
@@ -40,18 +39,11 @@ function AppRoutes() {
   const isDoctor = roles.includes("doctor");
   const isPatient = roles.includes("patient");
 
-  const defaultPath = isAdmin ? "/admin" : isDoctor ? "/" : isPatient ? "/patient" : "/";
+  const defaultPath = isAdmin || isDoctor ? "/" : isPatient ? "/patient" : "/";
 
   return (
     <Routes>
-      <Route
-        path="/admin"
-        element={
-          <ProtectedRoute allowedRoles={["admin"]}>
-            <AdminDashboard />
-          </ProtectedRoute>
-        }
-      />
+      {/* Main dashboard for Doctor and Admin */}
       <Route
         path="/"
         element={
@@ -60,6 +52,8 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+      
+      {/* Patient dashboard */}
       <Route
         path="/patient"
         element={
@@ -68,6 +62,8 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
+      {/* Catch-all route */}
       <Route path="*" element={<Navigate to={defaultPath} replace />} />
     </Routes>
   );
