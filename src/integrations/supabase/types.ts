@@ -143,6 +143,53 @@ export type Database = {
           },
         ]
       }
+      health_entries: {
+        Row: {
+          created_at: string
+          diastolic: number
+          heart_rate: number
+          id: string
+          patient_id: string
+          recorded_date: string
+          systolic: number
+          temperature: number
+          user_id: string
+          weight: number
+        }
+        Insert: {
+          created_at?: string
+          diastolic: number
+          heart_rate: number
+          id?: string
+          patient_id: string
+          recorded_date?: string
+          systolic: number
+          temperature?: number
+          user_id: string
+          weight: number
+        }
+        Update: {
+          created_at?: string
+          diastolic?: number
+          heart_rate?: number
+          id?: string
+          patient_id?: string
+          recorded_date?: string
+          systolic?: number
+          temperature?: number
+          user_id?: string
+          weight?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "health_entries_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       medical_history: {
         Row: {
           condition: string
