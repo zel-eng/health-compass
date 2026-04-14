@@ -31,11 +31,11 @@ export default function Auth() {
         navigate("/patient");
       }
     } else if (user && roles.length === 0) {
-      // If user is logged in but no roles yet, default to patient (most common)
-      // This handles case where roles are being fetched
+      // If user is logged in but no roles yet, wait a bit then default to patient
+      // This handles case where roles are being fetched or just created
       const timer = setTimeout(() => {
         navigate("/patient");
-      }, 1000);
+      }, 500);
       return () => clearTimeout(timer);
     }
   }, [user, roles, navigate]);
@@ -59,6 +59,35 @@ export default function Auth() {
         if (data?.user?.identities?.length === 0) {
           toast.error("Email address already registered");
         } else {
+          // Attempt to create profile, role, and patient record immediately
+          if (data.user?.id) {
+            try {
+              // Create profile
+              await supabase.from("profiles").upsert({
+                user_id: data.user.id,
+                full_name: fullName,
+              }, { onConflict: "user_id" });
+
+              // Create patient role
+              await supabase.from("user_roles").upsert({
+                user_id: data.user.id,
+                role: "patient",
+              }, { onConflict: "user_id,role" });
+
+              // Create patient record with generated code
+              const patientCode = "PT-" + String(Math.floor(Math.random() * 99999)).padStart(5, "0");
+              await supabase.from("patients").insert({
+                user_id: data.user.id,
+                patient_code: patientCode,
+                name: fullName || "Patient",
+                age: 0,
+                gender: "unknown",
+              });
+            } catch (err) {
+              console.log("Note: Some records may already exist, continuing...", err);
+            }
+          }
+
           toast.success("Angalia email yako kwa link ya kuthibitisha akaunti. Baada ya confirmation, utapata access kwa dashboard.");
           // Clear form
           setEmail("");
@@ -69,6 +98,46 @@ export default function Auth() {
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
+
+        // After sign in, ensure patient record exists
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user?.id) {
+          try {
+            // Ensure profile exists
+            const profileRes = await supabase.from("profiles").select("*").eq("user_id", user.id).single();
+            if (!profileRes.data) {
+              await supabase.from("profiles").insert({
+                user_id: user.id,
+                full_name: user.email?.split("@")[0] || "User",
+              });
+            }
+
+            // Ensure role exists
+            const roleRes = await supabase.from("user_roles").select("*").eq("user_id", user.id);
+            if (!roleRes.data || roleRes.data.length === 0) {
+              await supabase.from("user_roles").insert({
+                user_id: user.id,
+                role: "patient",
+              });
+            }
+
+            // Ensure patient record exists
+            const patientRes = await supabase.from("patients").select("*").eq("user_id", user.id);
+            if (!patientRes.data || patientRes.data.length === 0) {
+              const patientCode = "PT-" + String(Math.floor(Math.random() * 99999)).padStart(5, "0");
+              await supabase.from("patients").insert({
+                user_id: user.id,
+                patient_code: patientCode,
+                name: user.email?.split("@")[0] || "Patient",
+                age: 0,
+                gender: "unknown",
+              });
+            }
+          } catch (err) {
+            console.log("Note: Some records may already exist", err);
+          }
+        }
+
         toast.success("Karibu!");
       }
     } catch (err: any) {
