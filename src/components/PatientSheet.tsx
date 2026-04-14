@@ -53,7 +53,7 @@ export function PatientSheet({ patientId, onClose }: PatientSheetProps) {
           <div className="flex items-center justify-between p-4">
             <div className="w-10 h-1 rounded-full bg-muted-foreground/40 mx-auto absolute left-1/2 -translate-x-1/2 top-3 transition-colors" />
             <span className="text-xs font-medium text-muted-foreground">Patient Details</span>
-            <button onClick={onClose} className="h-8 w-8 rounded-full bg-muted/50 flex items-center justify-center press-zoom hover-lift transition-all backdrop-blur-sm border border-white/20">
+            <button onClick={onClose} className="h-8 w-8 rounded-full bg-muted/50 flex items-center justify-center press-zoom hover-lift transition-all backdrop-blur-sm border border-primary/20 md:hover:border-primary/40">
               <X className="h-4 w-4" />
             </button>
           </div>
@@ -125,11 +125,11 @@ function OverviewTab({ patient, vitals, patientAlerts }: any) {
     <>
       {/* Vitals Cards with modern styling */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 hover-lift transition-all shadow-soft">
+        <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 md:hover-lift transition-all shadow-soft md:shadow-sm md:hover:border-primary/40">
           <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium">BP</p>
           <p className="text-3xl font-bold text-foreground mt-2">{patient.bp || "—"}</p>
         </div>
-        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 hover-lift transition-all shadow-soft">
+        <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 md:hover-lift transition-all shadow-soft md:shadow-sm md:hover:border-primary/40">
           <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium">Sugar</p>
           <p className="text-3xl font-bold text-foreground mt-2">{patient.sugar ?? "—"} <span className="text-sm font-normal">mg/dL</span></p>
         </div>
@@ -137,7 +137,7 @@ function OverviewTab({ patient, vitals, patientAlerts }: any) {
 
       {/* Medicines with modern card styling */}
       {(patient.medicines ?? []).length > 0 && (
-        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 hover-lift transition-all shadow-soft">
+        <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 md:hover-lift transition-all shadow-soft md:shadow-sm md:hover:border-primary/40">
           <div className="flex items-center gap-2.5 mb-3">
             <div className="h-8 w-8 rounded-lg bg-primary/20 flex items-center justify-center">
               <Pill className="h-4 w-4 text-primary" />
@@ -146,7 +146,7 @@ function OverviewTab({ patient, vitals, patientAlerts }: any) {
           </div>
           <div className="space-y-2">
             {(patient.medicines ?? []).map((m: string, i: number) => (
-              <div key={i} className="text-sm bg-white/30 rounded-xl px-3.5 py-2.5 text-foreground backdrop-blur-sm border border-white/20 font-medium">{m}</div>
+              <div key={i} className="text-sm bg-white/30 rounded-xl px-3.5 py-2.5 text-foreground backdrop-blur-sm border border-primary/20 font-medium">{m}</div>
             ))}
           </div>
         </div>
@@ -154,7 +154,7 @@ function OverviewTab({ patient, vitals, patientAlerts }: any) {
 
       {/* Alerts with animation */}
       {patientAlerts.length > 0 && (
-        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 hover-lift transition-all shadow-soft">
+        <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 md:hover-lift transition-all shadow-soft md:shadow-sm md:hover:border-primary/40">
           <div className="flex items-center gap-2.5 mb-3">
             <div className="h-8 w-8 rounded-lg bg-warning/20 flex items-center justify-center">
               <AlertTriangle className="h-4 w-4 text-warning" />
@@ -174,7 +174,7 @@ function OverviewTab({ patient, vitals, patientAlerts }: any) {
 
       {/* Vitals Chart with modern styling */}
       {vitals.length > 0 && (
-        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 hover-lift transition-all shadow-soft">
+        <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 md:hover-lift transition-all shadow-soft md:shadow-sm md:hover:border-primary/40">
           <div className="flex items-center gap-2.5 mb-3">
             <div className="h-8 w-8 rounded-lg bg-primary/20 flex items-center justify-center">
               <TrendingUp className="h-4 w-4 text-primary" />
@@ -205,7 +205,7 @@ function OverviewTab({ patient, vitals, patientAlerts }: any) {
 
       {/* Notes with modern styling */}
       {patient.notes && (
-        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 hover-lift transition-all shadow-soft">
+        <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 md:hover-lift transition-all shadow-soft md:shadow-sm md:hover:border-primary/40">
           <h3 className="text-sm font-semibold text-foreground mb-2">Maelezo</h3>
           <p className="text-xs text-muted-foreground leading-relaxed">{patient.notes}</p>
         </div>
@@ -246,10 +246,10 @@ function HistoryTab({ patientId, history }: { patientId: string; history: any[] 
       </div>
 
       {showForm && (
-        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 space-y-3 animate-scale-in shadow-soft">
-          <Input placeholder="Hali/Ugonjwa" value={condition} onChange={e => setCondition(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
-          <Input type="date" value={diagDate} onChange={e => setDiagDate(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
-          <Input placeholder="Maelezo..." value={notes} onChange={e => setNotes(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
+        <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 space-y-3 animate-scale-in shadow-soft md:shadow-sm md:hover:border-primary/40">
+          <Input placeholder="Hali/Ugonjwa" value={condition} onChange={e => setCondition(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
+          <Input type="date" value={diagDate} onChange={e => setDiagDate(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
+          <Input placeholder="Maelezo..." value={notes} onChange={e => setNotes(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
           <div className="flex gap-2">
             <Button size="sm" className="rounded-xl text-xs flex-1 shadow-soft" onClick={handleAdd} disabled={addHistory.isPending}>Hifadhi</Button>
             <Button size="sm" variant="ghost" className="rounded-xl text-xs" onClick={() => setShowForm(false)}>Ghairi</Button>
@@ -267,7 +267,7 @@ function HistoryTab({ patientId, history }: { patientId: string; history: any[] 
       ) : (
         <div className="space-y-2.5">
           {history.map((h, i) => (
-            <div key={h.id} className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-3.5 hover-lift transition-all shadow-soft scroll-fade-in" style={{ animationDelay: `${i * 50}ms` }}>
+            <div key={h.id} className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-3.5 md:hover-lift transition-all shadow-soft md:shadow-sm md:hover:border-primary/40 scroll-fade-in" style={{ animationDelay: `${i * 50}ms` }}>
               <div className="flex items-center justify-between gap-2">
                 <p className="text-sm font-semibold text-foreground">{h.condition}</p>
                 <Badge variant="outline" className={`text-[10px] font-medium ${h.status === "active" ? "bg-warning/10 text-warning" : "bg-success/10 text-success"}`}>
@@ -312,8 +312,8 @@ function AllergiesTab({ patientId, allergies }: { patientId: string; allergies: 
       </div>
 
       {showForm && (
-        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 space-y-3 animate-scale-in shadow-soft">
-          <Input placeholder="Kitu kinachosababisha mzio" value={allergen} onChange={e => setAllergen(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
+        <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 space-y-3 animate-scale-in shadow-soft md:shadow-sm md:hover:border-primary/40">
+          <Input placeholder="Kitu kinachosababisha mzio" value={allergen} onChange={e => setAllergen(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
           <div className="flex gap-2">
             {["mild", "moderate", "severe"].map(s => (
               <button key={s} onClick={() => setSeverity(s)}
@@ -321,7 +321,7 @@ function AllergiesTab({ patientId, allergies }: { patientId: string; allergies: 
               >{s}</button>
             ))}
           </div>
-          <Input placeholder="Athari (reaction)" value={reaction} onChange={e => setReaction(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
+          <Input placeholder="Athari (reaction)" value={reaction} onChange={e => setReaction(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
           <div className="flex gap-2">
             <Button size="sm" className="rounded-xl text-xs flex-1 shadow-soft" onClick={handleAdd} disabled={addAllergy.isPending}>Hifadhi</Button>
             <Button size="sm" variant="ghost" className="rounded-xl text-xs" onClick={() => setShowForm(false)}>Ghairi</Button>
@@ -338,7 +338,7 @@ function AllergiesTab({ patientId, allergies }: { patientId: string; allergies: 
       ) : (
         <div className="space-y-2.5">
           {allergies.map((a, i) => (
-            <div key={a.id} className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-3.5 flex items-center justify-between hover-lift transition-all shadow-soft scroll-fade-in" style={{ animationDelay: `${i * 50}ms` }}>
+            <div key={a.id} className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-3.5 flex items-center justify-between md:hover-lift transition-all shadow-soft md:shadow-sm md:hover:border-primary/40 scroll-fade-in" style={{ animationDelay: `${i * 50}ms` }}>
               <div className="flex-1">
                 <div className="flex items-center gap-2.5 flex-wrap">
                   <p className="text-sm font-semibold text-foreground">{a.allergen}</p>
@@ -400,13 +400,13 @@ function AppointmentsTab({ patientId, appointments }: { patientId: string; appoi
       </div>
 
       {showForm && (
-        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 space-y-3 animate-scale-in shadow-soft">
-          <Input placeholder="Jina la daktari" value={doctorName} onChange={e => setDoctorName(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
+        <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 space-y-3 animate-scale-in shadow-soft md:shadow-sm md:hover:border-primary/40">
+          <Input placeholder="Jina la daktari" value={doctorName} onChange={e => setDoctorName(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
           <div className="grid grid-cols-2 gap-2">
-            <Input type="date" value={date} onChange={e => setDate(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
-            <Input type="time" value={time} onChange={e => setTime(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
+            <Input type="date" value={date} onChange={e => setDate(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
+            <Input type="time" value={time} onChange={e => setTime(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
           </div>
-          <Input placeholder="Sababu ya miadi" value={reason} onChange={e => setReason(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-white/30" />
+          <Input placeholder="Sababu ya miadi" value={reason} onChange={e => setReason(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
           <div className="flex gap-2">
             <Button size="sm" className="rounded-xl text-xs flex-1 shadow-soft" onClick={handleCreate} disabled={createAppt.isPending}>Hifadhi</Button>
             <Button size="sm" variant="ghost" className="rounded-xl text-xs" onClick={() => setShowForm(false)}>Ghairi</Button>
@@ -424,7 +424,7 @@ function AppointmentsTab({ patientId, appointments }: { patientId: string; appoi
       ) : (
         <div className="space-y-2.5">
           {appointments.map((a, i) => (
-            <div key={a.id} className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-3.5 hover-lift transition-all shadow-soft scroll-fade-in" style={{ animationDelay: `${i * 50}ms` }}>
+            <div key={a.id} className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-3.5 md:hover-lift transition-all shadow-soft md:shadow-sm md:hover:border-primary/40 scroll-fade-in" style={{ animationDelay: `${i * 50}ms` }}>
               <div className="flex items-center justify-between gap-2">
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-foreground">{a.doctor_name || "Daktari"}</p>
