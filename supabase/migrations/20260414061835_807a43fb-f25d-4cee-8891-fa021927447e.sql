@@ -47,6 +47,12 @@ DROP POLICY IF EXISTS "Anyone can read patients" ON public.patients;
 DROP POLICY IF EXISTS "Anyone can insert patients" ON public.patients;
 DROP POLICY IF EXISTS "Anyone can update patients" ON public.patients;
 DROP POLICY IF EXISTS "Anyone can delete patients" ON public.patients;
+DROP POLICY IF EXISTS "Patients can view own record" ON public.patients;
+DROP POLICY IF EXISTS "Doctors can view all patients" ON public.patients;
+DROP POLICY IF EXISTS "Admins full access patients" ON public.patients;
+DROP POLICY IF EXISTS "Patients can update own record" ON public.patients;
+DROP POLICY IF EXISTS "Doctors can update patients" ON public.patients;
+DROP POLICY IF EXISTS "System can insert patients" ON public.patients;
 
 -- Patients can view their own record
 CREATE POLICY "Patients can view own record" ON public.patients
