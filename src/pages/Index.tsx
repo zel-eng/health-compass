@@ -10,16 +10,19 @@ import { SettingsSection } from "@/components/sections/SettingsSection";
 import { PatientSheet } from "@/components/PatientSheet";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { useAuth } from "@/hooks/use-auth";
+import { useI18n } from "@/hooks/useI18n";
 import { X, Stethoscope, Shield, LogOut } from "lucide-react";
 
 type OverlaySection = "patients" | "records" | "alerts" | "settings" | null;
 
-const overlayTitles: Record<string, string> = {
-  patients: "Patients",
-  records: "Health Records",
-  alerts: "Alerts & Reminders",
-  settings: "Settings",
-};
+  const { t } = useI18n();
+  
+  const overlayTitles: Record<string, string> = {
+    patients: t('overlay.patients'),
+    records: t('overlay.records'),
+    alerts: t('overlay.alerts'),
+    settings: t('overlay.settings'),
+  };
 
 export default function Index() {
   const { profile, roles, signOut } = useAuth();
@@ -71,10 +74,10 @@ export default function Index() {
                 <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
                   {isAdmin ? <Shield className="h-5 w-5 text-primary" /> : <Stethoscope className="h-5 w-5 text-primary" />}
                 </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">{isAdmin ? "Admin Panel" : "Karibu, Daktari"}</p>
-                  <h1 className="text-lg font-bold text-foreground">{profile?.full_name || (isAdmin ? "Admin" : "Doctor")}</h1>
-                </div>
+              <div>
+                <p className="text-sm text-muted-foreground">{isAdmin ? t('dashboard.adminPanel') : t('dashboard.welcomeDoctor')}</p>
+                <h1 className="text-lg font-bold text-foreground">{profile?.full_name || (isAdmin ? t('dashboard.adminPanel') : t('dashboard.doctor'))}</h1>
+              </div>
               </div>
               <Button variant="ghost" size="icon" onClick={signOut} className="hover-lift">
                 <LogOut className="h-5 w-5" />

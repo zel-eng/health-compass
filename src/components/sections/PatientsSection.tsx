@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Search, ChevronRight, ChevronDown } from "lucide-react";
 import { usePatients } from "@/hooks/use-data";
+import { useI18n } from "@/hooks/useI18n";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,13 +17,17 @@ interface PatientsSectionProps {
 }
 
 export function PatientsSection({ onSelectPatient }: PatientsSectionProps) {
+  const { t } = useI18n();
   const { data: patients = [], isLoading } = usePatients();
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
   const [expandView, setExpandView] = useState(false);
   const INITIAL_DISPLAY = 3; // Show 3 patients initially on mobile
 
-  const filters = ["All", "High Risk", "Chronic"];
+  const filters = ["All", t('dashboard.highRisk'), t('dashboard.chronic')];
+
+
+// filters updated above with t()
 
   const filtered = patients.filter((p) => {
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -42,13 +47,13 @@ export function PatientsSection({ onSelectPatient }: PatientsSectionProps) {
 
   return (
     <section className="px-5 py-4">
-      <h2 className="text-lg font-bold text-foreground scroll-fade-in">Patients</h2>
+      <h2 className="text-lg font-bold text-foreground scroll-fade-in">{t('dashboard.patientsTitle')}</h2>
 
       {/* Search bar with modern styling */}
       <div className="relative mt-3 scroll-fade-in" style={{ animationDelay: "100ms" }}>
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
-          placeholder="Search patients..."
+          placeholder={t('dashboard.searchPatients')}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="pl-9 h-10 rounded-xl bg-white/50 backdrop-blur-sm border-white/30 text-sm frosted-glass focus-ring transition-all shadow-soft"

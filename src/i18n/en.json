@@ -1,0 +1,39 @@
+{
+  "dashboard": {
+    "title": "MedFlow",
+    "greetingMorning": "Good Morning",
+    "greetingAfternoon": "Good Afternoon",
+    "greetingEvening": "Good Evening",
+    "welcomeDoctor": "Welcome, Doctor",
+    "adminPanel": "Admin Panel",
+    "yourSummary": "your health summary",
+    "patients": "Patients",
+    "risks": "Risks",
+    "alerts": "Alerts",
+    "home": "Home",
+    "records": "Records",
+    "settings": "Settings",
+    "logout": "Logout",
+    "patientsTitle": "Patients",
+    "searchPatients": "Search patients...",
+    "highRisk": "High Risk",
+    "chronic": "Chronic",
+    "viewMore": "View More",
+    "viewLess": "View Less",
+    "noPatients": "No patients found",
+    "upcomingAppointments": "Upcoming Appointments"
+  },
+  "nav": {
+    "home": "Home",
+    "patients": "Patients",
+    "records": "Records",
+    "alerts": "Alerts",
+    "settings": "Settings"
+  },
+  "overlay": {
+    "patients": "Patients",
+    "records": "Health Records",
+    "alerts": "Alerts & Reminders",
+    "settings": "Settings"
+  }
+}

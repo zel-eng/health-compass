@@ -1,6 +1,7 @@
 import { Heart, Users, AlertTriangle, Bell, Calendar, Sparkles } from "lucide-react";
 import { useStats, useAppointments } from "@/hooks/use-data";
 import { useAuth } from "@/hooks/use-auth";
+import { useI18n } from "@/hooks/useI18n";
 
 export function HeroSection() {
   const { profile } = useAuth();
@@ -8,13 +9,14 @@ export function HeroSection() {
   const { data: appointments = [] } = useAppointments();
 
   const upcoming = appointments.filter(a => a.status === "scheduled").slice(0, 2);
+  const { t } = useI18n();
   const hour = new Date().getHours();
-  const greeting = hour < 12 ? "Habari za asubuhi" : hour < 17 ? "Habari za mchana" : "Habari za jioni";
+  const greeting = hour < 12 ? t('dashboard.greetingMorning') : hour < 17 ? t('dashboard.greetingAfternoon') : t('dashboard.greetingEvening');
 
   const cards = [
-    { label: "Wagonjwa", value: stats?.totalPatients ?? "—", icon: Users, color: "bg-primary/10 text-primary" },
-    { label: "Hatari", value: stats?.highRisk ?? "—", icon: AlertTriangle, color: "bg-destructive/10 text-destructive" },
-    { label: "Arifa", value: stats?.activeAlerts ?? "—", icon: Bell, color: "bg-warning/10 text-warning" },
+    { label: t('dashboard.patients'), value: stats?.totalPatients ?? "—", icon: Users, color: "bg-primary/10 text-primary" },
+    { label: t('dashboard.risks'), value: stats?.highRisk ?? "—", icon: AlertTriangle, color: "bg-destructive/10 text-destructive" },
+    { label: t('dashboard.alerts'), value: stats?.activeAlerts ?? "—", icon: Bell, color: "bg-warning/10 text-warning" },
   ];
 
   return (

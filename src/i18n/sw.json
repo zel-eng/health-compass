@@ -1,0 +1,39 @@
+{
+  "dashboard": {
+    "title": "MedFlow",
+    "greetingMorning": "Habari za asubuhi",
+    "greetingAfternoon": "Habari za mchana",
+    "greetingEvening": "Habari za jioni",
+    "welcomeDoctor": "Karibu, Daktari",
+    "adminPanel": "Bodi la Admin",
+    "yourSummary": "ni muhtasari wako wa afya",
+    "patients": "Wagonjwa",
+    "risks": "Hatari",
+    "alerts": "Arifa",
+    "home": "Nyumbani",
+    "records": "Rekodi",
+    "settings": "Mipangilio",
+    "logout": "Ondoka",
+    "patientsTitle": "Wagonjwa",
+    "searchPatients": "Tafuta wagonjwa...",
+    "highRisk": "Hatari Kubwa",
+    "chronic": "Muda Mrefu",
+    "viewMore": "Angalia Zaidi",
+    "viewLess": "Angalia Kidogo",
+    "noPatients": "Hakuna wagonjwa walipopatikana",
+    "upcomingAppointments": "Miadi Inayokuja"
+  },
+  "nav": {
+    "home": "Nyumbani",
+    "patients": "Wagonjwa",
+    "records": "Rekodi",
+    "alerts": "Arifa",
+    "settings": "Mipangilio"
+  },
+  "overlay": {
+    "patients": "Wagonjwa",
+    "records": "Rekodi za Afya",
+    "alerts": "Arifa & Vikumbusho",
+    "settings": "Mipangilio"
+  }
+}

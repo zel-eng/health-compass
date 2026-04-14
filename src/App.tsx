@@ -9,6 +9,7 @@ import Landing from "@/pages/Landing";
 import Index from "@/pages/Index";
 import PatientDashboard from "@/pages/PatientDashboard";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { I18nProvider } from "@/hooks/useI18n";
 
 const queryClient = new QueryClient();
 
@@ -74,11 +75,13 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <AuthProvider>
-          <AppRoutes />
-        </AuthProvider>
-      </BrowserRouter>
+      <I18nProvider>
+        <BrowserRouter>
+          <AuthProvider>
+            <AppRoutes />
+          </AuthProvider>
+        </BrowserRouter>
+      </I18nProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
