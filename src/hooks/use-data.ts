@@ -99,7 +99,7 @@ export function usePatientByUserId(userId: string | undefined) {
       const { data, error } = await supabase.from("patients").select("*").eq("user_id", userId!).single();
       
       // If patient record doesn't exist, create one
-      if (error?.code === "PGRST116") {
+      if (error?.code === "PGRST116" || error?.message?.includes("No rows found")) {
         const patientCode = "PT-" + String(Math.floor(Math.random() * 99999)).padStart(5, "0");
         const { data: newPatient, error: createError } = await supabase
           .from("patients")
@@ -113,14 +113,37 @@ export function usePatientByUserId(userId: string | undefined) {
           .select("*")
           .single();
         
-        if (createError) throw createError;
+        if (createError) {
+          console.error("Error creating patient record:", createError);
+          // Return a minimal patient object so at least the UI doesn't break
+          return {
+            id: userId!,
+            user_id: userId!,
+            patient_code: patientCode,
+            name: "Patient",
+            age: 0,
+            gender: "unknown",
+            condition: "",
+            risk_level: "low",
+            last_visit: null,
+            phone: null,
+            bp: null,
+            sugar: null,
+            medicines: null,
+            notes: null,
+          } as DbPatient;
+        }
         return newPatient as DbPatient;
       }
       
-      if (error) throw error;
+      if (error) {
+        console.error("Error fetching patient:", error);
+        throw error;
+      }
       return data as DbPatient;
     },
-    retry: 1, // Retry once if there's a transient error
+    retry: 2, // Retry up to 2 times if there's a transient error
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
   });
 }
 

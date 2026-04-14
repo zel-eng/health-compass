@@ -99,6 +99,14 @@ export default function PatientDashboard() {
     );
   }
 
+  if (patientLoading && !patient) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="h-8 w-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+      </div>
+    );
+  }
+
   if (!patient) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-background p-6 text-center pb-32">
@@ -146,7 +154,7 @@ export default function PatientDashboard() {
           
           <Button 
             className="w-full h-11 rounded-xl" 
-            onClick={() => setActiveFeature("add-data")}
+            onClick={() => window.location.reload()}
           >
             Anza Kuongeza Vipimo
             <ArrowRight className="h-4 w-4 ml-2" />
