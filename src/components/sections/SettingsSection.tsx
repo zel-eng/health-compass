@@ -1,16 +1,20 @@
 import { Moon, Bell, Shield, Info } from "lucide-react";
+import { useI18n } from "@/hooks/useI18n";
+import { LanguageToggle } from "@/components/LanguageToggle";
 
 export function SettingsSection() {
+  const { t } = useI18n();
+
   return (
     <section className="px-5 py-4">
-      <h2 className="text-lg font-bold text-foreground scroll-fade-in">Settings</h2>
+      <h2 className="text-lg font-bold text-foreground scroll-fade-in">{t('settings.title')}</h2>
 
       <div className="space-y-3 mt-4">
         {[
-          { icon: Bell, label: "Notifications", desc: "Manage alert preferences" },
-          { icon: Moon, label: "Appearance", desc: "Theme & display options" },
-          { icon: Shield, label: "Privacy", desc: "Data & security settings" },
-          { icon: Info, label: "About MedFlow", desc: "Version 2.0.0" },
+          { icon: Bell, label: t('settings.notifications'), desc: t('settings.notificationsDesc') },
+          { icon: Moon, label: t('settings.appearance'), desc: t('settings.appearanceDesc') },
+          { icon: Shield, label: t('settings.privacy'), desc: t('settings.privacyDesc') },
+          { icon: Info, label: t('settings.about'), desc: t('settings.aboutDesc') },
         ].map((item, i) => (
           <button
             key={item.label}
@@ -26,6 +30,14 @@ export function SettingsSection() {
             </div>
           </button>
         ))}
+        
+        {/* Language Toggle Section */}
+        <div className="mt-6 pt-4 border-t border-primary/20">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">{t('common.language')}</p>
+          <div className="flex justify-center">
+            <LanguageToggle />
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -3,14 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { useAuth } from "@/hooks/use-auth";
+import { useI18n } from "@/hooks/useI18n";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { LanguageToggle } from "@/components/LanguageToggle";
 import { toast } from "sonner";
 import { Heart, Mail, Lock, User, ArrowRight } from "lucide-react";
 
 export default function Auth() {
   const navigate = useNavigate();
   const { user, roles } = useAuth();
+  const { t } = useI18n();
   
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
@@ -94,7 +97,7 @@ export default function Auth() {
             }
           }
 
-          toast.success("Angalia email yako kwa link ya kuthibitisha akaunti. Baada ya confirmation, utapata access kwa dashboard.");
+          toast.success(t('auth.confirmEmail'));
           // Clear form
           setEmail("");
           setPassword("");
@@ -149,7 +152,7 @@ export default function Auth() {
           }
         }
 
-        toast.success("Karibu!");
+        toast.success(t('common.login') + "!");
       }
     } catch (err: any) {
       toast.error(err.message);
@@ -163,7 +166,7 @@ export default function Auth() {
       redirect_uri: window.location.origin,
     });
     if (result.error) {
-      toast.error("Google login imeshindwa");
+      toast.error(t('auth.loginError'));
     }
     if (result.redirected) return;
   };
@@ -176,9 +179,9 @@ export default function Auth() {
           <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto">
             <Heart className="h-7 w-7 text-primary" />
           </div>
-          <h1 className="text-2xl font-bold text-foreground">MedFlow</h1>
+          <h1 className="text-2xl font-bold text-foreground">{t('common.appName')}</h1>
           <p className="text-sm text-muted-foreground">
-            {mode === "login" ? "Ingia kwenye akaunti yako" : "Tengeneza akaunti mpya"}
+            {mode === "login" ? t('auth.login') : t('auth.signup')}
           </p>
         </div>
 
@@ -190,7 +193,7 @@ export default function Auth() {
             <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
           </svg>
-          Endelea na Google
+          Google
         </Button>
 
         <div className="relative">
@@ -208,7 +211,7 @@ export default function Auth() {
             <div className="relative">
               <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Jina kamili"
+                placeholder={t('auth.fullName')}
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 className="pl-9 h-11 rounded-xl"
@@ -220,7 +223,7 @@ export default function Auth() {
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               type="email"
-              placeholder="Email"
+              placeholder={t('auth.email')}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="pl-9 h-11 rounded-xl"
@@ -231,7 +234,7 @@ export default function Auth() {
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               type="password"
-              placeholder="Nenosiri"
+              placeholder={t('auth.password')}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="pl-9 h-11 rounded-xl"
@@ -240,13 +243,13 @@ export default function Auth() {
             />
           </div>
           <Button type="submit" className="w-full h-11 rounded-xl" disabled={loading}>
-            {loading ? "Subiri..." : mode === "login" ? "Ingia" : "Jisajili"}
+            {loading ? "..." : mode === "login" ? t('auth.login') : t('auth.signup')}
             <ArrowRight className="h-4 w-4 ml-1" />
           </Button>
         </form>
 
         <p className="text-center text-sm text-muted-foreground">
-          {mode === "login" ? "Huna akaunti?" : "Una akaunti tayari?"}
+          {mode === "login" ? "No account?" : "Already have an account?"}
           <button
             onClick={() => {
               setMode(mode === "login" ? "signup" : "login");
@@ -256,9 +259,14 @@ export default function Auth() {
             }}
             className="text-primary font-medium ml-1"
           >
-            {mode === "login" ? "Jisajili" : "Ingia"}
+            {mode === "login" ? t('auth.signup') : t('auth.login')}
           </button>
         </p>
+
+        {/* Language Toggle */}
+        <div className="flex justify-center pt-4 border-t border-border">
+          <LanguageToggle />
+        </div>
       </div>
     </div>
   );

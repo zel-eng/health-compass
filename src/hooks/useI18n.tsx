@@ -14,15 +14,13 @@ interface I18nContextType {
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
-// Remove static translations - use dynamic import only
-
-
 // Load translations from JSON files (dynamic import)
 async function loadTranslations(lang: Language): Promise<Translation> {
   try {
     const module = await import(`../i18n/${lang}.json`);
     return module.default;
-  } catch {
+  } catch (err) {
+    console.error(`Failed to load translations for ${lang}:`, err);
     return {};
   }
 }
@@ -37,28 +35,45 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     setLangState(newLang);
   };
 
+  // Load saved language preference
   useEffect(() => {
     const savedLang = localStorage.getItem('lang') as Language | null;
-    const initialLang = savedLang || 'en';
+    const initialLang = (savedLang === 'en' || savedLang === 'sw') ? savedLang : 'en';
     setLangState(initialLang);
   }, []);
 
+  // Load translations when language changes
   useEffect(() => {
-    loadTranslations(lang).then(setTranslations);
-    setLoading(false);
+    setLoading(true);
+    loadTranslations(lang).then((translationData) => {
+      setTranslations(translationData);
+      setLoading(false);
+    });
   }, [lang]);
 
   const t = (path: string): string => {
     const keys = path.split('.');
-    let value = translations as any;
+    let value: any = translations;
+    
     for (const key of keys) {
-      value = value[key];
-      if (value === undefined || value === null) return path;
+      value = value?.[key];
+      if (value === undefined || value === null) {
+        console.warn(`Missing translation key: ${path}`);
+        return path;
+      }
     }
+    
     return String(value);
   };
 
-  if (loading) return null;
+  // Don't render children until translations are loaded
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <I18nContext.Provider value={{ lang, setLang, t }}>
@@ -74,4 +89,3 @@ export function useI18n() {
   }
   return context;
 }
-

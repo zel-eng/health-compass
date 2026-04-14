@@ -1,4 +1,45 @@
 {
+  "common": {
+    "appName": "MedFlow",
+    "login": "Login",
+    "logout": "Logout",
+    "settings": "Settings",
+    "language": "Language",
+    "english": "English",
+    "swahili": "Swahili"
+  },
+  "landing": {
+    "title": "MedFlow",
+    "subtitle": "Modern Healthcare System",
+    "badge": "✨ Modern Healthcare System",
+    "heading1": "Manage Health",
+    "heading2": "With Certainty",
+    "description": "MedFlow is a modern system for managing patients, tracking vital signs, and providing fast real-time alerts.",
+    "loginButton": "Try Now",
+    "demoButton": "Watch Demo",
+    "feature1Title": "Real-time Monitoring",
+    "feature1Desc": "Track patient vitals instantly",
+    "feature2Title": "Smart Alerts",
+    "feature2Desc": "Get notified of critical changes",
+    "feature3Title": "Secure & Compliant",
+    "feature3Desc": "HIPAA compliant data handling"
+  },
+  "auth": {
+    "login": "Login",
+    "signup": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full Name",
+    "confirmEmail": "Check your email for a confirmation link. After confirmation, you'll get access to the dashboard.",
+    "signupSuccess": "Account created! Check your email to verify.",
+    "loginError": "Invalid email or password",
+    "passwordMin": "Password must be at least 6 characters",
+    "emailRequired": "Email is required",
+    "passwordRequired": "Password is required",
+    "doctor": "Doctor",
+    "patient": "Patient",
+    "or": "or"
+  },
   "dashboard": {
     "title": "MedFlow",
     "greetingMorning": "Good Morning",
@@ -21,7 +62,8 @@
     "viewMore": "View More",
     "viewLess": "View Less",
     "noPatients": "No patients found",
-    "upcomingAppointments": "Upcoming Appointments"
+    "upcomingAppointments": "Upcoming Appointments",
+    "doctor": "Doctor"
   },
   "nav": {
     "home": "Home",
@@ -35,5 +77,16 @@
     "records": "Health Records",
     "alerts": "Alerts & Reminders",
     "settings": "Settings"
+  },
+  "settings": {
+    "title": "Settings",
+    "notifications": "Notifications",
+    "notificationsDesc": "Manage alert preferences",
+    "appearance": "Appearance",
+    "appearanceDesc": "Theme & display options",
+    "privacy": "Privacy",
+    "privacyDesc": "Data & security settings",
+    "about": "About MedFlow",
+    "aboutDesc": "Version 2.0.0"
   }
 }

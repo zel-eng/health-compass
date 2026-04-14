@@ -1,4 +1,45 @@
 {
+  "common": {
+    "appName": "MedFlow",
+    "login": "Ingia",
+    "logout": "Ondoka",
+    "settings": "Mipangilio",
+    "language": "Lugha",
+    "english": "Kiingereza",
+    "swahili": "Kiswahili"
+  },
+  "landing": {
+    "title": "MedFlow",
+    "subtitle": "Mfumo Wa Afya Wa Kisasa",
+    "badge": "✨ Mfumo Wa Afya Wa Kisasa",
+    "heading1": "Kusimamia Afya",
+    "heading2": "Kwa Uhakika",
+    "description": "MedFlow ni mfumo wa kisasa wa kusimamia wagonjwa, kufuatilia vitals, na kupeana arifa haraka katika wakati halisi.",
+    "loginButton": "Jaribu Sasa",
+    "demoButton": "Tazama Demo",
+    "feature1Title": "Ufuatiliaji Halisi",
+    "feature1Desc": "Fuatilia vitals ya wagonjwa kwa kasi",
+    "feature2Title": "Arifa Akili",
+    "feature2Desc": "Pokea arifa za mabadiliko makubwa",
+    "feature3Title": "Salama & Sanifu",
+    "feature3Desc": "Kushughulikia data kulingana na HIPAA"
+  },
+  "auth": {
+    "login": "Ingia",
+    "signup": "Jisajili",
+    "email": "Barua Pepe",
+    "password": "Nenosiri",
+    "fullName": "Jina Kamili",
+    "confirmEmail": "Angalia email yako kwa link ya kuthibitisha akaunti. Baada ya confirmation, utapata access kwa dashboard.",
+    "signupSuccess": "Akaunti imeundwa! Angalia email yako kwa uthibitisho.",
+    "loginError": "Email au nenosiri halivyofaa",
+    "passwordMin": "Nenosiri lazima liwe na angalau herufi 6",
+    "emailRequired": "Barua pepe inahitajika",
+    "passwordRequired": "Nenosiri inahitajika",
+    "doctor": "Daktari",
+    "patient": "Mgonjwa",
+    "or": "au"
+  },
   "dashboard": {
     "title": "MedFlow",
     "greetingMorning": "Habari za asubuhi",
@@ -21,7 +62,8 @@
     "viewMore": "Angalia Zaidi",
     "viewLess": "Angalia Kidogo",
     "noPatients": "Hakuna wagonjwa walipopatikana",
-    "upcomingAppointments": "Miadi Inayokuja"
+    "upcomingAppointments": "Miadi Inayokuja",
+    "doctor": "Daktari"
   },
   "nav": {
     "home": "Nyumbani",
@@ -35,5 +77,16 @@
     "records": "Rekodi za Afya",
     "alerts": "Arifa & Vikumbusho",
     "settings": "Mipangilio"
+  },
+  "settings": {
+    "title": "Mipangilio",
+    "notifications": "Arifa",
+    "notificationsDesc": "Simamia programu za onyo",
+    "appearance": "Muonekano",
+    "appearanceDesc": "Chagua tema na chaguo la onyesho",
+    "privacy": "Faragha",
+    "privacyDesc": "Mipangilio ya data na usalama",
+    "about": "Kuhusu MedFlow",
+    "aboutDesc": "Toleo 2.0.0"
   }
 }

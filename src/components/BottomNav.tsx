@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import { LayoutDashboard, Users, FileText, Bell, Settings } from "lucide-react";
 import { useAlerts } from "@/hooks/use-data";
+import { useI18n } from "@/hooks/useI18n";
 
 interface BottomNavItem {
   id: string;
@@ -14,15 +15,17 @@ interface BottomNavProps {
   items?: BottomNavItem[];
 }
 
-const defaultItems: BottomNavItem[] = [
-  { id: "dashboard", icon: LayoutDashboard, label: "Home" },
-  { id: "patients", icon: Users, label: "Patients" },
-  { id: "records", icon: FileText, label: "Records" },
-  { id: "alerts", icon: Bell, label: "Alerts" },
-  { id: "settings", icon: Settings, label: "Settings" },
-];
-
 export function BottomNav({ active, onNavigate, items }: BottomNavProps) {
+  const { t } = useI18n();
+  
+  const defaultItems: BottomNavItem[] = [
+    { id: "dashboard", icon: LayoutDashboard, label: t('nav.home') },
+    { id: "patients", icon: Users, label: t('nav.patients') },
+    { id: "records", icon: FileText, label: t('nav.records') },
+    { id: "alerts", icon: Bell, label: t('nav.alerts') },
+    { id: "settings", icon: Settings, label: t('nav.settings') },
+  ];
+
   const navItems = items ?? defaultItems;
   const { data: alerts = [] } = useAlerts();
   const alertCount = alerts.filter((a) => !a.resolved).length;

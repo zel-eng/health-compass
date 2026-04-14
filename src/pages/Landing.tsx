@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { Heart, ArrowRight, Users, Zap, Shield, BarChart3, Bell, TrendingUp, Activity, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useI18n } from "@/hooks/useI18n";
+import { LanguageToggle } from "@/components/LanguageToggle";
 
 interface PhonePosition {
   rotateX: number;
@@ -9,6 +11,7 @@ interface PhonePosition {
 }
 
 export default function Landing() {
+  const { t } = useI18n();
   const [phonePos, setPhonePos] = useState<PhonePosition>({ rotateX: 0, rotateY: 0 });
   const phoneContainerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef(0);
@@ -67,13 +70,16 @@ export default function Landing() {
             <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center border border-blue-400/30 shadow-glow neumorphic-button">
               <Heart className="h-5 w-5 text-white" />
             </div>
-            <span className="text-base sm:text-lg font-bold text-slate-900">MedFlow</span>
+            <span className="text-base sm:text-lg font-bold text-slate-900">{t('common.appName')}</span>
           </div>
-          <Link to="/login">
-            <Button className="rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-glow transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5">
-              Ingia
-            </Button>
-          </Link>
+          <div className="flex items-center gap-2">
+            <LanguageToggle />
+            <Link to="/login">
+              <Button className="rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-glow transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5">
+                {t('common.login')}
+              </Button>
+            </Link>
+          </div>
         </div>
       </nav>
 
@@ -122,17 +128,17 @@ export default function Landing() {
               <div className="space-y-4 sm:space-y-6 animate-fade-in-up">
                 <div className="inline-block">
                   <span className="text-xs sm:text-sm font-semibold text-blue-600 bg-blue-100/60 px-3 sm:px-4 py-2 rounded-full border border-blue-200/50 neumorphic-badge backdrop-blur-sm">
-                    ✨ Mfumo wa Afya wa Kisasa
+                    {t('landing.badge')}
                   </span>
                 </div>
 
                 <div className="space-y-3 sm:space-y-4">
                   <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black leading-tight text-slate-900">
-                    Kusimamia Afya
-                    <span className="block bg-gradient-to-r from-blue-600 via-blue-500 to-slate-600 bg-clip-text text-transparent animate-gradient"> Kwa Uhakika</span>
+                    {t('landing.heading1')}
+                    <span className="block bg-gradient-to-r from-blue-600 via-blue-500 to-slate-600 bg-clip-text text-transparent animate-gradient"> {t('landing.heading2')}</span>
                   </h1>
                   <p className="text-sm sm:text-lg text-slate-600 leading-relaxed max-w-lg">
-                    MedFlow ni mfumo wa kisasa wa kusimamia wagonjwa, kufuatilia vitals, na kupeana arifa haraka katika wakati halisi.
+                    {t('landing.description')}
                   </p>
                 </div>
 
@@ -140,12 +146,12 @@ export default function Landing() {
                 <div className="flex flex-col sm:flex-row gap-3 pt-2 sm:pt-4">
                   <Link to="/login" className="w-full sm:w-auto">
                     <Button size="lg" className="w-full rounded-xl h-12 sm:h-14 px-6 sm:px-8 text-sm sm:text-base font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-glow transition-all duration-300 hover:shadow-xl neumorphic-button hover:-translate-y-1">
-                      Jaribu Sasa
+                      {t('landing.loginButton')}
                       <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2" />
                     </Button>
                   </Link>
                   <button className="w-full sm:w-auto h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-white/40 text-slate-900 border border-white/60 font-semibold hover:bg-white/60 transition-all hover-lift backdrop-blur-md neumorphic-button">
-                    Tazama Demo
+                    {t('landing.demoButton')}
                   </button>
                 </div>
 
@@ -179,10 +185,10 @@ export default function Landing() {
             {/* Section Header */}
             <div className="text-center max-w-2xl mx-auto animate-fade-in-up">
               <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 mb-4 sm:mb-6">
-                Sifa za <span className="bg-gradient-to-r from-blue-600 to-slate-600 bg-clip-text text-transparent">MedFlow</span>
+                {t('landing.feature1Title')} <span className="bg-gradient-to-r from-blue-600 to-slate-600 bg-clip-text text-transparent">{t('common.appName')}</span>
               </h2>
               <p className="text-sm sm:text-lg text-slate-600">
-                Zana kamili za kusimamia wagonjwa na kudhibiti afya yao
+                {t('landing.description')}
               </p>
             </div>
 
@@ -191,14 +197,14 @@ export default function Landing() {
               {[
                 {
                   icon: Users,
-                  title: "Usimamizi wa Wagonjwa",
-                  desc: "Shughuli yote ya wagonjwa katika nafasi moja",
+                  title: t('dashboard.patients'),
+                  desc: t('landing.feature1Desc'),
                   color: "from-blue-500 to-blue-600"
                 },
                 {
                   icon: Activity,
-                  title: "Kufuatilia Vitals",
-                  desc: "Weka kumbuka vitals kila saa na tikeleza arifa",
+                  title: t('landing.feature2Title'),
+                  desc: t('landing.feature2Desc'),
                   color: "from-cyan-500 to-blue-500"
                 },
                 {
@@ -209,8 +215,8 @@ export default function Landing() {
                 },
                 {
                   icon: Bell,
-                  title: "Smart Alerts",
-                  desc: "Arifa za instant kwa koses zisizotaka kare",
+                  title: t('landing.feature2Title'),
+                  desc: t('landing.feature2Desc'),
                   color: "from-slate-600 to-blue-500"
                 },
               ].map((feature, i) => (

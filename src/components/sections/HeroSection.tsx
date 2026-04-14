@@ -44,7 +44,7 @@ export function HeroSection() {
           <Sparkles className="h-7 w-7 text-primary mt-4 pulse-glow" />
         </div>
         <p className="text-sm text-muted-foreground mt-2 scroll-fade-in" style={{ animationDelay: "200ms" }}>
-          {profile?.full_name ? `${profile.full_name}, hii` : "Hii"} ni muhtasari wako wa afya
+          {profile?.full_name ? `${profile.full_name}, ` : ""}{t('dashboard.yourSummary')}
         </p>
       </div>
 
@@ -72,7 +72,7 @@ export function HeroSection() {
       {upcoming.length > 0 && (
         <div className="mt-6 space-y-2">
           <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5 scroll-fade-in" style={{ animationDelay: "300ms" }}>
-            <Calendar className="h-3 w-3" /> Miadi Inayokuja
+            <Calendar className="h-3 w-3" /> {t('dashboard.upcomingAppointments')}
           </h3>
           {upcoming.map((a, idx) => (
             <div 
@@ -87,8 +87,8 @@ export function HeroSection() {
                 </span>
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold text-foreground truncate">{a.doctor_name || "Daktari"}</p>
-                <p className="text-[11px] text-muted-foreground">{a.appointment_time} • {a.reason || "Uchunguzi"}</p>
+                <p className="text-sm font-semibold text-foreground truncate">{a.doctor_name || t('auth.doctor')}</p>
+                <p className="text-[11px] text-muted-foreground">{a.appointment_time} • {a.reason || t('auth.doctor')}</p>
               </div>
             </div>
           ))}

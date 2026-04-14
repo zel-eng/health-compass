@@ -15,17 +15,9 @@ import { X, Stethoscope, Shield, LogOut } from "lucide-react";
 
 type OverlaySection = "patients" | "records" | "alerts" | "settings" | null;
 
-  const { t } = useI18n();
-  
-  const overlayTitles: Record<string, string> = {
-    patients: t('overlay.patients'),
-    records: t('overlay.records'),
-    alerts: t('overlay.alerts'),
-    settings: t('overlay.settings'),
-  };
-
 export default function Index() {
   const { profile, roles, signOut } = useAuth();
+  const { t } = useI18n();
   
   const [overlay, setOverlay] = useState<OverlaySection>(null);
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
@@ -35,6 +27,13 @@ export default function Index() {
 
   const isDoctor = roles.includes("doctor");
   const isAdmin = roles.includes("admin");
+
+  const overlayTitles: Record<string, string> = {
+    patients: t('overlay.patients'),
+    records: t('overlay.records'),
+    alerts: t('overlay.alerts'),
+    settings: t('overlay.settings'),
+  };
 
   // Observe scroll animations on main content
   useEffect(() => {
