@@ -35,7 +35,7 @@ function AppRoutes() {
     );
   }
 
-  // Role-based routing
+  // Role-based routing - with proper priority (admin > doctor > patient)
   const isAdmin = roles.includes("admin");
   const isDoctor = roles.includes("doctor");
   const isPatient = roles.includes("patient");
