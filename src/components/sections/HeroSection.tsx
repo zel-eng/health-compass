@@ -51,7 +51,7 @@ export function HeroSection() {
         {cards.map((card, i) => (
           <div
             key={card.label}
-            className="scroll-scale-in rounded-2xl frosted-glass backdrop-blur-xl p-3.5 text-center press-zoom hover-lift border border-white/20 transition-all"
+            className="scroll-scale-in rounded-2xl frosted-glass backdrop-blur-xl p-3.5 text-center press-zoom hover-lift border border-primary/25 md:border-primary/20 transition-all shadow-soft md:shadow-sm md:hover:border-primary/40"
             style={{ 
               transitionDelay: `${i * 100}ms`,
               animationDelay: `${i * 100}ms`
@@ -75,7 +75,7 @@ export function HeroSection() {
           {upcoming.map((a, idx) => (
             <div 
               key={a.id} 
-              className="rounded-xl frosted-glass border border-white/20 backdrop-blur-md p-3 flex items-center gap-3 press-zoom hover-lift transition-all scroll-fade-in"
+              className="rounded-xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-3 flex items-center gap-3 press-zoom hover-lift transition-all scroll-fade-in shadow-soft md:shadow-sm md:hover:border-primary/40"
               style={{ animationDelay: `${400 + idx * 100}ms` }}
             >
               <div className="h-10 w-10 rounded-xl bg-primary/15 flex flex-col items-center justify-center text-primary shrink-0 backdrop-blur-sm border border-primary/20">

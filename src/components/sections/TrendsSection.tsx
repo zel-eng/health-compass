@@ -19,7 +19,7 @@ export function TrendsSection() {
 
       <div className="space-y-4 mt-4">
         {/* Blood Pressure Chart */}
-        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 scroll-scale-in shadow-soft hover-lift transition-all">
+        <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 scroll-scale-in shadow-soft md:shadow-sm md:hover-lift md:hover:border-primary/40 transition-all">
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Blood Pressure</p>
           <ResponsiveContainer width="100%" height={120}>
             <LineChart data={vitals}>
@@ -42,7 +42,7 @@ export function TrendsSection() {
         </div>
 
         {/* Sugar Level Chart */}
-        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 scroll-scale-in shadow-soft hover-lift transition-all" style={{ animationDelay: "100ms" }}>
+        <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 scroll-scale-in shadow-soft md:shadow-sm md:hover-lift md:hover:border-primary/40 transition-all" style={{ animationDelay: "100ms" }}>
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Sugar Level</p>
           <ResponsiveContainer width="100%" height={120}>
             <LineChart data={vitals}>
@@ -64,7 +64,7 @@ export function TrendsSection() {
         </div>
 
         {/* Medication Adherence Chart */}
-        <div className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 scroll-scale-in shadow-soft hover-lift transition-all" style={{ animationDelay: "200ms" }}>
+        <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 scroll-scale-in shadow-soft md:shadow-sm md:hover-lift md:hover:border-primary/40 transition-all" style={{ animationDelay: "200ms" }}>
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Medication Adherence</p>
           <ResponsiveContainer width="100%" height={120}>
             <BarChart data={vitals}>

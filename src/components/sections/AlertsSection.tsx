@@ -24,7 +24,7 @@ export function AlertsSection({ onViewPatient, limit }: AlertsSectionProps) {
     return (
       <section className="px-5 py-4">
         <h2 className="text-lg font-bold text-foreground scroll-fade-in">Alerts</h2>
-        <div className="mt-4 rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-8 text-center scroll-scale-in shadow-soft">
+        <div className="mt-4 rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-8 text-center scroll-scale-in shadow-soft md:shadow-sm md:hover:border-primary/40 transition-all">
           <div className="h-12 w-12 mx-auto mb-3 rounded-full bg-success/15 flex items-center justify-center border border-success/20">
             <Check className="h-5 w-5 text-success" />
           </div>

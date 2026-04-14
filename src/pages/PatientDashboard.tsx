@@ -232,7 +232,7 @@ export default function PatientDashboard() {
           {/* Summary Cards with blue border styling - visible on mobile, floating effect */}
           <div className="grid grid-cols-3 gap-3 scroll-fade-in">
             {summaryCards.map((s, idx) => (
-              <div key={s.label} className="scroll-scale-in bg-card/80 frosted-glass rounded-2xl border-2 border-primary/40 md:border-primary/30 backdrop-blur-md p-3 text-center transition-all duration-500 ease-out shadow-elevated md:shadow-soft md:hover:-translate-y-1 md:hover:scale-[1.02] md:hover:border-primary/60 -translate-y-2 press-zoom" style={{ animationDelay: `${idx * 100}ms` }}>
+              <div key={s.label} className="scroll-scale-in bg-card/80 frosted-glass rounded-2xl border border-primary/25 md:border-primary/20 backdrop-blur-md p-3 text-center transition-all duration-500 ease-out shadow-soft md:shadow-sm md:hover:-translate-y-1 md:hover:scale-[1.02] md:hover:border-primary/40 md:hover:shadow-soft press-zoom" style={{ animationDelay: `${idx * 100}ms` }}>
                 <s.icon className={`h-5 w-5 mx-auto ${s.color}`} />
                 <p className="text-xl font-bold mt-1">{s.value}</p>
                 <p className="text-[10px] text-muted-foreground">{s.label}</p>
@@ -243,17 +243,17 @@ export default function PatientDashboard() {
           {/* Action Buttons with blue border styling - visible on mobile, floating effect */}
           <div className="grid gap-4 sm:grid-cols-2">
             <button type="button" onClick={() => handlePanelToggle("add-data")}
-              className="scroll-fade-in rounded-3xl frosted-glass border-2 border-primary/40 md:border-primary/30 bg-gradient-to-br from-card/60 to-card/30 backdrop-blur-md p-4 text-left transition-all duration-500 ease-out shadow-elevated md:shadow-soft md:hover:-translate-y-1 md:hover:scale-[1.02] md:hover:border-primary/60 md:hover:from-card/80 md:hover:to-card/50 -translate-y-2 press-zoom">
+              className="scroll-fade-in rounded-3xl frosted-glass border border-primary/25 md:border-primary/20 bg-gradient-to-br from-card/60 to-card/30 backdrop-blur-md p-4 text-left transition-all duration-500 ease-out shadow-soft md:shadow-sm md:hover:-translate-y-1 md:hover:scale-[1.02] md:hover:border-primary/40 md:hover:from-card/80 md:hover:to-card/50 press-zoom">
               <p className="text-sm font-semibold text-foreground">Ongeza Data ya Afya</p>
               <p className="mt-1 text-xs text-muted-foreground">Ingiza vipimo vipya vya afya.</p>
             </button>
             <button type="button" onClick={() => handlePanelToggle("insights")}
-              className="scroll-fade-in rounded-3xl frosted-glass border-2 border-primary/40 md:border-primary/30 bg-gradient-to-br from-card/60 to-card/30 backdrop-blur-md p-4 text-left transition-all duration-500 ease-out shadow-elevated md:shadow-soft md:hover:-translate-y-1 md:hover:scale-[1.02] md:hover:border-primary/60 md:hover:from-card/80 md:hover:to-card/50 -translate-y-2 press-zoom" style={{ animationDelay: "100ms" }}>
+              className="scroll-fade-in rounded-3xl frosted-glass border border-primary/25 md:border-primary/20 bg-gradient-to-br from-card/60 to-card/30 backdrop-blur-md p-4 text-left transition-all duration-500 ease-out shadow-soft md:shadow-sm md:hover:-translate-y-1 md:hover:scale-[1.02] md:hover:border-primary/40 md:hover:from-card/80 md:hover:to-card/50 press-zoom" style={{ animationDelay: "100ms" }}>
               <p className="text-sm font-semibold text-foreground">Mwenendo wa Afya</p>
               <p className="mt-1 text-xs text-muted-foreground">Angalia charts na trends.</p>
             </button>
             <button type="button" onClick={() => handlePanelToggle("calculators")}
-              className="scroll-fade-in rounded-3xl frosted-glass border-2 border-primary/40 md:border-primary/30 bg-gradient-to-br from-card/60 to-card/30 backdrop-blur-md p-4 text-left transition-all duration-500 ease-out shadow-elevated md:shadow-soft md:hover:-translate-y-1 md:hover:scale-[1.02] md:hover:border-primary/60 md:hover:from-card/80 md:hover:to-card/50 -translate-y-2 press-zoom" style={{ animationDelay: "200ms" }}>
+              className="scroll-fade-in rounded-3xl frosted-glass border border-primary/25 md:border-primary/20 bg-gradient-to-br from-card/60 to-card/30 backdrop-blur-md p-4 text-left transition-all duration-500 ease-out shadow-soft md:shadow-sm md:hover:-translate-y-1 md:hover:scale-[1.02] md:hover:border-primary/40 md:hover:from-card/80 md:hover:to-card/50 press-zoom" style={{ animationDelay: "200ms" }}>
               <p className="text-sm font-semibold text-foreground">Vipimo</p>
               <p className="mt-1 text-xs text-muted-foreground">BMI, BP status na zaidi.</p>
             </button>

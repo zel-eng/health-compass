@@ -90,7 +90,7 @@ export function PatientsSection({ onSelectPatient }: PatientsSectionProps) {
               <button
                 key={p.id}
                 onClick={() => onSelectPatient(p.id)}
-                className="w-full rounded-2xl frosted-glass border border-white/25 backdrop-blur-md p-3.5 text-left press-zoom scroll-scale-in hover-lift hover-glow transition-all shadow-soft"
+                className="w-full rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-3.5 text-left press-zoom scroll-scale-in md:hover-lift md:hover-glow transition-all shadow-soft md:shadow-sm md:hover:border-primary/40"
                 style={{ 
                   animationDelay: `${i * 60}ms`,
                   transitionDelay: `${i * 50}ms`

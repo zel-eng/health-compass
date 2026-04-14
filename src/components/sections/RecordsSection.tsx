@@ -36,7 +36,7 @@ export function RecordsSection() {
             {allVitals.slice(0, 8).map((v: any, i: number) => (
               <div
                 key={v.id || i}
-                className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-3.5 scroll-fade-in press-zoom hover-lift transition-all shadow-soft"
+                className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-3.5 scroll-fade-in press-zoom hover-lift transition-all shadow-soft md:shadow-sm md:hover:border-primary/40"
                 style={{ animationDelay: `${i * 50}ms` }}
               >
                 <div className="flex items-center justify-between mb-2">
@@ -71,7 +71,7 @@ export function RecordsSection() {
         {tab === "Medicines" && patients.map((p, i) => (
           <div
             key={p.id}
-            className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-3.5 scroll-fade-in press-zoom hover-lift transition-all shadow-soft"
+            className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-3.5 scroll-fade-in press-zoom hover-lift transition-all shadow-soft md:shadow-sm md:hover:border-primary/40"
             style={{ animationDelay: `${i * 50}ms` }}
           >
             <p className="text-sm font-semibold text-foreground mb-2">{p.name}</p>
@@ -91,7 +91,7 @@ export function RecordsSection() {
         {tab === "Notes" && patients.map((p, i) => (
           <div
             key={p.id}
-            className="rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-3.5 scroll-fade-in press-zoom hover-lift transition-all shadow-soft"
+            className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-3.5 scroll-fade-in press-zoom hover-lift transition-all shadow-soft md:shadow-sm md:hover:border-primary/40"
             style={{ animationDelay: `${i * 50}ms` }}
           >
             <div className="flex items-center justify-between mb-2">

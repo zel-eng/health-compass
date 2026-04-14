@@ -14,7 +14,7 @@ export function SettingsSection() {
         ].map((item, i) => (
           <button
             key={item.label}
-            className="w-full flex items-center gap-3.5 rounded-2xl frosted-glass border border-white/20 backdrop-blur-md p-4 text-left press-zoom scroll-fade-in hover-lift hover:bg-white/40 transition-all shadow-soft"
+            className="w-full flex items-center gap-3.5 rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 text-left press-zoom scroll-fade-in hover-lift transition-all shadow-soft md:shadow-sm md:hover:border-primary/40"
             style={{ animationDelay: `${i * 60}ms` }}
           >
             <div className="h-10 w-10 rounded-xl bg-gradient-primary/20 flex items-center justify-center shrink-0 border border-primary/20 backdrop-blur-sm">
