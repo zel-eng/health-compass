@@ -68,21 +68,27 @@ export default function Auth() {
                 full_name: fullName,
               }, { onConflict: "user_id" });
 
-              // Create patient role
+              // Determine user role - check metadata first, defaults to patient
+              const roleFromMetadata = data.user.user_metadata?.role || "patient";
+              const userRole = (roleFromMetadata === "doctor" || roleFromMetadata === "admin") ? roleFromMetadata : "patient";
+
+              // Create user role
               await supabase.from("user_roles").upsert({
                 user_id: data.user.id,
-                role: "patient",
+                role: userRole,
               }, { onConflict: "user_id,role" });
 
-              // Create patient record with generated code
-              const patientCode = "PT-" + String(Math.floor(Math.random() * 99999)).padStart(5, "0");
-              await supabase.from("patients").insert({
-                user_id: data.user.id,
-                patient_code: patientCode,
-                name: fullName || "Patient",
-                age: 0,
-                gender: "unknown",
-              });
+              // Only create patient record if user is patient role
+              if (userRole === "patient") {
+                const patientCode = "PT-" + String(Math.floor(Math.random() * 99999)).padStart(5, "0");
+                await supabase.from("patients").insert({
+                  user_id: data.user.id,
+                  patient_code: patientCode,
+                  name: fullName || "Patient",
+                  age: 0,
+                  gender: "unknown",
+                });
+              }
             } catch (err) {
               console.log("Note: Some records may already exist, continuing...", err);
             }
@@ -99,7 +105,7 @@ export default function Auth() {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
 
-        // After sign in, ensure patient record exists
+        // After sign in, ensure necessary records exist (but don't override doctor/admin roles)
         const { data: { user } } = await supabase.auth.getUser();
         if (user?.id) {
           try {
@@ -112,26 +118,31 @@ export default function Auth() {
               });
             }
 
-            // Ensure role exists
-            const roleRes = await supabase.from("user_roles").select("*").eq("user_id", user.id);
-            if (!roleRes.data || roleRes.data.length === 0) {
+            // Check what roles user has
+            const roleRes = await supabase.from("user_roles").select("role").eq("user_id", user.id);
+            const existingRoles = (roleRes.data || []).map((r: any) => r.role);
+            
+            // Only assign patient role if they have NO roles (not doctor/admin)
+            if (existingRoles.length === 0) {
               await supabase.from("user_roles").insert({
                 user_id: user.id,
                 role: "patient",
               });
             }
 
-            // Ensure patient record exists
-            const patientRes = await supabase.from("patients").select("*").eq("user_id", user.id);
-            if (!patientRes.data || patientRes.data.length === 0) {
-              const patientCode = "PT-" + String(Math.floor(Math.random() * 99999)).padStart(5, "0");
-              await supabase.from("patients").insert({
-                user_id: user.id,
-                patient_code: patientCode,
-                name: user.email?.split("@")[0] || "Patient",
-                age: 0,
-                gender: "unknown",
-              });
+            // If user is patient, ensure patient record exists
+            if (existingRoles.includes("patient") || existingRoles.length === 0) {
+              const patientRes = await supabase.from("patients").select("*").eq("user_id", user.id);
+              if (!patientRes.data || patientRes.data.length === 0) {
+                const patientCode = "PT-" + String(Math.floor(Math.random() * 99999)).padStart(5, "0");
+                await supabase.from("patients").insert({
+                  user_id: user.id,
+                  patient_code: patientCode,
+                  name: user.email?.split("@")[0] || "Patient",
+                  age: 0,
+                  gender: "unknown",
+                });
+              }
             }
           } catch (err) {
             console.log("Note: Some records may already exist", err);
