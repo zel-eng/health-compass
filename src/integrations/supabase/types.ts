@@ -201,6 +201,7 @@ export type Database = {
           risk_level: string
           sugar: number | null
           updated_at: string
+          user_id: string | null
         }
         Insert: {
           age: number
@@ -218,6 +219,7 @@ export type Database = {
           risk_level?: string
           sugar?: number | null
           updated_at?: string
+          user_id?: string | null
         }
         Update: {
           age?: number
@@ -235,6 +237,7 @@ export type Database = {
           risk_level?: string
           sugar?: number | null
           updated_at?: string
+          user_id?: string | null
         }
         Relationships: []
       }

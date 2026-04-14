@@ -90,6 +90,18 @@ export function usePatient(id: string | undefined) {
   });
 }
 
+export function usePatientByUserId(userId: string | undefined) {
+  return useQuery({
+    queryKey: ["patients", "user", userId],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data, error } = await supabase.from("patients").select("*").eq("user_id", userId!).single();
+      if (error) throw error;
+      return data as DbPatient;
+    },
+  });
+}
+
 export function usePatientVitals(patientId: string | undefined) {
   return useQuery({
     queryKey: ["vitals", patientId],

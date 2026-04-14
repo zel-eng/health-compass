@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
-import { type DbAlert, type DbMedicalHistory, usePatient, useAlerts, useMedicalHistory } from "@/hooks/use-data";
+import { type DbAlert, type DbMedicalHistory, usePatientByUserId, useAlerts, useMedicalHistory } from "@/hooks/use-data";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BottomNav } from "@/components/BottomNav";
@@ -33,8 +33,9 @@ type PatientFeature = "summary" | "add-data" | "insights" | "calculators";
 
 export default function PatientDashboard() {
   const { profile, user, signOut } = useAuth();
-  const patientId = user?.id ?? "";
-  const { data: patient } = usePatient(patientId);
+  const userId = user?.id ?? "";
+  const { data: patient } = usePatientByUserId(userId);
+  const patientId = patient?.id ?? "";
   const { data: history = [] } = useMedicalHistory(patientId);
   const { data: alertsData = [] } = useAlerts();
   const [activeFeature, setActiveFeature] = useState<PatientFeature>("summary");
