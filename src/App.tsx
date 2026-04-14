@@ -6,7 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider, useAuth } from "@/hooks/use-auth";
 import Auth from "@/pages/Auth";
 import Landing from "@/pages/Landing";
-import DoctorDashboard from "@/pages/DoctorDashboard";
+import Index from "@/pages/Index";
 import AdminDashboard from "@/pages/AdminDashboard";
 import PatientDashboard from "@/pages/PatientDashboard";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
@@ -40,7 +40,7 @@ function AppRoutes() {
   const isDoctor = roles.includes("doctor");
   const isPatient = roles.includes("patient");
 
-  const defaultPath = isAdmin ? "/admin" : isDoctor ? "/doctor" : isPatient ? "/patient" : "/";
+  const defaultPath = isAdmin ? "/admin" : isDoctor ? "/" : isPatient ? "/patient" : "/";
 
   return (
     <Routes>
@@ -53,10 +53,10 @@ function AppRoutes() {
         }
       />
       <Route
-        path="/doctor"
+        path="/"
         element={
           <ProtectedRoute allowedRoles={["doctor", "admin"]}>
-            <DoctorDashboard />
+            <Index />
           </ProtectedRoute>
         }
       />
@@ -68,7 +68,6 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
-      <Route path="/" element={<Navigate to={defaultPath} replace />} />
       <Route path="*" element={<Navigate to={defaultPath} replace />} />
     </Routes>
   );
