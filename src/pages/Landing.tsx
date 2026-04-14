@@ -12,16 +12,7 @@ export default function Landing() {
   const [phonePos, setPhonePos] = useState<PhonePosition>({ rotateX: 0, rotateY: 0 });
   const phoneContainerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef(0);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  // Auto-slide hero images
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % 2);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
 
   // Mouse follow for phone tilt and custom cursor
   useEffect(() => {
@@ -110,12 +101,24 @@ export default function Landing() {
       </div>
 
       {/* Hero Section - Mobile First */}
-      <section className="relative pt-20 sm:pt-32 pb-8 sm:pb-0 px-4 sm:px-6 overflow-hidden min-h-screen flex items-center justify-center z-10">
-        <div className="w-full max-w-6xl mx-auto">
+      <section 
+        className="relative pt-20 sm:pt-32 pb-8 sm:pb-0 px-4 sm:px-6 overflow-hidden min-h-screen flex items-center justify-center z-10"
+        style={{
+          backgroundImage: `url('/1 (2).png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+          animation: `zoom-in-out 6s ease-in-out infinite`,
+        }}
+      >
+        {/* Background overlay gradient */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-50 via-blue-50/80 to-transparent" />
+        
+        <div className="w-full max-w-6xl mx-auto relative z-20">
           {/* Mobile-optimized grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-12 items-center">
             {/* Left: Hero Content */}
-            <div className="space-y-6 sm:space-y-8 order-2 lg:order-1">
+            <div className="space-y-6 sm:space-y-8 order-1 lg:order-1">
               <div className="space-y-4 sm:space-y-6 animate-fade-in-up">
                 <div className="inline-block">
                   <span className="text-xs sm:text-sm font-semibold text-blue-600 bg-blue-100/60 px-3 sm:px-4 py-2 rounded-full border border-blue-200/50 neumorphic-badge backdrop-blur-sm">
@@ -164,39 +167,7 @@ export default function Landing() {
               </div>
             </div>
 
-            {/* Right: Hero Image with Zoom Effect */}
-            <div className="relative h-64 sm:h-96 lg:h-screen flex items-center justify-center order-1 lg:order-2">
-              {/* Background decorative blobs */}
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-200/30 to-slate-200/30 blur-2xl opacity-50" />
-              
-              {/* Image Container with Zoom Effect */}
-              <div className="relative w-full h-full overflow-hidden rounded-3xl shadow-floating border border-white/50">
-                <img
-                  src="/1 (2).png"
-                  alt="Health Dashboard"
-                  className="w-full h-full object-cover animate-zoom-in-out transition-transform duration-[6000ms]"
-                  style={{
-                    animation: `zoom-in-out 6s ease-in-out infinite`,
-                  }}
-                  loading="lazy"
-                />
-                
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent" />
-                
-                {/* Slide indicators */}
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-                  {[0, 1].map((i) => (
-                    <div
-                      key={i}
-                      className={`h-2 w-2 rounded-full transition-all ${
-                        i === currentImageIndex ? "w-6 bg-white" : "bg-white/50"
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
+            {/* Right side is now the background image - removed container */}
           </div>
         </div>
       </section>
