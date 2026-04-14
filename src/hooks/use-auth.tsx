@@ -54,13 +54,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   async function fetchUserData(userId: string) {
-    const [rolesRes, profileRes] = await Promise.all([
-      supabase.from("user_roles").select("role").eq("user_id", userId),
-      supabase.from("profiles").select("full_name, avatar_url, phone").eq("user_id", userId).single(),
-    ]);
-    type UserRoleRow = Database["public"]["Tables"]["user_roles"]["Row"];
-    setRoles((rolesRes.data ?? []).map((r: UserRoleRow) => r.role));
-    setProfile(profileRes.data as AuthContext["profile"]);
+    try {
+      const [rolesRes, profileRes] = await Promise.all([
+        supabase.from("user_roles").select("role").eq("user_id", userId),
+        supabase.from("profiles").select("full_name, avatar_url, phone").eq("user_id", userId).maybeSingle(),
+      ]);
+      if (rolesRes.error) throw rolesRes.error;
+      type UserRoleRow = Database["public"]["Tables"]["user_roles"]["Row"];
+      setRoles((rolesRes.data ?? []).map((r: UserRoleRow) => r.role));
+      setProfile(profileRes.data as AuthContext["profile"]);
+    } catch (err: any) {
+      if (err?.message?.includes("JWT expired") || err?.code === "PGRST303") {
+        await supabase.auth.signOut();
+      }
+    }
     setLoading(false);
   }
 
