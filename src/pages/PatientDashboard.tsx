@@ -33,8 +33,9 @@ type PatientFeature = "summary" | "add-data" | "insights" | "calculators";
 
 export default function PatientDashboard() {
   const { profile, user, signOut } = useAuth();
-  const patientId = user?.id ?? "";
-  const { data: patient } = usePatient(patientId);
+  const userId = user?.id ?? "";
+  const { data: patient } = usePatientByUserId(userId);
+  const patientId = patient?.id ?? "";
   const { data: history = [] } = useMedicalHistory(patientId);
   const { data: alertsData = [] } = useAlerts();
   const [activeFeature, setActiveFeature] = useState<PatientFeature>("summary");
