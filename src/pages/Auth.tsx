@@ -1,24 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
+import { useAuth } from "@/hooks/use-auth";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Heart, Mail, Lock, User, ArrowRight } from "lucide-react";
 
 export default function Auth() {
+  const navigate = useNavigate();
+  const { user, roles } = useAuth();
+  
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Auto-redirect if already authenticated
+  useEffect(() => {
+    if (user && roles.length > 0) {
+      const isDoctor = roles.includes("doctor");
+      const isAdmin = roles.includes("admin");
+      const isPatient = roles.includes("patient");
+      
+      if (isAdmin || isDoctor) {
+        navigate("/");
+      } else if (isPatient) {
+        navigate("/patient");
+      }
+    }
+  }, [user, roles, navigate]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -27,10 +47,22 @@ export default function Auth() {
           },
         });
         if (error) throw error;
-        toast.success("Angalia email yako kwa link ya kuthibitisha akaunti");
+        
+        // Check if email confirmation is required
+        if (data?.user?.identities?.length === 0) {
+          toast.error("Email address already registered");
+        } else {
+          toast.success("Angalia email yako kwa link ya kuthibitisha akaunti. Baada ya confirmation, utapata access kwa dashboard.");
+          // Clear form
+          setEmail("");
+          setPassword("");
+          setFullName("");
+          setMode("login");
+        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
+        toast.success("Karibu!");
       }
     } catch (err: any) {
       toast.error(err.message);
@@ -129,7 +161,12 @@ export default function Auth() {
         <p className="text-center text-sm text-muted-foreground">
           {mode === "login" ? "Huna akaunti?" : "Una akaunti tayari?"}
           <button
-            onClick={() => setMode(mode === "login" ? "signup" : "login")}
+            onClick={() => {
+              setMode(mode === "login" ? "signup" : "login");
+              setEmail("");
+              setPassword("");
+              setFullName("");
+            }}
             className="text-primary font-medium ml-1"
           >
             {mode === "login" ? "Jisajili" : "Ingia"}
