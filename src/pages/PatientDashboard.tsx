@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
-import { type DbAlert, type DbMedicalHistory, usePatient, useAlerts, useMedicalHistory } from "@/hooks/use-data";
+import { type DbAlert, type DbMedicalHistory, usePatientByUserId, useAlerts, useMedicalHistory } from "@/hooks/use-data";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BottomNav } from "@/components/BottomNav";
