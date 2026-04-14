@@ -1,5 +1,6 @@
 import { AlertTriangle, AlertCircle, Info, Check, ChevronRight, Sparkles } from "lucide-react";
 import { useAlerts, useResolveAlert } from "@/hooks/use-data";
+import { useI18n } from "@/hooks/useI18n";
 import { Button } from "@/components/ui/button";
 
 const typeConfig: Record<string, { icon: typeof AlertTriangle; bg: string; dot: string; glow: string }> = {
@@ -14,6 +15,7 @@ interface AlertsSectionProps {
 }
 
 export function AlertsSection({ onViewPatient, limit }: AlertsSectionProps) {
+  const { t } = useI18n();
   const { data: allAlerts = [] } = useAlerts();
   const resolveAlert = useResolveAlert();
 
@@ -23,16 +25,16 @@ export function AlertsSection({ onViewPatient, limit }: AlertsSectionProps) {
   if (active.length === 0) {
     return (
       <section className="px-5 py-4">
-        <h2 className="text-lg font-bold text-foreground scroll-fade-in">Alerts</h2>
+        <h2 className="text-lg font-bold text-foreground scroll-fade-in">{t('alerts.title')}</h2>
         <div className="mt-4 rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-8 text-center scroll-scale-in shadow-soft md:shadow-sm md:hover:border-primary/40 transition-all">
           <div className="h-12 w-12 mx-auto mb-3 rounded-full bg-success/15 flex items-center justify-center border border-success/20">
             <Check className="h-5 w-5 text-success" />
           </div>
           <div className="flex items-center justify-center gap-1.5 mb-1">
-            <p className="text-sm font-semibold text-foreground">Everything looks good today</p>
+            <p className="text-sm font-semibold text-foreground">{t('alerts.allGood')}</p>
             <Sparkles className="h-4 w-4 text-success pulse-glow" />
           </div>
-          <p className="text-xs text-muted-foreground mt-1">No active alerts</p>
+          <p className="text-xs text-muted-foreground mt-1">{t('alerts.noAlerts')}</p>
         </div>
       </section>
     );
@@ -41,8 +43,8 @@ export function AlertsSection({ onViewPatient, limit }: AlertsSectionProps) {
   return (
     <section className="px-5 py-4">
       <div className="flex items-center justify-between scroll-fade-in">
-        <h2 className="text-lg font-bold text-foreground">Alerts</h2>
-        <span className="text-xs font-semibold text-muted-foreground bg-muted/50 px-2.5 py-1 rounded-full">{active.length} active</span>
+        <h2 className="text-lg font-bold text-foreground">{t('alerts.title')}</h2>
+        <span className="text-xs font-semibold text-muted-foreground bg-muted/50 px-2.5 py-1 rounded-full">{active.length} {t('alerts.active')}</span>
       </div>
 
       <div className="space-y-2.5 mt-4">
@@ -66,7 +68,7 @@ export function AlertsSection({ onViewPatient, limit }: AlertsSectionProps) {
                       className="h-7 text-xs px-2.5 rounded-lg hover:bg-white/30 transition-colors"
                       onClick={() => onViewPatient(a.patient_id)}
                     >
-                      View <ChevronRight className="h-3 w-3 ml-0.5" />
+                      {t('alerts.view')} <ChevronRight className="h-3 w-3 ml-0.5" />
                     </Button>
                     <Button
                       size="sm"
@@ -74,7 +76,7 @@ export function AlertsSection({ onViewPatient, limit }: AlertsSectionProps) {
                       className="h-7 text-xs px-2.5 rounded-lg hover:bg-white/30 transition-colors"
                       onClick={() => resolveAlert.mutate(a.id)}
                     >
-                      <Check className="h-3 w-3 mr-1" /> Resolve
+                      <Check className="h-3 w-3 mr-1" /> {t('alerts.resolve')}
                     </Button>
                     <span className="text-[10px] text-muted-foreground/60 ml-auto">{a.time}</span>
                   </div>

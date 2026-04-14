@@ -33,8 +33,8 @@ export function PatientsSection({ onSelectPatient }: PatientsSectionProps) {
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
       p.condition.toLowerCase().includes(search.toLowerCase());
     if (!matchSearch) return false;
-    if (activeFilter === "High Risk") return p.risk_level === "high";
-    if (activeFilter === "Chronic")
+    if (activeFilter === t('dashboard.highRisk')) return p.risk_level === "high";
+    if (activeFilter === t('dashboard.chronic'))
       return ["Diabetes", "Hypertension", "Heart", "Kidney"].some((c) =>
         p.condition.includes(c)
       );
@@ -133,7 +133,7 @@ export function PatientsSection({ onSelectPatient }: PatientsSectionProps) {
               onClick={() => setExpandView(!expandView)}
               className="w-full mt-3 py-2.5 px-4 rounded-xl bg-primary/10 text-primary font-medium text-sm flex items-center justify-center gap-2 press-zoom hover-lift transition-all border border-primary/30 backdrop-blur-sm"
             >
-              <span>{expandView ? "View Less" : `View More (${filtered.length - INITIAL_DISPLAY})`}</span>
+              <span>{expandView ? t('dashboard.viewLess') : `${t('dashboard.viewMore')} (${filtered.length - INITIAL_DISPLAY})`}</span>
               <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${expandView ? "rotate-180" : ""}`} />
             </button>
           )}
@@ -145,7 +145,7 @@ export function PatientsSection({ onSelectPatient }: PatientsSectionProps) {
           <div className="h-12 w-12 rounded-full bg-muted/50 mx-auto mb-3 flex items-center justify-center">
             <Search className="h-5 w-5 text-muted-foreground/50" />
           </div>
-          <p className="text-sm text-muted-foreground">No patients found</p>
+          <p className="text-sm text-muted-foreground">{t('dashboard.noPatients')}</p>
         </div>
       )}
     </section>

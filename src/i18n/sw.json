@@ -88,5 +88,41 @@
     "privacyDesc": "Mipangilio ya data na usalama",
     "about": "Kuhusu MedFlow",
     "aboutDesc": "Toleo 2.0.0"
+  },
+  "records": {
+    "title": "Rekodi za Afya",
+    "vitals": "Vitals",
+    "medicines": "Dawa",
+    "notes": "Maelezo",
+    "noNotes": "Hakuna maelezo",
+    "bp": "BP",
+    "sugar": "Sugar",
+    "adherence": "Ujumbe"
+  },
+  "alerts": {
+    "title": "Arifa",
+    "allGood": "Kila kitu kiko sawa leo",
+    "noAlerts": "Hakuna arifa za sasa",
+    "active": "zinazoanza",
+    "view": "Angalia",
+    "resolve": "Suluhisha"
+  },
+  "patient": {
+    "welcome": "Karibu kwenye MedFlow!",
+    "subtitle": "Hii ni dashboard yako ya afya. Anza kwa kuongeza vipimo vyako vya afya.",
+    "home": "Nyumbani",
+    "addData": "Ongeza Vipimo",
+    "insights": "Ndoto",
+    "tools": "Zana",
+    "recordsLabel": "Rekodi",
+    "highRiskLabel": "Hatari Kubwa",
+    "alertsLabel": "Arifa",
+    "startAdding": "Anza Kuongeza Vipimo",
+    "step1": "Ongeza vipimo",
+    "step1Desc": "Blood pressure, heart rate, na uzani",
+    "step2": "Tazama trends",
+    "step2Desc": "Kuzama hali yako ya afya kwa muda",
+    "step3": "Pata insights",
+    "step3Desc": "Ujumbe kuhusu hali yako ya afya"
   }
 }

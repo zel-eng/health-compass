@@ -88,5 +88,41 @@
     "privacyDesc": "Data & security settings",
     "about": "About MedFlow",
     "aboutDesc": "Version 2.0.0"
+  },
+  "records": {
+    "title": "Health Records",
+    "vitals": "Vitals",
+    "medicines": "Medicines",
+    "notes": "Notes",
+    "noNotes": "No notes",
+    "bp": "BP",
+    "sugar": "Sugar",
+    "adherence": "Adherence"
+  },
+  "alerts": {
+    "title": "Alerts",
+    "allGood": "Everything looks good today",
+    "noAlerts": "No active alerts",
+    "active": "active",
+    "view": "View",
+    "resolve": "Resolve"
+  },
+  "patient": {
+    "welcome": "Welcome to MedFlow!",
+    "subtitle": "This is your health dashboard. Start by adding your health measurements.",
+    "home": "Home",
+    "addData": "Add Data",
+    "insights": "Insights",
+    "tools": "Tools",
+    "recordsLabel": "Records",
+    "highRiskLabel": "High Risk",
+    "alertsLabel": "Alerts",
+    "startAdding": "Start Adding Measurements",
+    "step1": "Add Measurements",
+    "step1Desc": "Blood pressure, heart rate, and weight",
+    "step2": "View Trends",
+    "step2Desc": "See your health status over time",
+    "step3": "Get Insights",
+    "step3Desc": "Messages about your health condition"
   }
 }

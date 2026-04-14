@@ -1,5 +1,6 @@
 import { useMemo, useState, useRef, useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
+import { useI18n } from "@/hooks/useI18n";
 import { type DbAlert, type DbMedicalHistory, usePatientByUserId, useAlerts, useMedicalHistory, useHealthEntries } from "@/hooks/use-data";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -29,6 +30,7 @@ type PatientFeature = "summary" | "add-data" | "insights" | "calculators";
 
 export default function PatientDashboard() {
   const { profile, user, signOut } = useAuth();
+  const { t } = useI18n();
   const userId = user?.id ?? "";
   const { data: patient, isLoading: patientLoading } = usePatientByUserId(userId);
   const patientId = patient?.id ?? "";
@@ -98,10 +100,10 @@ export default function PatientDashboard() {
     : false;
 
   const patientNavItems = [
-    { id: "summary", icon: LayoutDashboard, label: "Home" },
-    { id: "add-data", icon: Calculator, label: "Add Data" },
-    { id: "insights", icon: BarChart, label: "Insights" },
-    { id: "calculators", icon: Activity, label: "Tools" },
+    { id: "summary", icon: LayoutDashboard, label: t('patient.home') },
+    { id: "add-data", icon: Calculator, label: t('patient.addData') },
+    { id: "insights", icon: BarChart, label: t('patient.insights') },
+    { id: "calculators", icon: Activity, label: t('patient.tools') },
   ];
 
   const handlePanelToggle = (panel: PatientFeature) => {
@@ -110,9 +112,9 @@ export default function PatientDashboard() {
   };
 
   const summaryCards = [
-    { label: "Rekodi", value: healthEntries.length, icon: Users, color: "text-primary" },
-    { label: "High Risk", value: highRisk, icon: Bell, color: "text-destructive" },
-    { label: "Alerts", value: patientAlerts.length, icon: Bell, color: "text-warning" },
+    { label: t('patient.recordsLabel'), value: healthEntries.length, icon: Users, color: "text-primary" },
+    { label: t('patient.highRiskLabel'), value: highRisk, icon: Bell, color: "text-destructive" },
+    { label: t('alerts.title'), value: patientAlerts.length, icon: Bell, color: "text-warning" },
   ];
 
   if (patientLoading) {
@@ -134,8 +136,8 @@ export default function PatientDashboard() {
             </div>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-foreground mb-2">Karibu kwenye MedFlow!</h2>
-            <p className="text-sm text-muted-foreground">Hii ni dashboard yako ya afya. Anza kwa kuongeza vipimo vyako vya afya.</p>
+            <h2 className="text-2xl font-bold text-foreground mb-2">{t('patient.welcome')}</h2>
+            <p className="text-sm text-muted-foreground">{t('patient.subtitle')}</p>
           </div>
           
           <div className="bg-card border border-border/50 rounded-2xl p-4 text-left space-y-3">
@@ -144,8 +146,8 @@ export default function PatientDashboard() {
                 <span className="text-xs font-bold text-primary">1</span>
               </div>
               <div>
-                <p className="text-sm font-semibold text-foreground">Ongeza vipimo</p>
-                <p className="text-xs text-muted-foreground">Blood pressure, heart rate, na uzani</p>
+                <p className="text-sm font-semibold text-foreground">{t('patient.step1')}</p>
+                <p className="text-xs text-muted-foreground">{t('patient.step1Desc')}</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
@@ -153,8 +155,8 @@ export default function PatientDashboard() {
                 <span className="text-xs font-bold text-primary">2</span>
               </div>
               <div>
-                <p className="text-sm font-semibold text-foreground">Tazama trends</p>
-                <p className="text-xs text-muted-foreground">Kuzama hali yako ya afya kwa muda</p>
+                <p className="text-sm font-semibold text-foreground">{t('patient.step2')}</p>
+                <p className="text-xs text-muted-foreground">{t('patient.step2Desc')}</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
@@ -162,8 +164,8 @@ export default function PatientDashboard() {
                 <span className="text-xs font-bold text-primary">3</span>
               </div>
               <div>
-                <p className="text-sm font-semibold text-foreground">Pata insights</p>
-                <p className="text-xs text-muted-foreground">Ujumbe kuhusu hali yako ya afya</p>
+                <p className="text-sm font-semibold text-foreground">{t('patient.step3')}</p>
+                <p className="text-xs text-muted-foreground">{t('patient.step3Desc')}</p>
               </div>
             </div>
           </div>
@@ -172,7 +174,7 @@ export default function PatientDashboard() {
             className="w-full h-11 rounded-xl" 
             onClick={() => window.location.reload()}
           >
-            Anza Kuongeza Vipimo
+            {t('patient.startAdding')}
             <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
           
@@ -181,7 +183,7 @@ export default function PatientDashboard() {
             className="w-full h-11 rounded-xl" 
             onClick={signOut}
           >
-            Toka
+            {t('common.logout')}
           </Button>
         </div>
       </div>
