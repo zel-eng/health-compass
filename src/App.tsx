@@ -41,48 +41,36 @@ function AppRoutes() {
   const isDoctor = roles.includes("doctor");
   const isPatient = roles.includes("patient");
 
+  const defaultPath = isAdmin ? "/admin" : isDoctor ? "/doctor" : isPatient ? "/patient" : "/";
+
   return (
     <Routes>
-      {isAdmin && (
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute allowedRoles={["admin"]}>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
-      )}
-      {(isDoctor || isAdmin) && (
-        <Route
-          path="/doctor"
-          element={
-            <ProtectedRoute allowedRoles={["doctor", "admin"]}>
-              <DoctorDashboard />
-            </ProtectedRoute>
-          }
-        />
-      )}
-      {isPatient && (
-        <Route
-          path="/patient"
-          element={
-            <ProtectedRoute allowedRoles={["patient"]}>
-              <PatientDashboard />
-            </ProtectedRoute>
-          }
-        />
-      )}
-      <Route path="/*" element={<Index />} />
       <Route
-        path="/"
+        path="/admin"
         element={
-          isAdmin ? <Navigate to="/admin" replace /> :
-          isDoctor ? <Navigate to="/doctor" replace /> :
-          isPatient ? <Navigate to="/patient" replace /> :
-          <Index />
+          <ProtectedRoute allowedRoles={["admin"]}>
+            <AdminDashboard />
+          </ProtectedRoute>
         }
       />
+      <Route
+        path="/doctor"
+        element={
+          <ProtectedRoute allowedRoles={["doctor", "admin"]}>
+            <DoctorDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/patient"
+        element={
+          <ProtectedRoute allowedRoles={["patient"]}>
+            <PatientDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/" element={<Navigate to={defaultPath} replace />} />
+      <Route path="*" element={<Navigate to={defaultPath} replace />} />
     </Routes>
   );
 }
