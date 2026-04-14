@@ -76,7 +76,10 @@
     "patients": "Patients",
     "records": "Health Records",
     "alerts": "Alerts & Reminders",
-    "settings": "Settings"
+    "settings": "Settings",
+    "addData": "Add Health Data",
+    "insights": "Health Insights",
+    "calculators": "Health Tools"
   },
   "settings": {
     "title": "Settings",
@@ -123,6 +126,12 @@
     "step2": "View Trends",
     "step2Desc": "See your health status over time",
     "step3": "Get Insights",
-    "step3Desc": "Messages about your health condition"
+    "step3Desc": "Messages about your health condition",
+    "addDataTitle": "Add Health Data",
+    "addDataDesc": "Enter new health measurements.",
+    "insightsTitle": "Health Insights",
+    "insightsDesc": "View charts and trends.",
+    "toolsTitle": "Health Tools",
+    "toolsDesc": "BMI, BP status and more."
   }
 }

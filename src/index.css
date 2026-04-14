@@ -897,3 +897,23 @@
   }
 }
 
+@keyframes dropdown-unfold {
+  0% {
+    opacity: 0;
+    transform: scaleY(0) scaleX(0.95);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scaleY(0.6) scaleX(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1) scaleX(1);
+  }
+}
+
+.animate-dropdown-unfold {
+  animation: dropdown-unfold 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+

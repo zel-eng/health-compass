@@ -76,7 +76,10 @@
     "patients": "Wagonjwa",
     "records": "Rekodi za Afya",
     "alerts": "Arifa & Vikumbusho",
-    "settings": "Mipangilio"
+    "settings": "Mipangilio",
+    "addData": "Ongeza Data ya Afya",
+    "insights": "Mwenendo wa Afya",
+    "calculators": "Zana za Afya"
   },
   "settings": {
     "title": "Mipangilio",
@@ -123,6 +126,12 @@
     "step2": "Tazama trends",
     "step2Desc": "Kuzama hali yako ya afya kwa muda",
     "step3": "Pata insights",
-    "step3Desc": "Ujumbe kuhusu hali yako ya afya"
+    "step3Desc": "Ujumbe kuhusu hali yako ya afya",
+    "addDataTitle": "Ongeza Data ya Afya",
+    "addDataDesc": "Ingiza vipimo vipya vya afya.",
+    "insightsTitle": "Mwenendo wa Afya",
+    "insightsDesc": "Angalia charts na trends.",
+    "toolsTitle": "Zana za Afya",
+    "toolsDesc": "BMI, hali ya BP na zaidi."
   }
 }

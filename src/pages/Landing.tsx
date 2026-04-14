@@ -2,8 +2,10 @@ import { useState, useRef, useEffect } from "react";
 import { Heart, ArrowRight, Users, Zap, Shield, BarChart3, Bell, TrendingUp, Activity, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/hooks/use-auth";
 import { useI18n } from "@/hooks/useI18n";
 import { LanguageToggle } from "@/components/LanguageToggle";
+import LoginDropdown from "@/components/LoginDropdown";
 
 interface PhonePosition {
   rotateX: number;
@@ -74,11 +76,7 @@ export default function Landing() {
           </div>
           <div className="flex items-center gap-2">
             <LanguageToggle />
-            <Link to="/login">
-              <Button className="rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-glow transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5">
-                {t('common.login')}
-              </Button>
-            </Link>
+            <LoginDropdown />
           </div>
         </div>
       </nav>
@@ -144,12 +142,7 @@ export default function Landing() {
 
                 {/* CTA Buttons - Mobile First */}
                 <div className="flex flex-col sm:flex-row gap-3 pt-2 sm:pt-4">
-                  <Link to="/login" className="w-full sm:w-auto">
-                    <Button size="lg" className="w-full rounded-xl h-12 sm:h-14 px-6 sm:px-8 text-sm sm:text-base font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-glow transition-all duration-300 hover:shadow-xl neumorphic-button hover:-translate-y-1">
-                      {t('landing.loginButton')}
-                      <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2" />
-                    </Button>
-                  </Link>
+                  <LoginDropdown variant="cta" className="w-full sm:w-auto" />
                   <button className="w-full sm:w-auto h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-white/40 text-slate-900 border border-white/60 font-semibold hover:bg-white/60 transition-all hover-lift backdrop-blur-md neumorphic-button">
                     {t('landing.demoButton')}
                   </button>
@@ -313,12 +306,7 @@ export default function Landing() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-2 sm:pt-4">
-                <Link to="/login">
-                  <Button size="lg" className="w-full sm:w-auto rounded-xl h-12 sm:h-14 px-6 sm:px-8 text-sm sm:text-base font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-glow transition-all hover:shadow-xl neumorphic-button hover:-translate-y-1">
-                    Jaribu Libre
-                    <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2" />
-                  </Button>
-                </Link>
+                <LoginDropdown variant="cta" />
                 <button className="w-full sm:w-auto h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-white/40 text-slate-900 border border-white/60 font-semibold hover:bg-white/60 transition-all backdrop-blur-md neumorphic-button">
                   Muhtasari wa Ubora
                 </button>

@@ -95,6 +95,12 @@ export default function PatientDashboard() {
   const bpStatus = useMemo(() => classifyBloodPressure(manualSystolic, manualDiastolic), [manualSystolic, manualDiastolic]);
   const heartRateStatus = useMemo(() => classifyHeartRate(age, manualHeartRate), [age, manualHeartRate]);
 
+  const overlayTitles: Record<string, string> = {
+    "add-data": t('overlay.addData'),
+    "insights": t('overlay.insights'),
+    "calculators": t('overlay.calculators'),
+  };
+
   const hasAbnormalVitals = latestEntry
     ? classifyBloodPressure(latestEntry.systolic, latestEntry.diastolic) !== "Normal" || classifyHeartRate(age, latestEntry.heart_rate) !== "Normal"
     : false;
@@ -260,8 +266,8 @@ export default function PatientDashboard() {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               </div>
               <div className="relative z-10">
-                <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors duration-500">Ongeza Data ya Afya</p>
-                <p className="mt-1 text-xs text-muted-foreground group-hover:text-muted-foreground/80 transition-colors duration-500">Ingiza vipimo vipya vya afya.</p>
+                <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors duration-500">{t('patient.addDataTitle')}</p>
+                <p className="mt-1 text-xs text-muted-foreground group-hover:text-muted-foreground/80 transition-colors duration-500">{t('patient.addDataDesc')}</p>
               </div>
             </button>
             <button type="button" onClick={() => handlePanelToggle("insights")} className="group scroll-fade-in relative rounded-3xl frosted-glass border border-primary/25 md:border-primary/20 bg-gradient-to-br from-card/80 via-card/70 to-card/60 backdrop-blur-md p-4 text-left transition-all duration-500 ease-out shadow-soft md:shadow-sm md:hover:-translate-y-1.5 md:hover:scale-[1.03] md:hover:border-primary/40 md:hover:shadow-elevated press-zoom overflow-hidden" style={{ animationDelay: "100ms" }}>
@@ -272,8 +278,8 @@ export default function PatientDashboard() {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               </div>
               <div className="relative z-10">
-                <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors duration-500">Mwenendo wa Afya</p>
-                <p className="mt-1 text-xs text-muted-foreground group-hover:text-muted-foreground/80 transition-colors duration-500">Angalia charts na trends.</p>
+                <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors duration-500">{t('patient.insightsTitle')}</p>
+                <p className="mt-1 text-xs text-muted-foreground group-hover:text-muted-foreground/80 transition-colors duration-500">{t('patient.insightsDesc')}</p>
               </div>
             </button>
             <button type="button" onClick={() => handlePanelToggle("calculators")} className="group scroll-fade-in relative rounded-3xl frosted-glass border border-primary/25 md:border-primary/20 bg-gradient-to-br from-card/80 via-card/70 to-card/60 backdrop-blur-md p-4 text-left transition-all duration-500 ease-out shadow-soft md:shadow-sm md:hover:-translate-y-1.5 md:hover:scale-[1.03] md:hover:border-primary/40 md:hover:shadow-elevated press-zoom overflow-hidden" style={{ animationDelay: "200ms" }}>
@@ -284,8 +290,8 @@ export default function PatientDashboard() {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               </div>
               <div className="relative z-10">
-                <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors duration-500">Vipimo</p>
-                <p className="mt-1 text-xs text-muted-foreground group-hover:text-muted-foreground/80 transition-colors duration-500">BMI, BP status na zaidi.</p>
+                <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors duration-500">{t('patient.toolsTitle')}</p>
+                <p className="mt-1 text-xs text-muted-foreground group-hover:text-muted-foreground/80 transition-colors duration-500">{t('patient.toolsDesc')}</p>
               </div>
             </button>
           </div>
@@ -308,7 +314,7 @@ export default function PatientDashboard() {
               <div className="w-10 h-1 rounded-full bg-muted-foreground/30 mx-auto mt-3 transition-colors" />
               <div className="flex items-center justify-between px-5 py-4">
                 <h2 className="text-lg font-bold text-foreground">
-                  {activeFeature === "add-data" ? "Ongeza Data ya Afya" : activeFeature === "insights" ? "Mwenendo wa Afya" : "Vipimo"}
+                  {overlayTitles[activeFeature] || ""}
                 </h2>
                 <button
                   onClick={() => setShowOverlay(false)}
