@@ -30,6 +30,13 @@ export default function Auth() {
       } else if (isPatient) {
         navigate("/patient");
       }
+    } else if (user && roles.length === 0) {
+      // If user is logged in but no roles yet, default to patient (most common)
+      // This handles case where roles are being fetched
+      const timer = setTimeout(() => {
+        navigate("/patient");
+      }, 1000);
+      return () => clearTimeout(timer);
     }
   }, [user, roles, navigate]);
 
