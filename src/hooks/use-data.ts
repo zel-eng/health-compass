@@ -284,3 +284,55 @@ export function useUpdateAppointment() {
     },
   });
 }
+
+// ===== HEALTH ENTRIES =====
+
+export type DbHealthEntry = {
+  id: string;
+  patient_id: string;
+  user_id: string;
+  systolic: number;
+  diastolic: number;
+  heart_rate: number;
+  temperature: number;
+  weight: number;
+  recorded_date: string;
+  created_at: string;
+};
+
+export function useHealthEntries(patientId: string | undefined) {
+  return useQuery({
+    queryKey: ["health_entries", patientId],
+    enabled: !!patientId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("health_entries")
+        .select("*")
+        .eq("patient_id", patientId!)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data as DbHealthEntry[];
+    },
+  });
+}
+
+export function useAddHealthEntry() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (entry: {
+      patient_id: string;
+      user_id: string;
+      systolic: number;
+      diastolic: number;
+      heart_rate: number;
+      temperature: number;
+      weight: number;
+    }) => {
+      const { error } = await supabase.from("health_entries").insert(entry);
+      if (error) throw error;
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["health_entries", vars.patient_id] });
+    },
+  });
+}
