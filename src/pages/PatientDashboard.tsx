@@ -212,7 +212,7 @@ export default function PatientDashboard() {
                   <HeartPulse className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Karibu, Mgonjwa</p>
+                  <p className="text-sm text-muted-foreground">{t('patient.greeting')}</p>
                   <h1 className="text-lg font-bold text-foreground">{profile?.full_name || patient.name}</h1>
                 </div>
               </div>
@@ -226,13 +226,13 @@ export default function PatientDashboard() {
         {/* Main content with animations */}
         <div className="px-5 pt-5 pb-5 animate-fade-in space-y-6">
           {healthEntries.length === 0 && (
-            <AlertBanner variant="warning" title="Hakuna data ya afya bado" description="Anza kwa kuongeza vipimo vyako vya afya." />
+            <AlertBanner variant="warning" title={t('patient.noHealthData')} description={t('patient.noHealthDataDesc')} />
           )}
 
           {hasAbnormalVitals && latestEntry && (
             <AlertBanner
               variant="danger"
-              title="Vipimo visivyo vya kawaida"
+              title={t('patient.abnormalVitals')}
               description={`BP: ${latestEntry.systolic}/${latestEntry.diastolic}, Mapigo: ${latestEntry.heart_rate} bpm`}
             />
           )}
@@ -336,13 +336,13 @@ export default function PatientDashboard() {
               {activeFeature === "insights" && (
                 <div className="space-y-5 py-4 animate-fade-in">
                   {insightData.length === 0 ? (
-                    <div className="text-center py-12 text-muted-foreground text-sm">
-                      <BarChart className="h-10 w-10 mx-auto mb-3 opacity-30" />
-                      Hakuna data ya kutosha kwa charts. Ongeza vipimo kwanza.
-                    </div>
+                     <div className="text-center py-12 text-muted-foreground text-sm">
+                       <BarChart className="h-10 w-10 mx-auto mb-3 opacity-30" />
+                       {t('patient.noInsightData')}
+                     </div>
                   ) : (
                     <div className="grid gap-5 lg:grid-cols-2">
-                      <ChartCard title="Shinikizo la Damu" description="Systolic na Diastolic kwa muda.">
+                      <ChartCard title={t('patient.bpChart')} description={t('patient.bpChartDesc')}>
                         <div className="h-64">
                           <LineChart data={insightData}>
                             <CartesianGrid strokeDasharray="4 4" stroke="#e2e8f0" />
@@ -354,7 +354,7 @@ export default function PatientDashboard() {
                           </LineChart>
                         </div>
                       </ChartCard>
-                      <ChartCard title="Uzito" description="Mabadiliko ya uzito kwa muda.">
+                      <ChartCard title={t('patient.weightChart')} description={t('patient.weightChartDesc')}>
                         <div className="h-64">
                           <RechartsBarChart data={insightData}>
                             <CartesianGrid strokeDasharray="4 4" stroke="#e2e8f0" />
@@ -373,29 +373,29 @@ export default function PatientDashboard() {
               {activeFeature === "calculators" && (
                 <div className="space-y-5 py-4 animate-fade-in">
                   <div className="grid gap-5 lg:grid-cols-3">
-                    <CalculatorCard title="BMI" value={`${bmiValue}`} status={bmiCategory}
-                      description="Kulingana na urefu na uzito wako." tone={bmiCategory === "Normal" ? "success" : "warning"}>
-                      <div className="grid gap-3 w-full">
-                        <label className="text-sm text-muted-foreground">Urefu (cm)</label>
-                        <Input type="number" value={height} min={100} max={220} onChange={(e) => setHeight(Number(e.target.value))} />
+                     <CalculatorCard title="BMI" value={`${bmiValue}`} status={bmiCategory}
+                      description={t('patient.bmiDesc')} tone={bmiCategory === "Normal" ? "success" : "warning"}>
+                       <div className="grid gap-3 w-full">
+                         <label className="text-sm text-muted-foreground">{t('patient.height')}</label>
+                         <Input type="number" value={height} min={100} max={220} onChange={(e) => setHeight(Number(e.target.value))} />
                       </div>
                     </CalculatorCard>
                     <CalculatorCard title="BP Status" value={`${manualSystolic}/${manualDiastolic}`} status={bpStatus}
-                      description="Hali ya shinikizo la damu." tone={bpStatus === "Normal" ? "success" : bpStatus === "Elevated" ? "warning" : "danger"}>
-                      <div className="grid gap-3 w-full">
-                        <label className="text-sm text-muted-foreground">Systolic</label>
-                        <Input type="number" value={manualSystolic} min={70} max={250} onChange={(e) => setManualSystolic(Number(e.target.value))} />
-                        <label className="text-sm text-muted-foreground">Diastolic</label>
-                        <Input type="number" value={manualDiastolic} min={40} max={150} onChange={(e) => setManualDiastolic(Number(e.target.value))} />
+                      description={t('patient.bpStatusDesc')} tone={bpStatus === "Normal" ? "success" : bpStatus === "Elevated" ? "warning" : "danger"}>
+                       <div className="grid gap-3 w-full">
+                         <label className="text-sm text-muted-foreground">{t('health.systolic')}</label>
+                         <Input type="number" value={manualSystolic} min={70} max={250} onChange={(e) => setManualSystolic(Number(e.target.value))} />
+                         <label className="text-sm text-muted-foreground">{t('health.diastolic')}</label>
+                         <Input type="number" value={manualDiastolic} min={40} max={150} onChange={(e) => setManualDiastolic(Number(e.target.value))} />
                       </div>
                     </CalculatorCard>
                     <CalculatorCard title="Mapigo" value={`${manualHeartRate} bpm`} status={heartRateStatus}
-                      description="Hali ya mapigo ya moyo." tone={heartRateStatus === "Normal" ? "success" : "danger"}>
-                      <div className="grid gap-3 w-full">
-                        <label className="text-sm text-muted-foreground">Umri</label>
-                        <Input type="number" value={age} min={10} max={100} onChange={(e) => setAge(Number(e.target.value))} />
-                        <label className="text-sm text-muted-foreground">Mapigo</label>
-                        <Input type="number" value={manualHeartRate} min={30} max={220} onChange={(e) => setManualHeartRate(Number(e.target.value))} />
+                      description={t('patient.heartRateDesc')} tone={heartRateStatus === "Normal" ? "success" : "danger"}>
+                       <div className="grid gap-3 w-full">
+                         <label className="text-sm text-muted-foreground">{t('patient.age')}</label>
+                         <Input type="number" value={age} min={10} max={100} onChange={(e) => setAge(Number(e.target.value))} />
+                         <label className="text-sm text-muted-foreground">{t('patient.heartRateLabel')}</label>
+                         <Input type="number" value={manualHeartRate} min={30} max={220} onChange={(e) => setManualHeartRate(Number(e.target.value))} />
                       </div>
                     </CalculatorCard>
                   </div>
