@@ -15,8 +15,8 @@
   },
   "landing": {
     "title": "AfyaCompass",
-    "subtitle": "Modern Healthcare System",
-    "badge": "✨ Modern Healthcare System",
+"subtitle": "",
+"badge": "",
     "heading1": "Manage Health",
     "heading2": "With Certainty",
     "description": "AfyaCompass is a modern system for managing patients, tracking vital signs, and providing fast real-time alerts.",

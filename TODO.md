@@ -1,10 +1,8 @@
-# Task Progress: Remove Watch Demo Button
+# TODO: Remove "Modern Healthcare System" from landing page
 
-- [x] Understand task and identify button location
-- [x] Confirm plan with user
-- [ ] Create TODO.md with steps
-- [ ] Edit src/pages/Landing.tsx to remove demo button
-- [x] Edit src/i18n/sw.json and en.json to remove demoButton keys (optional, keys unused)
-- [x] Verify changes
-- [x] Complete task
+## Steps:
+- [x] Step 1: Edit src/i18n/en.json to remove the phrase from subtitle and badge keys.\n
+- [x] Step 2: Test the landing page to confirm removal.\n
+- [ ] Step 3: Commit changes on main branch.
+- [ ] Step 4: Push to remote repository.
 
