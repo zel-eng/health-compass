@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { AlertBanner } from "@/components/health/AlertBanner";
 import { classifyBloodPressure } from "@/lib/health";
 import { useAddHealthEntry } from "@/hooks/use-data";
+import { useI18n } from "@/hooks/useI18n";
 import { toast } from "sonner";
 
 export interface HealthFormValues {
@@ -25,6 +26,7 @@ interface HealthFormProps {
 }
 
 export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
+  const { t } = useI18n();
   const form = useForm<HealthFormValues>({
     defaultValues: {
       systolic: 118,
@@ -44,11 +46,11 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
   }, [watchValues.systolic, watchValues.diastolic]);
 
   const abnormalSummary = useMemo(() => {
-    if (bpStatus === "Hypertension") return "Shinikizo la damu limepanda sana. Hifadhi ili daktari wako apate kuona.";
-    if (bpStatus === "Elevated") return "Shinikizo la damu limepanda kidogo leo.";
-    if (watchValues.heartRate > 100 || watchValues.heartRate < 50) return "Mapigo ya moyo yako yapo nje ya kiwango cha kawaida.";
+    if (bpStatus === "Hypertension") return t('health.hypertensionWarning');
+    if (bpStatus === "Elevated") return t('health.elevatedWarning');
+    if (watchValues.heartRate > 100 || watchValues.heartRate < 50) return t('health.heartRateWarning');
     return null;
-  }, [bpStatus, watchValues.heartRate]);
+  }, [bpStatus, watchValues.heartRate, t]);
 
   const onSubmit = async (values: HealthFormValues) => {
     try {
@@ -61,10 +63,10 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
         temperature: values.temperature,
         weight: values.weight,
       });
-      toast.success("Data ya afya imehifadhiwa!");
+      toast.success(t('health.dataSaved'));
       onSaved();
     } catch {
-      toast.error("Imeshindwa kuhifadhi data");
+      toast.error(t('health.saveFailed'));
     }
   };
 
@@ -79,15 +81,15 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
         <CardHeader className="space-y-3">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <CardTitle className="text-foreground drop-shadow-sm">Data ya Afya</CardTitle>
-              <CardDescription className="text-muted-foreground/90 drop-shadow-sm">Ingiza vipimo vyako vya hivi karibuni.</CardDescription>
+              <CardTitle className="text-foreground drop-shadow-sm">{t('health.title')}</CardTitle>
+              <CardDescription className="text-muted-foreground/90 drop-shadow-sm">{t('health.description')}</CardDescription>
             </div>
             <Badge variant="outline" className="border-primary/30 bg-primary/10 text-primary shadow-sm">Structured</Badge>
           </div>
           {abnormalSummary ? (
-            <AlertBanner variant={bpStatus === "Hypertension" ? "danger" : "warning"} title="Tahadhari ya afya" description={abnormalSummary} />
+            <AlertBanner variant={bpStatus === "Hypertension" ? "danger" : "warning"} title={t('health.healthWarning')} description={abnormalSummary} />
           ) : (
-            <AlertBanner variant="success" title="Vipimo vyote ni sawa" description="Vipimo vyako viko ndani ya kiwango cha kawaida." />
+            <AlertBanner variant="success" title={t('health.allNormal')} description={t('health.allNormalDesc')} />
           )}
         </CardHeader>
 
@@ -99,7 +101,7 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
                   rules={{ required: true, min: 70, max: 250 }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-foreground font-semibold drop-shadow-sm">Systolic (mmHg)</FormLabel>
+                      <FormLabel className="text-foreground font-semibold drop-shadow-sm">{t('health.systolic')}</FormLabel>
                       <FormControl>
                         <Input type="number" {...field} min={70} max={250} className="h-12 bg-muted/30 border-primary/20 shadow-sm hover:bg-muted/40 focus-visible:ring-primary/50 focus-visible:border-primary/40 focus-visible:bg-card transition-all duration-200 rounded-xl" />
                       </FormControl>
@@ -111,7 +113,7 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
                   rules={{ required: true, min: 40, max: 150 }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-foreground font-semibold drop-shadow-sm">Diastolic (mmHg)</FormLabel>
+                      <FormLabel className="text-foreground font-semibold drop-shadow-sm">{t('health.diastolic')}</FormLabel>
                       <FormControl>
                         <Input type="number" {...field} min={40} max={150} className="h-12 bg-muted/30 border-primary/20 shadow-sm hover:bg-muted/40 focus-visible:ring-primary/50 focus-visible:border-primary/40 focus-visible:bg-card transition-all duration-200 rounded-xl" />
                       </FormControl>
@@ -126,7 +128,7 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
                   rules={{ required: true, min: 30, max: 220 }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-foreground font-semibold drop-shadow-sm">Mapigo (bpm)</FormLabel>
+                      <FormLabel className="text-foreground font-semibold drop-shadow-sm">{t('health.heartRate')}</FormLabel>
                       <FormControl>
                         <Input type="number" {...field} min={30} max={220} className="h-12 bg-muted/30 border-primary/20 shadow-sm hover:bg-muted/40 focus-visible:ring-primary/50 focus-visible:border-primary/40 focus-visible:bg-card transition-all duration-200 rounded-xl" />
                       </FormControl>
@@ -138,7 +140,7 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
                   rules={{ required: true, min: 34, max: 42 }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-foreground font-semibold drop-shadow-sm">Joto (°C)</FormLabel>
+                      <FormLabel className="text-foreground font-semibold drop-shadow-sm">{t('health.temperature')}</FormLabel>
                       <FormControl>
                         <Input type="number" {...field} min={34} max={42} step={0.1} className="h-12 bg-muted/30 border-primary/20 shadow-sm hover:bg-muted/40 focus-visible:ring-primary/50 focus-visible:border-primary/40 focus-visible:bg-card transition-all duration-200 rounded-xl" />
                       </FormControl>
@@ -152,7 +154,7 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
                 rules={{ required: true, min: 20, max: 300 }}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-foreground font-semibold drop-shadow-sm">Uzito (kg)</FormLabel>
+                    <FormLabel className="text-foreground font-semibold drop-shadow-sm">{t('health.weight')}</FormLabel>
                     <FormControl>
                       <Input type="number" {...field} min={20} max={300} step={0.1} className="h-12 bg-muted/30 border-primary/20 shadow-sm hover:bg-muted/40 focus-visible:ring-primary/50 focus-visible:border-primary/40 focus-visible:bg-card transition-all duration-200 rounded-xl" />
                     </FormControl>
@@ -164,7 +166,7 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
               <CardFooter className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between px-0">
                 <p className="text-sm text-muted-foreground font-medium drop-shadow-sm">BP: <span className="font-semibold text-foreground drop-shadow-sm">{bpStatus}</span></p>
                 <Button type="submit" disabled={addEntry.isPending}>
-                  {addEntry.isPending ? "Inahifadhi..." : "Hifadhi data"}
+                  {addEntry.isPending ? t('health.saving') : t('health.saveData')}
                 </Button>
               </CardFooter>
             </form>
@@ -174,4 +176,3 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
     </div>
   );
 }
-

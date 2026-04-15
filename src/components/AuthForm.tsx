@@ -43,7 +43,7 @@ export default function AuthForm({
         if (error) throw error;
         
         if (data?.user?.identities?.length === 0) {
-          toast.error("Email address already registered");
+          toast.error(t('auth.emailRegistered'));
         } else {
           toast.success(t('auth.confirmEmail'));
           resetForm();
@@ -66,7 +66,7 @@ export default function AuthForm({
       redirect_uri: window.location.origin,
     });
     if (result.error) {
-      toast.error("Google login failed");
+      toast.error(t('auth.googleFailed'));
     }
     if (!result.redirected) {
       onSuccess();
@@ -110,7 +110,7 @@ export default function AuthForm({
           <span className="w-full border-t border-border" />
         </div>
         <div className="relative flex justify-center text-xs uppercase tracking-wider">
-          <span className="bg-background/80 px-3 py-1 text-muted-foreground font-medium">au</span>
+          <span className="bg-background/80 px-3 py-1 text-muted-foreground font-medium">{t('common.or')}</span>
         </div>
       </div>
 
@@ -159,7 +159,7 @@ export default function AuthForm({
           className="w-full h-14 rounded-2xl text-lg font-bold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-glow hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 neumorphic-button" 
           disabled={loading}
         >
-          {loading ? "..." : (mode === "login" ? t('auth.login') : t('auth.signup'))}
+          {loading ? t('common.loading') : (mode === "login" ? t('auth.login') : t('auth.signup'))}
           <ArrowRight className="h-5 w-5 ml-2 transition-transform group-hover:translate-x-1" />
         </Button>
       </form>
