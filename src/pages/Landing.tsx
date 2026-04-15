@@ -105,8 +105,7 @@ export default function Landing() {
                     <p className="text-xs sm:text-sm text-slate-600 mt-1">Uptime</p>
                   </div>
                   <div>
-                    <p className="text-2xl sm:text-3xl font-bold text-blue-600">5000+</p>
-                    <p className="text-xs sm:text-sm text-slate-600 mt-1">{t('landing.patients')}</p>
+        
                   </div>
                   <div>
                     <p className="text-2xl sm:text-3xl font-bold text-blue-600">24/7</p>
