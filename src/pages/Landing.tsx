@@ -139,7 +139,7 @@ export default function Landing() {
                 { icon: BarChart3, title: t('landing.dataAnalytics'), desc: t('landing.dataAnalyticsDesc'), color: "from-blue-600 to-slate-600" },
                 { icon: Bell, title: t('landing.feature2Title'), desc: t('landing.feature2Desc'), color: "from-slate-600 to-blue-500" },
               ].map((feature, i) => (
-                <div key={i} className="group animate-fade-in-up neumorphic-card" style={{ animationDelay: `${i * 100}ms` }}>
+                <div key={i} className="group animate-fade-in-up neumorphic-card animate-zoom-pulse" style={{ animationDelay: `${i * 100}ms` }}>
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-300/20 to-slate-300/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl -z-10" />
                   <div className="relative rounded-2xl border border-white/60 bg-gradient-to-br from-white/50 to-slate-50/50 backdrop-blur-xl p-4 sm:p-6 transition-all duration-300 group-hover:border-blue-300/40 group-hover:shadow-floating group-hover:-translate-y-1">
                     <div className="h-10 sm:h-12 w-10 sm:w-12 rounded-xl bg-gradient-to-br from-blue-100 to-slate-100 flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300 neumorphic-icon">
