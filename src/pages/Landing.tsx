@@ -160,8 +160,7 @@ export default function Landing() {
       </section>
 
       {/* Image 2 Section - Commented out to not show preview */}
-      {/*
-      <section className="relative py-12 sm:py-20 px-4 sm:px-6 z-10">
+<section className="relative py-12 sm:py-20 px-4 sm:px-6 z-10">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-12 items-center">
             <div className="relative h-56 sm:h-96 rounded-3xl overflow-hidden shadow-floating border border-white/50 animate-fade-in-up order-2 lg:order-1">
@@ -189,7 +188,6 @@ export default function Landing() {
           </div>
         </div>
       </section>
-      */}
 
       {/* CTA Section */}
       <section className="relative py-12 sm:py-24 px-4 sm:px-6 z-10">
