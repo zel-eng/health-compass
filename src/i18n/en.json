@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "MedFlow",
+    "appName": "AfyaCompass",
     "login": "Login",
     "logout": "Logout",
     "settings": "Settings",
@@ -14,12 +14,12 @@
     "or": "or"
   },
   "landing": {
-    "title": "MedFlow",
+    "title": "AfyaCompass",
     "subtitle": "Modern Healthcare System",
     "badge": "✨ Modern Healthcare System",
     "heading1": "Manage Health",
     "heading2": "With Certainty",
-    "description": "MedFlow is a modern system for managing patients, tracking vital signs, and providing fast real-time alerts.",
+    "description": "AfyaCompass is a modern system for managing patients, tracking vital signs, and providing fast real-time alerts.",
     "loginButton": "Try Now",
     "demoButton": "Watch Demo",
     "feature1Title": "Real-time Monitoring",
@@ -33,12 +33,12 @@
     "learnMore": "Learn More",
     "modernTech": "Modern Technology",
     "forBetterResults": "for Better Results",
-    "modernTechDesc": "Use AI and machine learning tools to analyze patient data quickly and improve care.",
+    "modernTechDesc": "Get health recommendations tailored to you based on your data quickly and accurately, so you can take action early and take better care of yourself.",
     "realtimeAnalytics": "Real-time analytics and insights",
     "predictiveAlerts": "Predictive alerts for risks",
     "cloudStorage": "Cloud-based secure storage",
     "startToday": "Start Today",
-    "ctaDesc": "Join over 500 hospitals and clinics that trust MedFlow for patient management.",
+    "ctaDesc": "Be part of a community that uses this platform to stay on top of their health and access care easily whenever they need it.",
     "qualitySummary": "Quality Summary",
     "product": "Product",
     "features": "Features",
@@ -53,7 +53,7 @@
     "terms": "Terms",
     "contact": "Contact",
     "support": "Support",
-    "copyright": "© 2026 MedFlow. All rights reserved.",
+    "copyright": "© 2026 AfyaCompass. All rights reserved.",
     "patients": "Patients"
   },
   "auth": {

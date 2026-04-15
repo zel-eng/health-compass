@@ -116,15 +116,15 @@ export default function LoginDropdown({
           sm:[animation-fill-mode:forwards]"
       >
         <div className="[transform-origin:top_right] animate-dropdown-unfold">
-          <div className="p-2">
-            <div className="flex items-center gap-2 mb-4 p-3 rounded-2xl bg-gradient-to-r from-blue-500/10 to-blue-600/10 border border-blue-200/50">
+<div className="p-6 sm:p-8 bg-white/95 backdrop-blur-2xl border border-white/80 shadow-2xl rounded-3xl">
+            <div className="flex items-center gap-2 mb-6 p-3 rounded-2xl bg-gradient-to-r from-blue-500/5 to-blue-600/5 border border-blue-100/50">
               <Heart className="h-5 w-5 text-blue-600" />
-              <h3 className="font-bold text-lg">{t('common.appName')}</h3>
+              <h3 className="font-bold text-lg text-foreground">{t('common.appName')}</h3>
             </div>
             <AuthForm 
               t={t} 
               onSuccess={onAuthSuccess}
-              className="max-h-[400px] overflow-y-auto"
+              className="max-h-[350px] overflow-y-auto [&_.space-y-4]:space-y-3"
             />
           </div>
         </div>

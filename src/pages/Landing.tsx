@@ -98,9 +98,6 @@ export default function Landing() {
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3 pt-2 sm:pt-4">
                   <LoginDropdown variant="cta" className="w-full sm:w-auto" />
-                  <button className="w-full sm:w-auto h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-white/40 text-slate-900 border border-white/60 font-semibold hover:bg-white/60 transition-all hover-lift backdrop-blur-md neumorphic-button">
-                    {t('landing.demoButton')}
-                  </button>
                 </div>
                 <div className="grid grid-cols-3 gap-3 sm:gap-4 pt-6 sm:pt-8 border-t border-slate-200/50 animate-fade-in" style={{ animationDelay: "200ms" }}>
                   <div>
