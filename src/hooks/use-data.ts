@@ -108,7 +108,7 @@ export function usePatientByUserId(userId: string | undefined) {
             patient_code: patientCode,
             name: "Patient",
             age: 0,
-            gender: "unknown",
+            gender: "Male",
           })
           .select("*")
           .single();
@@ -122,7 +122,7 @@ export function usePatientByUserId(userId: string | undefined) {
             patient_code: patientCode,
             name: "Patient",
             age: 0,
-            gender: "unknown",
+            gender: "Male",
             condition: "",
             risk_level: "low",
             last_visit: null,
