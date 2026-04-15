@@ -1,14 +1,10 @@
-# TODO: Integrate public/2 (2).png Image - COMPLETE
+# Landing Page Cards Animation Task
 
-## Steps:
-- [x] 1. Create TODO.md with plan steps
-- [x] 2. Edit src/pages/Landing.tsx to uncomment/enable 2 (2).png features section
-- [x] 3. Update TODO.md mark complete
-- [x] 4. Preview with bun run dev
-- [x] 5. attempt_completion
+## Steps to Complete:
 
-## Result:
-public/2 (2).png image section now active in src/pages/Landing.tsx features area. View at http://localhost:5173 after `bun run dev`.
+- [x] Step 1: Update tailwind.config.ts - Add `continuous-zoom` keyframes and animation class
+- [x] Step 2: Update src/pages/Landing.tsx - Add `animate-continuous-zoom` to the 4 feature cards
+- [x] Step 3: Update src/pages/Landing.tsx - Modify "learn more" div class to show always on mobile (`opacity-100 sm:opacity-0 sm:group-hover:opacity-100`)
+- [x] Step 4: Verify changes and complete task
 
-Task complete.
-
+**Task completed! 🎉**

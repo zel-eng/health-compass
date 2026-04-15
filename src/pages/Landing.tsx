@@ -133,13 +133,13 @@ export default function Landing() {
               <p className="text-sm sm:text-lg text-slate-600">{t('landing.description')}</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              {[
+{[
                 { icon: Users, title: t('dashboard.patients'), desc: t('landing.feature1Desc'), color: "from-blue-500 to-blue-600" },
                 { icon: Activity, title: t('landing.feature2Title'), desc: t('landing.feature2Desc'), color: "from-cyan-500 to-blue-500" },
                 { icon: BarChart3, title: t('landing.dataAnalytics'), desc: t('landing.dataAnalyticsDesc'), color: "from-blue-600 to-slate-600" },
                 { icon: Bell, title: t('landing.feature2Title'), desc: t('landing.feature2Desc'), color: "from-slate-600 to-blue-500" },
               ].map((feature, i) => (
-                <div key={i} className="group animate-fade-in-up neumorphic-card" style={{ animationDelay: `${i * 100}ms` }}>
+                <div key={i} className="group animate-fade-in-up animate-continuous-zoom neumorphic-card" style={{ animationDelay: `${i * 100}ms` }}>
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-300/20 to-slate-300/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl -z-10" />
                   <div className="relative rounded-2xl border border-white/60 bg-gradient-to-br from-white/50 to-slate-50/50 backdrop-blur-xl p-4 sm:p-6 transition-all duration-300 group-hover:border-blue-300/40 group-hover:shadow-floating group-hover:-translate-y-1">
                     <div className="h-10 sm:h-12 w-10 sm:w-12 rounded-xl bg-gradient-to-br from-blue-100 to-slate-100 flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300 neumorphic-icon">
@@ -147,7 +147,7 @@ export default function Landing() {
                     </div>
                     <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-2">{feature.title}</h3>
                     <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{feature.desc}</p>
-                    <div className="mt-3 sm:mt-4 flex items-center gap-2 text-blue-600 text-xs sm:text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="mt-3 sm:mt-4 flex items-center gap-2 text-blue-600 text-xs sm:text-sm font-medium opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
                       {t('landing.learnMore')}
                       <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4" />
                     </div>
