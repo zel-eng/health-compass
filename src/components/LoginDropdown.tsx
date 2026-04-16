@@ -32,8 +32,6 @@ export default function LoginDropdown({
 
   const onAuthSuccess = () => {
     setIsOpen(false);
-    // Reload to update auth state
-    window.location.reload();
   };
 
   const buttonClass = variant === "cta" 

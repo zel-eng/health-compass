@@ -19,6 +19,7 @@ import {
   classifyHeartRate,
   getBmiCategory,
 } from "@/lib/health";
+import { getDateLocale, translateStatusLabel } from "@/lib/i18n-utils";
 
 const riskColor: Record<string, string> = {
   high: "bg-destructive/10 text-destructive border-destructive/20",
@@ -30,7 +31,7 @@ type PatientFeature = "summary" | "add-data" | "insights" | "calculators";
 
 export default function PatientDashboard() {
   const { profile, user, signOut } = useAuth();
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const userId = user?.id ?? "";
   const { data: patient, isLoading: patientLoading } = usePatientByUserId(userId);
   const patientId = patient?.id ?? "";
@@ -65,7 +66,7 @@ export default function PatientDashboard() {
     return healthEntries[0];
   }, [healthEntries]);
 
-  useMemo(() => {
+  useEffect(() => {
     if (!latestEntry) return;
     setManualSystolic(latestEntry.systolic);
     setManualDiastolic(latestEntry.diastolic);
@@ -78,12 +79,12 @@ export default function PatientDashboard() {
   const insightData = useMemo(() => {
     if (!healthEntries.length) return [];
     return [...healthEntries].reverse().map((entry) => ({
-      label: new Date(entry.created_at).toLocaleDateString("sw", { weekday: "short" }),
+      label: new Date(entry.created_at).toLocaleDateString(getDateLocale(lang), { weekday: "short" }),
       systolic: entry.systolic,
       diastolic: entry.diastolic,
       weight: entry.weight,
     }));
-  }, [healthEntries]);
+  }, [healthEntries, lang]);
 
   const bmiValue = useMemo(() => {
     const weight = latestEntry?.weight ?? 72;
@@ -233,7 +234,7 @@ export default function PatientDashboard() {
             <AlertBanner
               variant="danger"
               title={t('patient.abnormalVitals')}
-              description={`BP: ${latestEntry.systolic}/${latestEntry.diastolic}, Mapigo: ${latestEntry.heart_rate} bpm`}
+              description={`${t('records.bp')}: ${latestEntry.systolic}/${latestEntry.diastolic}, ${t('patient.heartRate')}: ${latestEntry.heart_rate} bpm`}
             />
           )}
 
@@ -373,14 +374,14 @@ export default function PatientDashboard() {
               {activeFeature === "calculators" && (
                 <div className="space-y-5 py-4 animate-fade-in">
                   <div className="grid gap-5 lg:grid-cols-3">
-                     <CalculatorCard title="BMI" value={`${bmiValue}`} status={bmiCategory}
+                     <CalculatorCard title={t('patient.bmi')} value={`${bmiValue}`} status={translateStatusLabel(bmiCategory, t)}
                       description={t('patient.bmiDesc')} tone={bmiCategory === "Normal" ? "success" : "warning"}>
                        <div className="grid gap-3 w-full">
                          <label className="text-sm text-muted-foreground">{t('patient.height')}</label>
                          <Input type="number" value={height} min={100} max={220} onChange={(e) => setHeight(Number(e.target.value))} />
                       </div>
                     </CalculatorCard>
-                    <CalculatorCard title="BP Status" value={`${manualSystolic}/${manualDiastolic}`} status={bpStatus}
+                    <CalculatorCard title={t('patient.bpStatusTitle')} value={`${manualSystolic}/${manualDiastolic}`} status={translateStatusLabel(bpStatus, t)}
                       description={t('patient.bpStatusDesc')} tone={bpStatus === "Normal" ? "success" : bpStatus === "Elevated" ? "warning" : "danger"}>
                        <div className="grid gap-3 w-full">
                          <label className="text-sm text-muted-foreground">{t('health.systolic')}</label>
@@ -389,7 +390,7 @@ export default function PatientDashboard() {
                          <Input type="number" value={manualDiastolic} min={40} max={150} onChange={(e) => setManualDiastolic(Number(e.target.value))} />
                       </div>
                     </CalculatorCard>
-                    <CalculatorCard title="Mapigo" value={`${manualHeartRate} bpm`} status={heartRateStatus}
+                    <CalculatorCard title={t('patient.heartRateTitle')} value={`${manualHeartRate} bpm`} status={translateStatusLabel(heartRateStatus, t)}
                       description={t('patient.heartRateDesc')} tone={heartRateStatus === "Normal" ? "success" : "danger"}>
                        <div className="grid gap-3 w-full">
                          <label className="text-sm text-muted-foreground">{t('patient.age')}</label>

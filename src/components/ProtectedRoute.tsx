@@ -9,6 +9,9 @@ interface ProtectedRouteProps {
 export function ProtectedRoute({ allowedRoles, children }: ProtectedRouteProps) {
   const { user, roles, loading } = useAuth();
   const location = useLocation();
+  const isDoctorOrAdmin = roles.some((role) => role === "doctor" || role === "admin");
+  const isPatientRoute = location.pathname === "/patient";
+  const canAccessPatientRoute = !isDoctorOrAdmin && (roles.includes("patient") || roles.length === 0);
 
   if (loading) {
     return (
@@ -22,13 +25,12 @@ export function ProtectedRoute({ allowedRoles, children }: ProtectedRouteProps) 
     return <Navigate to="/login" replace />;
   }
 
-  // For patient route, allow if user exists and not doctor/admin (roles loading or patient)
-  if (location.pathname === "/patient" && user && !roles.some(r => ["doctor", "admin"].includes(r))) {
+  if (isPatientRoute && canAccessPatientRoute) {
     return <>{children}</>;
   }
 
   if (!allowedRoles.some((role) => roles.includes(role))) {
-    return <Navigate to="/" replace />;
+    return <Navigate to={isDoctorOrAdmin ? "/" : "/patient"} replace />;
   }
 
   return <>{children}</>;
