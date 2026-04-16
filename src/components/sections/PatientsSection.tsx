@@ -5,6 +5,7 @@ import { useI18n } from "@/hooks/useI18n";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { translateStatusLabel } from "@/lib/i18n-utils";
 
 const riskColor: Record<string, string> = {
   high: "bg-destructive/10 text-destructive border-destructive/20",
@@ -20,21 +21,22 @@ export function PatientsSection({ onSelectPatient }: PatientsSectionProps) {
   const { t } = useI18n();
   const { data: patients = [], isLoading } = usePatients();
   const [search, setSearch] = useState("");
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = useState<"all" | "highRisk" | "chronic">("all");
   const [expandView, setExpandView] = useState(false);
   const INITIAL_DISPLAY = 3; // Show 3 patients initially on mobile
 
-  const filters = ["All", t('dashboard.highRisk'), t('dashboard.chronic')];
-
-
-// filters updated above with t()
+  const filters = [
+    { id: "all" as const, label: t('dashboard.all') },
+    { id: "highRisk" as const, label: t('dashboard.highRisk') },
+    { id: "chronic" as const, label: t('dashboard.chronic') },
+  ];
 
   const filtered = patients.filter((p) => {
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
       p.condition.toLowerCase().includes(search.toLowerCase());
     if (!matchSearch) return false;
-    if (activeFilter === t('dashboard.highRisk')) return p.risk_level === "high";
-    if (activeFilter === t('dashboard.chronic'))
+    if (activeFilter === "highRisk") return p.risk_level === "high";
+    if (activeFilter === "chronic")
       return ["Diabetes", "Hypertension", "Heart", "Kidney"].some((c) =>
         p.condition.includes(c)
       );
@@ -64,15 +66,15 @@ export function PatientsSection({ onSelectPatient }: PatientsSectionProps) {
       <div className="flex gap-2 mt-3 overflow-x-auto no-scrollbar scroll-slide-left" style={{ animationDelay: "150ms" }}>
         {filters.map((f) => (
           <button
-            key={f}
-            onClick={() => setActiveFilter(f)}
+            key={f.id}
+            onClick={() => setActiveFilter(f.id)}
             className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-medium transition-all press-zoom duration-300 ${
-              activeFilter === f
+              activeFilter === f.id
                 ? "bg-gradient-primary text-primary-foreground shadow-floating"
                 : "bg-muted/50 text-muted-foreground hover:bg-muted/70 backdrop-blur-sm"
             }`}
           >
-            {f}
+            {f.label}
           </button>
         ))}
       </div>
@@ -118,10 +120,10 @@ export function PatientsSection({ onSelectPatient }: PatientsSectionProps) {
                     variant="outline" 
                     className={`text-[10px] font-medium transition-all ${riskColor[p.risk_level] || ""}`}
                   >
-                    {p.risk_level.charAt(0).toUpperCase() + p.risk_level.slice(1)}
+                    {translateStatusLabel(p.risk_level, t)}
                   </Badge>
-                  <span className="text-[10px] text-muted-foreground/70">BP: {p.bp || "—"}</span>
-                  <span className="text-[10px] text-muted-foreground/70">Sugar: {p.sugar ?? "—"}</span>
+                  <span className="text-[10px] text-muted-foreground/70">{t('records.bp')}: {p.bp || "—"}</span>
+                  <span className="text-[10px] text-muted-foreground/70">{t('records.sugar')}: {p.sugar ?? "—"}</span>
                 </div>
               </button>
             ))}

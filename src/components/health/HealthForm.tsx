@@ -3,12 +3,13 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { AlertBanner } from "@/components/health/AlertBanner";
 import { classifyBloodPressure } from "@/lib/health";
 import { useAddHealthEntry } from "@/hooks/use-data";
 import { useI18n } from "@/hooks/useI18n";
+import { translateStatusLabel } from "@/lib/i18n-utils";
 import { toast } from "sonner";
 
 export interface HealthFormValues {
@@ -84,7 +85,7 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
               <CardTitle className="text-foreground drop-shadow-sm">{t('health.title')}</CardTitle>
               <CardDescription className="text-muted-foreground/90 drop-shadow-sm">{t('health.description')}</CardDescription>
             </div>
-            <Badge variant="outline" className="border-primary/30 bg-primary/10 text-primary shadow-sm">Structured</Badge>
+            <Badge variant="outline" className="border-primary/30 bg-primary/10 text-primary shadow-sm">{t('health.structured')}</Badge>
           </div>
           {abnormalSummary ? (
             <AlertBanner variant={bpStatus === "Hypertension" ? "danger" : "warning"} title={t('health.healthWarning')} description={abnormalSummary} />
@@ -164,7 +165,7 @@ export function HealthForm({ patientId, userId, onSaved }: HealthFormProps) {
               />
 
               <CardFooter className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between px-0">
-                <p className="text-sm text-muted-foreground font-medium drop-shadow-sm">BP: <span className="font-semibold text-foreground drop-shadow-sm">{bpStatus}</span></p>
+                <p className="text-sm text-muted-foreground font-medium drop-shadow-sm">{t('records.bp')}: <span className="font-semibold text-foreground drop-shadow-sm">{translateStatusLabel(bpStatus, t)}</span></p>
                 <Button type="submit" disabled={addEntry.isPending}>
                   {addEntry.isPending ? t('health.saving') : t('health.saveData')}
                 </Button>

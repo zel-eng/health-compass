@@ -2,6 +2,7 @@ import { Heart, Users, AlertTriangle, Bell, Calendar, Sparkles } from "lucide-re
 import { useStats, useAppointments } from "@/hooks/use-data";
 import { useAuth } from "@/hooks/use-auth";
 import { useI18n } from "@/hooks/useI18n";
+import { getDateLocale } from "@/lib/i18n-utils";
 
 export function HeroSection() {
   const { profile } = useAuth();
@@ -9,7 +10,7 @@ export function HeroSection() {
   const { data: appointments = [] } = useAppointments();
 
   const upcoming = appointments.filter(a => a.status === "scheduled").slice(0, 2);
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const hour = new Date().getHours();
   const greeting = hour < 12 ? t('dashboard.greetingMorning') : hour < 17 ? t('dashboard.greetingAfternoon') : t('dashboard.greetingEvening');
 
@@ -32,7 +33,7 @@ export function HeroSection() {
             <div className="h-10 w-10 rounded-xl bg-primary/20 backdrop-blur-sm flex items-center justify-center pulse-glow border border-primary/30">
               <Heart className="h-5 w-5 text-primary" />
             </div>
-            <span className="text-lg font-bold text-foreground tracking-tight">MedFlow</span>
+            <span className="text-lg font-bold text-foreground tracking-tight">{t('common.appName')}</span>
           </div>
         </div>
 
@@ -83,7 +84,7 @@ export function HeroSection() {
               <div className="h-10 w-10 rounded-xl bg-primary/15 flex flex-col items-center justify-center text-primary shrink-0 backdrop-blur-sm border border-primary/20">
                 <span className="text-xs font-bold leading-none">{a.appointment_date.split("-")[2]}</span>
                 <span className="text-[8px] uppercase">
-                  {new Date(a.appointment_date + "T00:00:00").toLocaleDateString("sw", { month: "short" })}
+                  {new Date(a.appointment_date + "T00:00:00").toLocaleDateString(getDateLocale(lang), { month: "short" })}
                 </span>
               </div>
               <div className="min-w-0 flex-1">

@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { X, Phone, Pill, AlertTriangle, TrendingUp, History, ShieldAlert, Calendar, Plus } from "lucide-react";
+import { X, Phone, Pill, AlertTriangle, TrendingUp, History, ShieldAlert, Calendar, Plus, type LucideIcon } from "lucide-react";
 import { usePatient, usePatientVitals, useAlerts, useMedicalHistory, useAllergies, useAppointments, useAddMedicalHistory, useAddAllergy, useDeleteAllergy, useCreateAppointment } from "@/hooks/use-data";
+import { useI18n } from "@/hooks/useI18n";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart, Area } from "recharts";
+import { translateStatusLabel } from "@/lib/i18n-utils";
 import { toast } from "sonner";
-import { format } from "date-fns";
 
 const riskColor: Record<string, string> = {
   high: "bg-destructive/10 text-destructive border-destructive/20",
@@ -28,6 +29,7 @@ interface PatientSheetProps {
 }
 
 export function PatientSheet({ patientId, onClose }: PatientSheetProps) {
+  const { t } = useI18n();
   const [tab, setTab] = useState<Tab>("overview");
   const { data: patient, isLoading } = usePatient(patientId);
   const { data: vitals = [] } = usePatientVitals(patientId);
@@ -37,11 +39,11 @@ export function PatientSheet({ patientId, onClose }: PatientSheetProps) {
   const { data: appointments = [] } = useAppointments(patientId);
   const patientAlerts = allAlerts.filter((a) => a.patient_id === patientId && !a.resolved);
 
-  const tabs: { id: Tab; label: string; icon: any }[] = [
-    { id: "overview", label: "Muhtasari", icon: TrendingUp },
-    { id: "history", label: "Historia", icon: History },
-    { id: "allergies", label: "Mzio", icon: ShieldAlert },
-    { id: "appointments", label: "Miadi", icon: Calendar },
+  const tabs: { id: Tab; label: string; icon: LucideIcon }[] = [
+    { id: "overview", label: t('patientSheet.overview'), icon: TrendingUp },
+    { id: "history", label: t('patientSheet.history'), icon: History },
+    { id: "allergies", label: t('patientSheet.allergies'), icon: ShieldAlert },
+    { id: "appointments", label: t('patientSheet.appointments'), icon: Calendar },
   ];
 
   return (
@@ -52,7 +54,7 @@ export function PatientSheet({ patientId, onClose }: PatientSheetProps) {
         <div className="sticky top-0 z-10 frosted-glass border-b border-white/20 backdrop-blur-md">
           <div className="flex items-center justify-between p-4">
             <div className="w-10 h-1 rounded-full bg-muted-foreground/40 mx-auto absolute left-1/2 -translate-x-1/2 top-3 transition-colors" />
-            <span className="text-xs font-medium text-muted-foreground">Patient Details</span>
+            <span className="text-xs font-medium text-muted-foreground">{t('patientSheet.title')}</span>
             <button onClick={onClose} className="h-8 w-8 rounded-full bg-muted/50 flex items-center justify-center press-zoom hover-lift transition-all backdrop-blur-sm border border-primary/20 md:hover:border-primary/40">
               <X className="h-4 w-4" />
             </button>
@@ -93,10 +95,10 @@ export function PatientSheet({ patientId, onClose }: PatientSheetProps) {
                   <div className="flex items-center gap-2 flex-wrap">
                     <h2 className="text-lg font-bold text-foreground">{patient.name}</h2>
                     <Badge variant="outline" className={`text-[10px] font-medium ${riskColor[patient.risk_level]}`}>
-                      {patient.risk_level.toUpperCase()}
+                      {translateStatusLabel(patient.risk_level, t)}
                     </Badge>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1">{patient.age}y • {patient.gender} • {patient.condition}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{patient.age}{t('patientSheet.ageSuffix')} • {patient.gender} • {patient.condition}</p>
                   {patient.phone && (
                     <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
                       <Phone className="h-3 w-3" /> {patient.phone}
@@ -111,7 +113,7 @@ export function PatientSheet({ patientId, onClose }: PatientSheetProps) {
               {tab === "appointments" && <AppointmentsTab patientId={patientId} appointments={appointments} />}
             </div>
           ) : (
-            <div className="p-8 text-center text-muted-foreground text-sm">Patient not found</div>
+            <div className="p-8 text-center text-muted-foreground text-sm">{t('patientSheet.notFound')}</div>
           )}
         </div>
       </div>
@@ -121,16 +123,18 @@ export function PatientSheet({ patientId, onClose }: PatientSheetProps) {
 
 // ===== OVERVIEW TAB =====
 function OverviewTab({ patient, vitals, patientAlerts }: any) {
+  const { t } = useI18n();
+
   return (
     <>
       {/* Vitals Cards with modern styling */}
       <div className="grid grid-cols-2 gap-3">
         <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 md:hover-lift transition-all shadow-soft md:shadow-sm md:hover:border-primary/40">
-          <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium">BP</p>
+          <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium">{t('records.bp')}</p>
           <p className="text-3xl font-bold text-foreground mt-2">{patient.bp || "—"}</p>
         </div>
         <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 md:hover-lift transition-all shadow-soft md:shadow-sm md:hover:border-primary/40">
-          <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium">Sugar</p>
+          <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium">{t('records.sugar')}</p>
           <p className="text-3xl font-bold text-foreground mt-2">{patient.sugar ?? "—"} <span className="text-sm font-normal">mg/dL</span></p>
         </div>
       </div>
@@ -142,7 +146,7 @@ function OverviewTab({ patient, vitals, patientAlerts }: any) {
             <div className="h-8 w-8 rounded-lg bg-primary/20 flex items-center justify-center">
               <Pill className="h-4 w-4 text-primary" />
             </div>
-            <h3 className="text-sm font-semibold text-foreground">Dawa</h3>
+            <h3 className="text-sm font-semibold text-foreground">{t('patientSheet.medicines')}</h3>
           </div>
           <div className="space-y-2">
             {(patient.medicines ?? []).map((m: string, i: number) => (
@@ -159,7 +163,7 @@ function OverviewTab({ patient, vitals, patientAlerts }: any) {
             <div className="h-8 w-8 rounded-lg bg-warning/20 flex items-center justify-center">
               <AlertTriangle className="h-4 w-4 text-warning" />
             </div>
-            <h3 className="text-sm font-semibold text-foreground">Arifa</h3>
+            <h3 className="text-sm font-semibold text-foreground">{t('alerts.title')}</h3>
           </div>
           <div className="space-y-2">
             {patientAlerts.map((a: any, i: number) => (
@@ -179,7 +183,7 @@ function OverviewTab({ patient, vitals, patientAlerts }: any) {
             <div className="h-8 w-8 rounded-lg bg-primary/20 flex items-center justify-center">
               <TrendingUp className="h-4 w-4 text-primary" />
             </div>
-            <h3 className="text-sm font-semibold text-foreground">Mwenendo wa Afya</h3>
+            <h3 className="text-sm font-semibold text-foreground">{t('patientSheet.healthTrends')}</h3>
           </div>
           <ResponsiveContainer width="100%" height={180}>
             <AreaChart data={vitals}>
@@ -196,8 +200,8 @@ function OverviewTab({ patient, vitals, patientAlerts }: any) {
               <XAxis dataKey="recorded_date" tick={{ fontSize: 9 }} stroke="hsl(215 14% 80%)" />
               <YAxis tick={{ fontSize: 9 }} stroke="hsl(215 14% 80%)" />
               <Tooltip contentStyle={{ fontSize: 11, borderRadius: 12, border: "none", boxShadow: "0 8px 32px rgba(0,0,0,0.15)", background: "rgba(255, 255, 255, 0.95)", backdropFilter: "blur(10px)" }} />
-              <Area type="monotone" dataKey="systolic" stroke="hsl(0 72% 55%)" fill="url(#bpGrad)" strokeWidth={2.5} name="Systolic" />
-              <Area type="monotone" dataKey="sugar" stroke="hsl(30 95% 55%)" fill="url(#sugarGrad)" strokeWidth={2.5} name="Sugar" />
+              <Area type="monotone" dataKey="systolic" stroke="hsl(0 72% 55%)" fill="url(#bpGrad)" strokeWidth={2.5} name={t('health.systolic')} />
+              <Area type="monotone" dataKey="sugar" stroke="hsl(30 95% 55%)" fill="url(#sugarGrad)" strokeWidth={2.5} name={t('records.sugar')} />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -206,7 +210,7 @@ function OverviewTab({ patient, vitals, patientAlerts }: any) {
       {/* Notes with modern styling */}
       {patient.notes && (
         <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 md:hover-lift transition-all shadow-soft md:shadow-sm md:hover:border-primary/40">
-          <h3 className="text-sm font-semibold text-foreground mb-2">Maelezo</h3>
+          <h3 className="text-sm font-semibold text-foreground mb-2">{t('records.notes')}</h3>
           <p className="text-xs text-muted-foreground leading-relaxed">{patient.notes}</p>
         </div>
       )}
@@ -216,6 +220,7 @@ function OverviewTab({ patient, vitals, patientAlerts }: any) {
 
 // ===== HISTORY TAB =====
 function HistoryTab({ patientId, history }: { patientId: string; history: any[] }) {
+  const { t } = useI18n();
   const [showForm, setShowForm] = useState(false);
   const [condition, setCondition] = useState("");
   const [diagDate, setDiagDate] = useState("");
@@ -232,27 +237,29 @@ function HistoryTab({ patientId, history }: { patientId: string; history: any[] 
         notes: notes || undefined,
       });
       setCondition(""); setDiagDate(""); setNotes(""); setShowForm(false);
-      toast.success("Historia imeongezwa");
-    } catch { toast.error("Imeshindwa kuongeza"); }
+      toast.success(t('patientSheet.historyAdded'));
+    } catch {
+      toast.error(t('patientSheet.saveFailed'));
+    }
   };
 
   return (
     <>
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold">Historia ya Matibabu</h3>
+        <h3 className="text-sm font-semibold">{t('patientSheet.medicalHistory')}</h3>
         <Button size="sm" variant="outline" className="h-8 rounded-xl text-xs" onClick={() => setShowForm(!showForm)}>
-          <Plus className="h-3 w-3 mr-1" /> Ongeza
+          <Plus className="h-3 w-3 mr-1" /> {t('patientSheet.addMedicalHistory')}
         </Button>
       </div>
 
       {showForm && (
         <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 space-y-3 animate-scale-in shadow-soft md:shadow-sm md:hover:border-primary/40">
-          <Input placeholder="Hali/Ugonjwa" value={condition} onChange={e => setCondition(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
+          <Input placeholder={t('patientSheet.conditionPlaceholder')} value={condition} onChange={e => setCondition(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
           <Input type="date" value={diagDate} onChange={e => setDiagDate(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
-          <Input placeholder="Maelezo..." value={notes} onChange={e => setNotes(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
+          <Input placeholder={t('patientSheet.notesPlaceholder')} value={notes} onChange={e => setNotes(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
           <div className="flex gap-2">
-            <Button size="sm" className="rounded-xl text-xs flex-1 shadow-soft" onClick={handleAdd} disabled={addHistory.isPending}>Hifadhi</Button>
-            <Button size="sm" variant="ghost" className="rounded-xl text-xs" onClick={() => setShowForm(false)}>Ghairi</Button>
+            <Button size="sm" className="rounded-xl text-xs flex-1 shadow-soft" onClick={handleAdd} disabled={addHistory.isPending}>{t('common.save')}</Button>
+            <Button size="sm" variant="ghost" className="rounded-xl text-xs" onClick={() => setShowForm(false)}>{t('common.cancel')}</Button>
           </div>
         </div>
       )}
@@ -262,7 +269,7 @@ function HistoryTab({ patientId, history }: { patientId: string; history: any[] 
           <div className="h-12 w-12 rounded-full bg-muted/50 mx-auto mb-3 flex items-center justify-center">
             <History className="h-5 w-5 text-muted-foreground/50" />
           </div>
-          Hakuna historia ya matibabu
+          {t('patientSheet.noHistory')}
         </div>
       ) : (
         <div className="space-y-2.5">
@@ -271,10 +278,10 @@ function HistoryTab({ patientId, history }: { patientId: string; history: any[] 
               <div className="flex items-center justify-between gap-2">
                 <p className="text-sm font-semibold text-foreground">{h.condition}</p>
                 <Badge variant="outline" className={`text-[10px] font-medium ${h.status === "active" ? "bg-warning/10 text-warning" : "bg-success/10 text-success"}`}>
-                  {h.status}
+                  {translateStatusLabel(h.status, t)}
                 </Badge>
               </div>
-              {h.diagnosis_date && <p className="text-[10px] text-muted-foreground mt-2">Imetambuliwa: {h.diagnosis_date}</p>}
+              {h.diagnosis_date && <p className="text-[10px] text-muted-foreground mt-2">{t('patientSheet.diagnosedOn')}: {h.diagnosis_date}</p>}
               {h.notes && <p className="text-xs text-muted-foreground mt-1">{h.notes}</p>}
             </div>
           ))}
@@ -286,6 +293,7 @@ function HistoryTab({ patientId, history }: { patientId: string; history: any[] 
 
 // ===== ALLERGIES TAB =====
 function AllergiesTab({ patientId, allergies }: { patientId: string; allergies: any[] }) {
+  const { t } = useI18n();
   const [showForm, setShowForm] = useState(false);
   const [allergen, setAllergen] = useState("");
   const [severity, setSeverity] = useState("mild");
@@ -298,33 +306,35 @@ function AllergiesTab({ patientId, allergies }: { patientId: string; allergies: 
     try {
       await addAllergy.mutateAsync({ patient_id: patientId, allergen: allergen.trim(), severity, reaction: reaction || undefined });
       setAllergen(""); setReaction(""); setShowForm(false);
-      toast.success("Mzio umeongezwa");
-    } catch { toast.error("Imeshindwa kuongeza"); }
+      toast.success(t('patientSheet.allergyAdded'));
+    } catch {
+      toast.error(t('patientSheet.saveFailed'));
+    }
   };
 
   return (
     <>
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold">Mzio</h3>
+        <h3 className="text-sm font-semibold">{t('patientSheet.allergies')}</h3>
         <Button size="sm" variant="outline" className="h-8 rounded-xl text-xs" onClick={() => setShowForm(!showForm)}>
-          <Plus className="h-3 w-3 mr-1" /> Ongeza
+          <Plus className="h-3 w-3 mr-1" /> {t('patientSheet.addAllergy')}
         </Button>
       </div>
 
       {showForm && (
         <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 space-y-3 animate-scale-in shadow-soft md:shadow-sm md:hover:border-primary/40">
-          <Input placeholder="Kitu kinachosababisha mzio" value={allergen} onChange={e => setAllergen(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
+          <Input placeholder={t('patientSheet.allergenPlaceholder')} value={allergen} onChange={e => setAllergen(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
           <div className="flex gap-2">
             {["mild", "moderate", "severe"].map(s => (
               <button key={s} onClick={() => setSeverity(s)}
                 className={`flex-1 px-2 py-2 rounded-xl text-xs font-medium transition-all press-zoom ${severity === s ? "bg-gradient-primary text-primary-foreground shadow-floating" : "bg-muted/50 text-muted-foreground hover:bg-muted/70 backdrop-blur-sm"}`}
-              >{s}</button>
+              >{translateStatusLabel(s, t)}</button>
             ))}
           </div>
-          <Input placeholder="Athari (reaction)" value={reaction} onChange={e => setReaction(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
+          <Input placeholder={t('patientSheet.reactionPlaceholder')} value={reaction} onChange={e => setReaction(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
           <div className="flex gap-2">
-            <Button size="sm" className="rounded-xl text-xs flex-1 shadow-soft" onClick={handleAdd} disabled={addAllergy.isPending}>Hifadhi</Button>
-            <Button size="sm" variant="ghost" className="rounded-xl text-xs" onClick={() => setShowForm(false)}>Ghairi</Button>
+            <Button size="sm" className="rounded-xl text-xs flex-1 shadow-soft" onClick={handleAdd} disabled={addAllergy.isPending}>{t('common.save')}</Button>
+            <Button size="sm" variant="ghost" className="rounded-xl text-xs" onClick={() => setShowForm(false)}>{t('common.cancel')}</Button>
           </div>
         </div>
       )}
@@ -333,7 +343,7 @@ function AllergiesTab({ patientId, allergies }: { patientId: string; allergies: 
           <div className="h-12 w-12 rounded-full bg-muted/50 mx-auto mb-3 flex items-center justify-center">
             <ShieldAlert className="h-5 w-5 text-muted-foreground/50" />
           </div>
-          Hakuna mzio uliorekodishwa
+          {t('patientSheet.noAllergies')}
         </div>
       ) : (
         <div className="space-y-2.5">
@@ -342,7 +352,7 @@ function AllergiesTab({ patientId, allergies }: { patientId: string; allergies: 
               <div className="flex-1">
                 <div className="flex items-center gap-2.5 flex-wrap">
                   <p className="text-sm font-semibold text-foreground">{a.allergen}</p>
-                  <span className={`text-[10px] px-2.5 py-1 rounded-full font-medium ${severityColor[a.severity] || ""}`}>{a.severity}</span>
+                  <span className={`text-[10px] px-2.5 py-1 rounded-full font-medium ${severityColor[a.severity] || ""}`}>{translateStatusLabel(a.severity, t)}</span>
                 </div>
                 {a.reaction && <p className="text-xs text-muted-foreground mt-1.5">{a.reaction}</p>}
               </div>
@@ -362,6 +372,7 @@ function AllergiesTab({ patientId, allergies }: { patientId: string; allergies: 
 
 // ===== APPOINTMENTS TAB =====
 function AppointmentsTab({ patientId, appointments }: { patientId: string; appointments: any[] }) {
+  const { t } = useI18n();
   const [showForm, setShowForm] = useState(false);
   const [doctorName, setDoctorName] = useState("");
   const [date, setDate] = useState("");
@@ -374,14 +385,16 @@ function AppointmentsTab({ patientId, appointments }: { patientId: string; appoi
     try {
       await createAppt.mutateAsync({
         patient_id: patientId,
-        doctor_name: doctorName || "TBD",
+        doctor_name: doctorName || t('patientSheet.doctorFallback'),
         appointment_date: date,
         appointment_time: time,
         reason: reason || undefined,
       });
       setDoctorName(""); setDate(""); setReason(""); setShowForm(false);
-      toast.success("Miadi imetengenezwa");
-    } catch { toast.error("Imeshindwa kutengeneza miadi"); }
+      toast.success(t('patientSheet.appointmentCreated'));
+    } catch {
+      toast.error(t('patientSheet.appointmentFailed'));
+    }
   };
 
   const statusColor: Record<string, string> = {
@@ -393,23 +406,23 @@ function AppointmentsTab({ patientId, appointments }: { patientId: string; appoi
   return (
     <>
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold">Miadi</h3>
+        <h3 className="text-sm font-semibold">{t('patientSheet.appointments')}</h3>
         <Button size="sm" variant="outline" className="h-8 rounded-xl text-xs" onClick={() => setShowForm(!showForm)}>
-          <Plus className="h-3 w-3 mr-1" /> Omba Miadi
+          <Plus className="h-3 w-3 mr-1" /> {t('patientSheet.requestAppointment')}
         </Button>
       </div>
 
       {showForm && (
         <div className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-4 space-y-3 animate-scale-in shadow-soft md:shadow-sm md:hover:border-primary/40">
-          <Input placeholder="Jina la daktari" value={doctorName} onChange={e => setDoctorName(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
+          <Input placeholder={t('patientSheet.doctorName')} value={doctorName} onChange={e => setDoctorName(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
           <div className="grid grid-cols-2 gap-2">
             <Input type="date" value={date} onChange={e => setDate(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
             <Input type="time" value={time} onChange={e => setTime(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
           </div>
-          <Input placeholder="Sababu ya miadi" value={reason} onChange={e => setReason(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
+          <Input placeholder={t('patientSheet.reasonPlaceholder')} value={reason} onChange={e => setReason(e.target.value)} className="h-10 rounded-xl text-sm frosted-glass backdrop-blur-sm border-primary/20" />
           <div className="flex gap-2">
-            <Button size="sm" className="rounded-xl text-xs flex-1 shadow-soft" onClick={handleCreate} disabled={createAppt.isPending}>Hifadhi</Button>
-            <Button size="sm" variant="ghost" className="rounded-xl text-xs" onClick={() => setShowForm(false)}>Ghairi</Button>
+            <Button size="sm" className="rounded-xl text-xs flex-1 shadow-soft" onClick={handleCreate} disabled={createAppt.isPending}>{t('common.save')}</Button>
+            <Button size="sm" variant="ghost" className="rounded-xl text-xs" onClick={() => setShowForm(false)}>{t('common.cancel')}</Button>
           </div>
         </div>
       )}
@@ -419,7 +432,7 @@ function AppointmentsTab({ patientId, appointments }: { patientId: string; appoi
           <div className="h-12 w-12 rounded-full bg-muted/50 mx-auto mb-3 flex items-center justify-center">
             <Calendar className="h-5 w-5 text-muted-foreground/50" />
           </div>
-          Hakuna miadi iliyopangwa
+          {t('patientSheet.noAppointments')}
         </div>
       ) : (
         <div className="space-y-2.5">
@@ -427,10 +440,10 @@ function AppointmentsTab({ patientId, appointments }: { patientId: string; appoi
             <div key={a.id} className="rounded-2xl frosted-glass border border-primary/25 md:border-primary/20 backdrop-blur-md p-3.5 md:hover-lift transition-all shadow-soft md:shadow-sm md:hover:border-primary/40 scroll-fade-in" style={{ animationDelay: `${i * 50}ms` }}>
               <div className="flex items-center justify-between gap-2">
                 <div className="flex-1">
-                  <p className="text-sm font-semibold text-foreground">{a.doctor_name || "Daktari"}</p>
+                  <p className="text-sm font-semibold text-foreground">{a.doctor_name || t('patientSheet.doctorFallback')}</p>
                   <p className="text-xs text-muted-foreground mt-0.5">{a.appointment_date} • {a.appointment_time}</p>
                 </div>
-                <span className={`text-[10px] px-2.5 py-1 rounded-full font-medium shrink-0 ${statusColor[a.status] || ""}`}>{a.status}</span>
+                <span className={`text-[10px] px-2.5 py-1 rounded-full font-medium shrink-0 ${statusColor[a.status] || ""}`}>{translateStatusLabel(a.status, t)}</span>
               </div>
               {a.reason && <p className="text-xs text-muted-foreground mt-2">{a.reason}</p>}
             </div>
